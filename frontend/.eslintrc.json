@@ -26,6 +26,18 @@
   ],
   "rules": {
     "quotes": "off",
+    "jsx-a11y/label-has-associated-control": [ 2, {
+      "labelComponents": ["label"],
+      "labelAttributes": ["htmlFor"],
+      "controlComponents": ["input"]
+    }],
+    "jsx-a11y/label-has-for": [ 2, {
+      "components": [ "Label" ],
+      "required": {
+          "some": ["id", "nesting"]
+      },
+      "allowChildren": false
+    }],
     "arrow-body-style": "off",
     "class-methods-use-this": "off",
     "brace-style": [
@@ -54,7 +66,6 @@
       }
     ],
     "jsx-a11y/anchor-is-valid": "off",
-    "jsx-a11y/label-has-for": "off",
     "jsx-a11y/href-no-hash": "off",
     "no-alert": "error",
     "no-console": "error",
