@@ -62,17 +62,19 @@ app.get('/', (req, res) => {
 })
 
 app.post('/signup', async (req, res) => {
-  const { username, password } = req.body
+  const { username, password, email } = req.body
   try {
     const salt = bcrypt.genSaltSync()
     const newUser = await new User({
       username,
-      password: bcrypt.hashSync(password, salt)
+      password: bcrypt.hashSync(password, salt),
+      email
     }).save()
     res.json({
       success: true,
       userID: newUser._id,
       username: newUser.username,
+      email: newUser.email,
       accessToken: newUser.accessToken
     })
   } catch (error) {
