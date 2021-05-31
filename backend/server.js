@@ -21,7 +21,8 @@ const userSchema = new mongoose.Schema ({
     required: true
   },
   email: {
-    type: mongoose.SchemaTypes.Email,
+    // type: mongoose.SchemaTypes.Email,
+    type: String,
     trim: true,
     lowercase: true,
     unique: [true, 'Sorry, that email is already in use'],
@@ -34,19 +35,19 @@ const userSchema = new mongoose.Schema ({
 })
 const User = mongoose.model('User', userSchema)
 
-// const authenticateUser = async (req, res, next) => {
-//   const accessToken = req.header('Authorization')
-//   try {
-//     const user = await User.findOne({ accessToken })
-//     if (user) {
-//       next()
-//     } else {
-//       res.status(401).json({ success: false, message: 'Not authorized' })
-//     }
-//   } catch (error) {
-//     res.status(400).json({ success: false, message: 'Invalid request', error })
-//   }
-// }
+const authenticateUser = async (req, res, next) => {
+  const accessToken = req.header('Authorization')
+  try {
+    const user = await User.findOne({ accessToken })
+    if (user) {
+      next()
+    } else {
+      res.status(401).json({ success: false, message: 'Not authorized' })
+    }
+  } catch (error) {
+    res.status(400).json({ success: false, message: 'Invalid request', error })
+  }
+}
 
 const port = process.env.PORT || 8080
 const app = express()
