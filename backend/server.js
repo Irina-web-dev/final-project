@@ -2,8 +2,11 @@ import express from 'express'
 import cors from 'cors'
 import mongoose from 'mongoose'
 import listEndpoints from 'express-list-endpoints'
+import dotenv from 'dotenv'
 
-const mongoUrl = process.env.MONGO_URL || "mongodb://localhost/authAPI"
+dotenv.config()
+
+const mongoUrl = process.env.MONGO_URL || `mongodb+srv://${process.env.USER_ID}:${process.env.API_KEY}@cluster0.ekh6z.mongodb.net/habitTracker?retryWrites=true&w=majority`
 mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex:true })
 mongoose.Promise = Promise
 
