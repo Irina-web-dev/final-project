@@ -2,6 +2,8 @@ import express from 'express'
 import cors from 'cors'
 import mongoose from 'mongoose'
 import listEndpoints from 'express-list-endpoints'
+import bcrypt from 'bcrypt'
+import crypto from 'crypto'
 import dotenv from 'dotenv'
 //mongoose-type-email ?? 
 
@@ -79,19 +81,20 @@ app.post('/signup', async (req, res) => {
     })
   } catch (error) {
     res.status(400).json({ success: false, message: 'Invalid request', error })
+    console.log(error)
   }
 })
 
 app.post('/signin', async (req, res) => {
-  const { username, password } = req.body
+  const { password, email } = req.body
 
   try {
-    const user = await User.findOne({ username })
+    const user = await User.findOne({ email })
     if (user && bcrypt.compareSync(password, user.password)) {
       res.json({
         success: true, 
         userID: user._id,
-        username: user.username,
+        email: user.email,
         accessToken: user.accessToken
       })
     } else {
@@ -99,6 +102,7 @@ app.post('/signin', async (req, res) => {
     }
   } catch (error) {
     res.status(400).json({ success: false, message: 'Invalid request', error })
+    console.log(error)
   }
 })
 // Start the server
