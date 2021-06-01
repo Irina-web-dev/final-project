@@ -5,7 +5,7 @@ import listEndpoints from 'express-list-endpoints'
 import bcrypt from 'bcrypt'
 import crypto from 'crypto'
 import dotenv from 'dotenv'
-//mongoose-type-email ?? 
+import "mongoose-type-email"
 
 dotenv.config()
 
@@ -23,8 +23,7 @@ const userSchema = new mongoose.Schema ({
     required: true
   },
   email: {
-    // type: mongoose.SchemaTypes.Email,
-    type: String,
+    type: mongoose.SchemaTypes.Email,
     trim: true,
     lowercase: true,
     unique: [true, 'Sorry, that email is already in use'],
@@ -33,23 +32,44 @@ const userSchema = new mongoose.Schema ({
   accessToken: {
     type: String,
     default: () => crypto.randomBytes(128).toString('hex')
+  },
+  habit: {
+    type: [{    
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Habit'
+    }],
+    default: null
   }
 })
 const User = mongoose.model('User', userSchema)
 
-const authenticateUser = async (req, res, next) => {
-  const accessToken = req.header('Authorization')
-  try {
-    const user = await User.findOne({ accessToken })
-    if (user) {
-      next()
-    } else {
-      res.status(401).json({ success: false, message: 'Not authorized' })
+const habitSchema = new mongoose.Schema ({
+  collaborators: [{
+    user_id: {    
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    },
+    progress: {
+      type: Number,
+      default: 0
     }
-  } catch (error) {
-    res.status(400).json({ success: false, message: 'Invalid request', error })
+  }],
+  title: {
+    type: String,
+    required: true
+  },
+  duration: {
+    totalDays: {
+      type: Number,
+      default: 0
+    },
+    frequency: {
+      type: Number,
+      default: 0
+    }
   }
-}
+})
+const Habit = mongoose.model('Habit', userSchema)
 
 const port = process.env.PORT || 8080
 const app = express()
