@@ -142,10 +142,15 @@ app.post('/signup', async (req, res) => {
 })
 
 app.post('/signin', async (req, res) => {
-  const { password, email } = req.body
+  const { usernameOrEmail, password } = req.body
 
   try {
-    const user = await User.findOne({ email })
+    const user = await User.findOne({ 
+      $or: [
+        { username: usernameOrEmail },
+        { email: usernameOrEmail }
+      ]
+    })
     if (user && bcrypt.compareSync(password, user.password)) {
       res.json({
         success: true, 
