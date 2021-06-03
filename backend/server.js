@@ -7,6 +7,7 @@ import crypto from 'crypto'
 import dotenv from 'dotenv'
 import "mongoose-type-email"
 
+
 dotenv.config()
 
 const mongoUrl = process.env.MONGO_URL || `mongodb+srv://${process.env.USER_ID}:${process.env.API_KEY}@cluster0.ekh6z.mongodb.net/habitTracker?retryWrites=true&w=majority`
@@ -38,7 +39,6 @@ const userSchema = new mongoose.Schema ({
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Habit'
     }],
-    default: null
   }
 })
 const User = mongoose.model('User', userSchema)
@@ -69,7 +69,23 @@ const habitSchema = new mongoose.Schema ({
     }
   }
 })
-const Habit = mongoose.model('Habit', userSchema)
+const Habit = mongoose.model('Habit', habitSchema)
+
+const authenticateUser = async (req, res, next) => {
+  const accessToken = req.header('Authorization')
+
+  try {
+    const user = await User.findOne({ accessToken })
+      if (user) {
+        req.user = user
+        next()
+      } else {
+        res.status(401).json({ success:false, message: "Not authenticated" })
+      }
+  } catch (error){
+    res.status(400).json({ success:false, message: "Invalid request", error })
+  }
+}
 
 const port = process.env.PORT || 8080
 const app = express()
@@ -78,10 +94,30 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 
+const documentation = {
+  'Welcome': '🌟 Welcome to Irina´s and Maria´s digital habits tracker 🌟',
+  'Endpoint 1': {
+    'https://ahabit-tracker.herokuapp.com/signup': 'POST endpoint - register a user. Requires username, password and email in fetch body.',
+  },
+  'Endpoint 2': {
+    'https://ahabit-tracker.herokuapp.com/signin': 'POST endpoint- login by finding user in database based on email and password. Requires email and password in fetch body.',
+  },
+  'Endpoint 3': {
+    'https://ahabit-tracker.herokuapp.com/habits': 'GET endpoint - gives access to the users habits if access token is valid. Requires sending access token in the fetch headers to authenticate user.',
+  },
+  'Endpoint 4': {
+    'https://ahabit-tracker.herokuapp.com/habits': 'POST endpoint - creates a habit for a particular user. Requires sending access token in the fetch headers to authenticate user and title (habits title/description) and duration (combination of totalDays and frequency) sent in the fetch body.',
+  },
+//PATCH request to update a habit 
+//DELETE request to delete a habit
+};
+
+
 // Start defining your routes here
 app.get('/', (req, res) => {
-  res.send(listEndpoints(app))
+  res.send(documentation)
 })
+
 
 app.post('/signup', async (req, res) => {
   const { username, password, email } = req.body
@@ -122,9 +158,39 @@ app.post('/signin', async (req, res) => {
     }
   } catch (error) {
     res.status(400).json({ success: false, message: 'Invalid request', error })
-    console.log(error)
   }
 })
+
+// POST endpoint adding a habit to the users habits array
+///createhabit or users/:d/createhabit
+app.post('/habits', authenticateUser)
+app.post('/habits', async (req, res) => {
+  const { title, duration } = req.body
+  const { _id }= req.user
+  
+    //Creating a new habit. Pushing it to user habit array
+  try {
+    const user = await User.findById(_id)
+
+    const newHabit = await new Habit({ title,  duration, collaborators: user }).save()
+    res.json(newHabit)
+
+  } catch (error) {
+    res.status(400).json({ message: 'Invalid request', error })
+    console.log(error)
+  }
+});
+
+///habits/:id??
+//GET endpoint to get all habits of a single user
+app.get('/habits', authenticateUser)
+app.get('/habits', async (req, res) => {
+  const { _id } = req.user
+
+  const userHabits = await Habit.find().populate('user', 'username')
+  res.json({ success: true, userHabits })
+})
+
 // Start the server
 app.listen(port, () => {
   // eslint-disable-next-line
