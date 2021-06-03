@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema ({
     required: true
   },
   email: {
-    type: mongoose.Schema.Types.Email,
+    type: mongoose.SchemaTypes.Email,
     trim: true,
     lowercase: true,
     unique: [true, 'Sorry, that email is already in use'],
@@ -36,8 +36,8 @@ const userSchema = new mongoose.Schema ({
   },
   habit: {
     type: [{    
-      type: mongoose.Schema.Types.ObjectId
-      // ref: 'Habit'
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Habit'
     }],
   }
 })
@@ -179,7 +179,7 @@ app.post('/habits', async (req, res) => {
     res.status(400).json({ message: 'Invalid request', error })
     console.log(error)
   }
-});
+})
 
 ///habits/:id??
 //GET endpoint to get all habits of a single user
