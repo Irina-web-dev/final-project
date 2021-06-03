@@ -177,7 +177,7 @@ app.post('/habits', async (req, res) => {
   try {
     const user = await User.findById(_id)
 
-    const newHabit = await new Habit({ title,  duration, collaborators: user }).save()
+    const newHabit = await new Habit({ title, collaborators: [{user_id: user}] }).save()
     res.json(newHabit)
 
   } catch (error) {
@@ -192,7 +192,7 @@ app.get('/habits', authenticateUser)
 app.get('/habits', async (req, res) => {
   const { _id } = req.user
 
-  const userHabits = await Habit.find().populate('user', 'username')
+  const userHabits = await Habit.find({collaborators: {user_id: _id}}).populate('user', 'username')
   res.json({ success: true, userHabits })
 })
 
