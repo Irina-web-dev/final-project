@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema ({
     required: true
   },
   email: {
-    type: mongoose.SchemaTypes.Email,
+    type: mongoose.Schema.Types.Email,
     trim: true,
     lowercase: true,
     unique: [true, 'Sorry, that email is already in use'],
@@ -36,8 +36,8 @@ const userSchema = new mongoose.Schema ({
   },
   habit: {
     type: [{    
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Habit'
+      type: mongoose.Schema.Types.ObjectId
+      // ref: 'Habit'
     }],
   }
 })
