@@ -6,7 +6,6 @@ const user = createSlice({
     username: null, 
     email: null,
     accessToken: null, 
-    habit: [],
     errors: null
   },
   reducers: {
@@ -18,9 +17,6 @@ const user = createSlice({
     },
     setAccessToken: (store, action) => {
       store.accessToken = action.payload
-    },
-    setHabit: (store, action) => {
-      store.habit = action.payload
     },
     setErrors: (store, action) => {
       store.errors = action.payload
