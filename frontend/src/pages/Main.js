@@ -4,9 +4,7 @@ import HabitCard from '../components/HabitCard'
 
 const Main = () => {
   return (
-    <div>Hello
-      <HabitCard />
-    </div>
+    <div>Main</div>
   )
 }
 

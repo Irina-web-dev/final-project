@@ -1,7 +1,6 @@
 import express from 'express'
 import cors from 'cors'
 import mongoose from 'mongoose'
-import listEndpoints from 'express-list-endpoints'
 import bcrypt from 'bcrypt'
 import crypto from 'crypto'
 import dotenv from 'dotenv'
@@ -13,7 +12,7 @@ dotenv.config()
 const mongoUrl = process.env.MONGO_URL || `mongodb+srv://${process.env.USER_ID}:${process.env.API_KEY}@cluster0.ekh6z.mongodb.net/habitTracker?retryWrites=true&w=majority`
 mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex:true })
 mongoose.Promise = Promise
-//Test comment
+
 const userSchema = new mongoose.Schema ({
   username: {
     type: String,
@@ -156,6 +155,7 @@ app.post('/signin', async (req, res) => {
         success: true, 
         userID: user._id,
         email: user.email,
+        username: user.username,
         accessToken: user.accessToken
       })
     } else {
@@ -170,7 +170,7 @@ app.post('/signin', async (req, res) => {
 ///createhabit or users/:d/createhabit
 app.post('/habits', authenticateUser)
 app.post('/habits', async (req, res) => {
-  const { title, duration } = req.body
+  const { title } = req.body
   const { _id }= req.user
   
     //Creating a new habit. Pushing it to user habit array
