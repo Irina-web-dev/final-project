@@ -5,12 +5,17 @@ import styled from 'styled-components/macro'
 
 import HabitForm from '../components/HabitForm'
 import HabitCard from '../components/HabitCard'
+import Header from '../components/Header'
 
 import { API_URL } from '../reusable/urls'
 
 import habit from '../reducers/habit'
 
-
+const MainPageWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items:center;
+`
 
 const Main = () => {
   const accessToken = useSelector(store => store.user.accessToken)
@@ -54,10 +59,11 @@ const Main = () => {
   }
 
   return (
-    <div>
+    <MainPageWrapper>
+      <Header />
       <HabitForm fetchHabits={fetchHabits} />
       <HabitCard />
-    </div>
+    </MainPageWrapper>
   )
 }
 
