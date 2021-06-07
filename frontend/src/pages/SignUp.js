@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useDispatch, batch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components/macro'

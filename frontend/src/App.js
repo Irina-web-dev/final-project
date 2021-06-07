@@ -4,6 +4,7 @@ import { configureStore, combineReducers } from '@reduxjs/toolkit'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 
 import user from './reducers/user'
+import habit from './reducers/habit'
 
 import Header from './components/Header'
 
@@ -12,7 +13,8 @@ import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
 
 const reducer = combineReducers({
-  user: user.reducer
+  user: user.reducer,
+  habit: habit.reducer
 })
 const store = configureStore({ reducer })
 
