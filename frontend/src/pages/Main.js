@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch, batch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
+import styled from 'styled-components/macro'
 
 import HabitForm from '../components/HabitForm'
 import HabitCard from '../components/HabitCard'
@@ -8,6 +9,8 @@ import HabitCard from '../components/HabitCard'
 import { API_URL } from '../reusable/urls'
 
 import habit from '../reducers/habit'
+
+
 
 const Main = () => {
   const accessToken = useSelector(store => store.user.accessToken)
