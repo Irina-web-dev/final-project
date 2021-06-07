@@ -6,7 +6,6 @@ import crypto from 'crypto'
 import dotenv from 'dotenv'
 import "mongoose-type-email"
 
-
 dotenv.config()
 
 const mongoUrl = process.env.MONGO_URL || `mongodb+srv://${process.env.USER_ID}:${process.env.API_KEY}@cluster0.ekh6z.mongodb.net/habitTracker?retryWrites=true&w=majority`
@@ -32,12 +31,6 @@ const userSchema = new mongoose.Schema ({
   accessToken: {
     type: String,
     default: () => crypto.randomBytes(128).toString('hex')
-  },
-  habit: {
-    type: [{    
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Habit'
-    }],
   }
 })
 const User = mongoose.model('User', userSchema)
@@ -117,7 +110,6 @@ app.get('/', (req, res) => {
   res.send(documentation)
 })
 
-
 app.post('/signup', async (req, res) => {
   const { username, password, email } = req.body
   try {
@@ -153,7 +145,7 @@ app.post('/signin', async (req, res) => {
     if (user && bcrypt.compareSync(password, user.password)) {
       res.json({
         success: true, 
-        userID: user._id,
+        user_id: user._id,
         email: user.email,
         username: user.username,
         accessToken: user.accessToken
@@ -173,27 +165,36 @@ app.post('/habits', async (req, res) => {
   const { title } = req.body
   const { _id }= req.user
   
-    //Creating a new habit. Pushing it to user habit array
   try {
     const user = await User.findById(_id)
 
     const newHabit = await new Habit({ title, collaborators: [{user_id: user}] }).save()
-    res.json(newHabit)
+    res.json({
+      success: true, 
+      newHabit
+    })
 
   } catch (error) {
-    res.status(400).json({ message: 'Invalid request', error })
-    console.log(error)
+    res.status(400).json({ success: false, message: 'Invalid request', error })
   }
 })
 
-///habits/:id??
 //GET endpoint to get all habits of a single user
 app.get('/habits', authenticateUser)
 app.get('/habits', async (req, res) => {
   const { _id } = req.user
 
-  const userHabits = await Habit.find({collaborators: {user_id: _id}}).populate('user', 'username')
-  res.json({ success: true, userHabits })
+  const userHabits = await Habit.find({'collaborators.user_id': _id}).populate({ 
+    path: 'collaborators',
+      populate: { 
+        path: 'user_id',
+        select: 'username'
+      }
+  })
+  res.json({ 
+    success: true,
+    userHabits
+  })
 })
 
 // Start the server
