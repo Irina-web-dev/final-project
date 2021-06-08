@@ -8,6 +8,8 @@ import habit from '../reducers/habit'
 
 import { API_URL } from 'reusable/urls'
 
+import DatePicker from './DatePicker'
+
 
 const Background = styled.div`
   width: 100%;
@@ -51,6 +53,7 @@ const SubmitButton = styled.button`
   border-radius: 4px;
   padding: 16px 32px;
   transition: all .2s ease-out;
+  margin-top: 20px;
 
   &:hover {
     background-color: #85dad1;
@@ -96,7 +99,6 @@ const AddButton = styled.button`
 const ModalForm = styled.form`
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
 `
 
@@ -107,6 +109,7 @@ const HabitForm = () => {
   const dispatch = useDispatch()
   
   const accessToken = useSelector(store => store.user.accessToken)
+  const numberOfDays = useSelector(store => store.habit.numberOfDays)
 
   const onFormSubmit = (e) => {
     e.preventDefault()
@@ -117,7 +120,7 @@ const HabitForm = () => {
         Authorization: accessToken,
         'Content-Type': 'application/json'
       }, 
-      body: JSON.stringify({ title: newHabit })
+      body: JSON.stringify({ title: newHabit, totalDays: numberOfDays })
     }
 
     fetch(API_URL('habits'), options)
@@ -135,6 +138,7 @@ const HabitForm = () => {
 
   useEffect(() => {
     fetchHabits()
+    // eslint-disable-next-line
   }, [accessToken])
 
 
@@ -174,13 +178,18 @@ const HabitForm = () => {
             <ModalWrapper>
               <CloseButton onClick={openModal}></CloseButton>
               <ModalForm onSubmit={onFormSubmit}>
+                <label for='habit-title'>Habit:</label>
                 <TextInput
-                  type="text"
+                  type='text'
+                  id='habit-title'
+                  required
                   value={newHabit}
+                  placeholder='Enter your habit'
                   onChange={e => setNewHabit(e.target.value)}
                 />
                 <SubmitButton type="submit">Submit</SubmitButton>
               </ModalForm>
+              <DatePicker />
             </ModalWrapper>
           </Background>
         :
