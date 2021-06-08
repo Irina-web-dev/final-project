@@ -7,9 +7,11 @@ const HabitContainer = styled.div`
   height: 200px;
   padding: 10px 50px;
   border: none;
-  box-shadow: -4px 4px 2px rgba(0, 0, 0, 0.5);
+  box-shadow:       
+    0 14px 28px rgba(0, 0, 0, .2), 
+    0 10px 10px rgba(0, 0, 0, .2);
   border-radius: 2px;
-  background-color: #efefef;
+  background-color: #d8c6e9;
   margin-top: 30px;
   cursor: pointer;
 `
