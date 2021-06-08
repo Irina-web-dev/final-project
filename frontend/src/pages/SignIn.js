@@ -62,11 +62,15 @@ const SignIn = () => {
   `
   const SignUpButton = styled.button`
     width: 100%;
-    font-size: 30px; 
+    font-size: 40px; 
     outline: none; 
     background: none; 
     border: none; 
     font-size: 20px; 
+
+    &:after {
+      
+    }
   `
   const Form = styled.form`
     display: flex;
@@ -78,7 +82,8 @@ const SignIn = () => {
     padding: 0 50px;
   `
   const TitleText = styled.h1`
-   font-size: 20px; 
+   font-size: 30px; 
+   text-align: left; 
   `
   const ParagrafText = styled.p`
     letter-spacing: 0,5px;
@@ -90,6 +95,7 @@ const SignIn = () => {
     color: #fff; 
     background: #407294;
     padding: 5px; 
+    margin: 10px; 
     font-size: 12px;
     font-weight: bold;
     letter-spacing: 1px;
@@ -112,7 +118,7 @@ const SignIn = () => {
     display: flex; 
   `
   const Separator = styled.span`
-    font-size: 80px; 
+    font-size: 50px; 
   `
 
   return (
@@ -130,7 +136,7 @@ const SignIn = () => {
           />
           <InputArea
             type="password"
-            placeholder="Password.."
+            placeholder="password.."
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />

@@ -48,7 +48,7 @@ const SignUp = () => {
       .catch()
   }
 
-  const Container = styled.div`
+const Container = styled.div`
   margin: 30px;
   height: 70vh; 
   max-width: 100%; 
@@ -74,7 +74,8 @@ const Form = styled.form`
   padding: 0 50px;
 `
 const TitleText = styled.h1`
- font-size: 20px; 
+ font-size: 30px; 
+ text-align: left; 
 `
 const Button = styled.button`
   border-radius: 20px;
@@ -104,6 +105,10 @@ const InputArea = styled.input`
 const TitleContainer = styled.div`
   display: flex; 
 `
+const Separator = styled.span`
+  font-size: 40px; 
+`
+
   return (
     <Container>
     {!accessToken 
@@ -111,7 +116,7 @@ const TitleContainer = styled.div`
       <Form onSubmit={onFormSubmit}>
         <TitleContainer>
           <TitleText>Sign Up </TitleText>
-          <SignInButton> <span>|</span> Sign In</SignInButton>
+          <SignInButton> <Separator>|</Separator> Sign In</SignInButton>
         </TitleContainer>
       <InputArea
         type="text"
