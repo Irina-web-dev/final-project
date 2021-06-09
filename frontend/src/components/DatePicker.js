@@ -4,7 +4,6 @@ import 'react-dates/initialize'
 import { DateRangePicker } from 'react-dates'
 import "react-dates/lib/css/_datepicker.css"
 import styled from 'styled-components/macro'
-import moment from 'moment'
 
 import habit from '../reducers/habit'
 
