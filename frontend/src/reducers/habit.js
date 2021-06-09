@@ -1,4 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { batch } from 'react-redux'
+
+import { API_URL } from 'reusable/urls'
 
 const habit = createSlice({
     name: 'habit',
@@ -19,5 +22,31 @@ const habit = createSlice({
       }
     }
 })
+
+export const fetchHabits = (accessToken) => {
+  return (dispatch, getStore) => {
+    if(accessToken) {
+      const options = {
+        method: 'GET',
+        headers: {
+            Authorization: accessToken
+        }
+     }
+      fetch(API_URL('habits'), options)
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+              batch(() => {
+                  dispatch(habit.actions.setHabitsArray(data.userHabits));
+                  dispatch(habit.actions.setErrors(null));
+              });
+            } else {
+              dispatch(habit.actions.setErrors(data));
+            }
+            console.log(data.userHabits)
+        });
+    }
+  }
+}
 
 export default habit

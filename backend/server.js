@@ -196,6 +196,63 @@ app.get('/habits', async (req, res) => {
   })
 })
 
+//GET endpoint to get all habits of a single user
+app.get('/habits', authenticateUser)
+app.get('/habits', async (req, res) => {
+  const { _id } = req.user
+
+  const userHabits = await Habit.find({'collaborators.user_id': _id}).populate({ 
+    path: 'collaborators',
+      populate: { 
+        path: 'user_id',
+        select: 'username'
+      }
+  })
+  res.json({ 
+    success: true,
+    userHabits
+  })
+})
+
+//GET endpoint to get all habits of a single user
+app.get('/habits', authenticateUser)
+app.get('/habits', async (req, res) => {
+  const { _id } = req.user
+
+  const userHabits = await Habit.find({'collaborators.user_id': _id}).populate({ 
+    path: 'collaborators',
+      populate: { 
+        path: 'user_id',
+        select: 'username'
+      }
+  })
+  res.json({ 
+    success: true,
+    userHabits
+  })
+})
+
+//DELETE endpoint to delete a habit
+app.delete('/habits/:id', authenticateUser)
+app.delete('/habits/:id', async (req, res) => {
+  const { id } = req.params
+  
+  try {
+    const deletedHabit = await Habit.findByIdAndDelete(id)
+    if(deletedHabit) {
+      res.json({
+        success: true,
+        deletedHabit,
+        message: 'Habit deleted'
+      })
+    } else {
+      res.status(404).json({ message: 'Not found' })
+    }
+  } catch (error) {
+    res.status(400).json({ message: 'Invalid request', error })
+  } 
+})
+
 // Start the server
 app.listen(port, () => {
   // eslint-disable-next-line
