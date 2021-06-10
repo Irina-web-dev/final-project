@@ -1,29 +1,52 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components/macro'
-import { MdDelete } from 'react-icons/md'
+import { MdDelete, MdModeEdit } from 'react-icons/md'
 
-import { API_URL } from 'reusable/urls'
+import habit, { deleteHabit } from '../reducers/habit'
 
-import { fetchHabits } from '../reducers/habit'
 
 const HabitContainer = styled.div`
-  min-width: 500px;
-  height: 300px;
-  padding: 10px 50px;
+  min-width: 600px;
+  height: 200px;
+  padding: 10px 30px;
   border: none;
   box-shadow:       
     0 14px 28px rgba(0, 0, 0, .2), 
     0 10px 10px rgba(0, 0, 0, .2);
   border-radius: 2px;
   background-color: #d8c6e9;
-  margin-top: 30px;
   cursor: pointer;
+  margin-bottom: 30px;
 `
 
 const DeleteButton = styled(MdDelete)`
   cursor: pointer;
   font-size: 24px;
+  padding: 10px;
+  transition: all .2s ease-out;
+
+  &:hover {
+    background-color: #d9d9d9;
+    border-radius: 50%;
+  }
+`
+
+const EditButton = styled(MdModeEdit)`
+  cursor: pointer;
+  font-size: 24px;
+  padding: 10px;
+  transition: all .2s ease-out;
+
+  &:hover {
+    background-color: #d9d9d9;
+    border-radius: 50%;
+  }
+`
+
+const IconsWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
 `
 
 const HabitCard = () => {
@@ -33,30 +56,22 @@ const HabitCard = () => {
   const dispatch = useDispatch()
 
   const onDeleteButtonClick = (id) => {
-    if (accessToken) {
-      const options = {
-        method: 'DELETE',
-        headers: {
-          Authorization: accessToken,
-          'Content-Type': 'application/json'
-        }
-      }
-    fetch(API_URL(`habits/${id}`), options)
-      .then(res => res.json())
-      .then(data => {
-        if(data.success) {
-          dispatch(fetchHabits(accessToken))
-        }
-          console.log(data)
-      })
-    }
+    dispatch(deleteHabit(id, accessToken))
+  }
+
+  const onEditButtonClick = (id) => {
+    dispatch(habit.actions.setEditMode(true))
+    dispatch(habit.actions.setHabitId(id))
   }
   
   return (
     <>
       {habitsItems.map(habit => (
         <HabitContainer key={habit._id}>
-          <DeleteButton onClick={() => onDeleteButtonClick(habit._id)}></DeleteButton>
+          <IconsWrapper>
+            <EditButton onClick={() => onEditButtonClick(habit._id)}></EditButton>
+            <DeleteButton onClick={() => onDeleteButtonClick(habit._id)}></DeleteButton>
+          </IconsWrapper>
           <h1>{habit.title}</h1>
           <p>Total Days: {habit.duration.totalDays}</p>
           <p>Collaborators: {habit.collaborators.map(user => (
