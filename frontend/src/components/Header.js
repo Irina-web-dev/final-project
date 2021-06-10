@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components/macro'
 
+import LogOut from './LogOut'
+
 const HeaderContainer = styled.header`
   min-width: 800px;
   height: 100px;
@@ -10,6 +12,7 @@ const HeaderContainer = styled.header`
 const Header = () => {
   return(
     <HeaderContainer>
+      <LogOut />
         <p>Habit Tracker</p>
     </HeaderContainer>
   )
