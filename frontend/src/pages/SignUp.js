@@ -8,53 +8,107 @@ import user from '../reducers/user'
 import { API_URL } from '../reusable/urls'
 
 const Container = styled.div`
-  margin: 30px;
   height: 70vh; 
+  margin: 20px auto; 
+  width: 80%; 
   max-width: 100%; 
   box-shadow: 
     0 14px 28px rgba(0, 0, 0, .2), 
     0 10px 10px rgba(0, 0, 0, .2);
 
-    @media (max-width: 1024px) {
-      max-width: 600px; 
-      display: flex; 
-    }
+  @media (min-width: 600px) {
+    max-width: 600px; 
+    display: flex; 
+    margin: 50px auto; 
+  }
+
+  @media (min-width: 768px) {
+    max-width: 600px; 
+    display: flex; 
+    margin: 50px auto; 
+    width: 60%; 
+  }
+
+  @media (min-width: 1024px) {
+    width: 45%; 
+  }
 `
 const StyledLink = styled(Link)`
-    width: 100%;
-    font-size: 30px; 
-    outline: none; 
-    background: none; 
-    border: none; 
-    font-size: 20px; 
-    color: #D21F3C; 
-    text-decoration: none; 
-    margin-left: 5px; 
+  width: 100%;
+  font-size: 25px;  
+  outline: none; 
+  background: none; 
+  border: none; 
+  font-size: 20px; 
+  color: #D21F3C; 
+  text-decoration: none; 
+  padding-left: 10px; 
 
-    @media (min-width: 768px) {
-      
-    }
-  `
+  @media (min-width: 600px) {
+   font-size: 30px; 
+  }
+`
 const Form = styled.form`
   display: flex;
   flex-direction: column; 
   justify-content: center;
   align-items: center;
-  text-align: center;
+  text-align: right;
   height: 100%;
   padding: 0 50px;
-
-  @media (min-width: 768px) {
-    padding: 0 70px;
-  }
+  margin: auto; 
+`
+const TitleContainer = styled.div`
+  display: flex; 
 `
 const TitleText = styled.h1`
- font-size: 20px; 
- text-align: left; 
- text-transform: uppercase;
+  font-size: 20px; 
+  text-transform: uppercase;
+  text-align: left; 
+  margin-top: 0; 
 
- @media (max-width: 1024px) {
-  font-size: 25px;  
+  @media (min-width: 600px) {
+    font-size: 35px;  
+  }
+`
+const Separator = styled.span`
+  font-size: 20px; 
+
+  @media (min-width: 600px) {
+    font-size: 35px;  
+  }
+`
+const InputArea = styled.input`
+  background: #eee;
+  border: none;
+  padding: 10px 0;
+  margin: 8px 5px;
+  width: 100%;
+
+  ::placeholder {
+    color: #D21F3C;
+    padding: 12px; 
+    opacity: 0.5; 
+  }
+
+  &:focus {
+    outline: none; 
+    border: 2px solid #407294; 
+  }
+
+  @media (min-width: 600px) {
+      padding: 18px 0;
+      margin: 10px 0;
+
+      ::placeholder {
+        font-size: 12px; 
+      }
+  }
+
+  @media (min-width: 768px) {
+    ::placeholder {
+      font-size: 14px; 
+    }
 }
 `
 const Button = styled.button`
@@ -63,7 +117,7 @@ const Button = styled.button`
   width: 80%;
   color: #fff; 
   background: #407294;
-  padding: 5px; 
+  padding: 7px; 
   margin: 10px; 
   font-size: 12px;
   font-weight: bold;
@@ -75,28 +129,12 @@ const Button = styled.button`
   &:active {
     transform: scale(.95);
   } 
+
+  @media (min-width: 600px) {
+    font-size: 16px;
+    width: 60%;
+  }
 ` 
-const InputArea = styled.input`
-  background: #eee;
-  border: none;
-  padding: 12px 15px;
-  margin: 8px 0;
-  width: 100%;
-
-  ::placeholder {
-    color: #D21F3C;
-  }
-
-  @media (max-width: 1024px) {
-    width: 80%;  
-  }
-`
-const TitleContainer = styled.div`
-  display: flex; 
-`
-const Separator = styled.span`
-  font-size: 40px; 
-`
 
 const SignUp = () => {
   const [username, setUsername] = useState('')
@@ -151,7 +189,7 @@ const SignUp = () => {
       <InputArea
         required
         type="text"
-        placeholder="username.."
+        placeholder="username"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
       />
