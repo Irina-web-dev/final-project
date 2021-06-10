@@ -18,7 +18,7 @@ const Main = () => {
 
   useEffect(() => {
     if(!accessToken) {
-      history.push('/signin')
+      history.push('/')
     }
   }, [accessToken, history])
 

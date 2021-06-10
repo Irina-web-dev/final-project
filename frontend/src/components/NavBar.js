@@ -1,12 +1,15 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import styled from 'styled-components'
+import styled from 'styled-components/macro'
 import { MdMenu } from 'react-icons/md'
+import { useSelector } from 'react-redux'
+
+import LogOut from './LogOut'
 
 const Nav = styled.nav`
   background: #000;
   height: 80px;
-  width: 100%;
+  min-width: 100%;
   display: flex;
   justify-content: center;
   font-size: 1rem;
@@ -68,6 +71,8 @@ const NavMenu = styled.ul`
 
 const NavItem = styled.li`
   height: 80px;
+  display: flex;
+  align-items: center;
 `
 
 const NavLinks = styled(Link)`
@@ -76,7 +81,6 @@ const NavLinks = styled(Link)`
   align-items: center;
   text-decoration: none;
   padding: 0 1rem;
-  height: 80%;
   cursor: pointer;
 
   &:active {
@@ -113,36 +117,38 @@ const BtnLink = styled(Link)`
   text-decoration: none;
 
   &:hover {
-    background: #02db82;
+    background: #f8c840;
     color: #010606;
     transition: all 0.2s ease-in-out;
   }
 `
 
-const NavBar = () => {
+const NavBar = ({ toggle }) => {
+  const accessToken = useSelector(store => store.user.accessToken)
+
   return (
     <>
       <Nav>
         <NavBarContainer>
-          <NavLogo to='/signup'>
+          <NavLogo to='/'>
             sticKtOiT
           </NavLogo>
-          <MobileIcon>
+          <MobileIcon onClick={toggle}>
             <MenuIcon />
           </MobileIcon>
           <NavMenu>
             <NavItem>
-              <NavLinks to='#'>About Us</NavLinks>
+              <NavLinks to='/'>Home</NavLinks>
             </NavItem>
             <NavItem>
-              <NavLinks to='#'>About Habits</NavLinks>
+              <NavLinks to='#'>About sticKtOT</NavLinks>
             </NavItem>
             <NavItem>
               <NavLinks to='/signup'>Sign Up</NavLinks>
             </NavItem>
           </NavMenu>
           <SigninNavBtn>
-            <BtnLink to='/signin'>Sign in</BtnLink>
+            {!accessToken ? <BtnLink to='/signin'>Sign in</BtnLink> : <LogOut />}
           </SigninNavBtn>
         </NavBarContainer>
       </Nav>

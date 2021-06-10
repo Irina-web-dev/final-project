@@ -9,8 +9,9 @@ import habit from './reducers/habit'
 import Main from './pages/Main'
 import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
-import NavBar from './components/NavBar'
-import SidebarTop from 'components/SidebarTop'
+import Home from './pages/Home'
+
+import Header from './components/Header'
 
 const reducer = combineReducers({
   user: user.reducer,
@@ -22,10 +23,10 @@ export const App = () => {
   return (
     <BrowserRouter>
       <Provider store={store}>
-        <NavBar />
-        <SidebarTop />
+        <Header />
         <Switch>
-          <Route exact path='/' component={Main}/>
+          <Route exact path='/' component={Home}/>
+          <Route path='/main' component={Main}/>
           <Route path='/signin' component={SignIn}/>
           <Route path='/signup' component={SignUp}/>
         </Switch>
