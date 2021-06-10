@@ -5,7 +5,6 @@ import styled from 'styled-components/macro'
 
 import HabitForm from '../components/HabitForm'
 import HabitCard from '../components/HabitCard'
-import Header from '../components/Header'
 
 const MainPageWrapper = styled.div`
   display: flex;
@@ -19,14 +18,13 @@ const Main = () => {
 
   useEffect(() => {
     if(!accessToken) {
-      history.push('/signin')
+      history.push('/')
     }
   }, [accessToken, history])
 
 
   return (
     <MainPageWrapper>
-      <Header />
       <HabitForm />
       <HabitCard />
     </MainPageWrapper>

@@ -1,20 +1,20 @@
-import React from 'react'
-import styled from 'styled-components/macro'
+import React, { useState } from 'react'
 
-import LogOut from './LogOut'
-
-const HeaderContainer = styled.header`
-  min-width: 800px;
-  height: 100px;
-  border: 1px solid rgba(0, 0, 0, 0.25);
-`
+import NavBar from './NavBar'
+import SidebarTop from './SidebarTop'
 
 const Header = () => {
+  const [isOpen, setIsOpen] = useState(false)
+
+  const toggle = () => {
+    setIsOpen(!isOpen)
+  }
+
   return(
-    <HeaderContainer>
-      <LogOut />
-        <p>Habit Tracker</p>
-    </HeaderContainer>
+    <>
+      <SidebarTop isOpen={isOpen} toggle={toggle}/>
+      <NavBar toggle={toggle}/>
+    </>
   )
 }
 
