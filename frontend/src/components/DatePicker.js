@@ -23,9 +23,7 @@ const StyledDatePickerWrapper = styled.div`
   }
 `
 
-const DatePicker = () => {
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+const DatePicker = ({ startDate, endDate, setStartDate, setEndDate }) => {
   const [focusedInput, setFocusedInput] = useState(null);
 
   const dispatch = useDispatch()
@@ -53,15 +51,6 @@ const DatePicker = () => {
     dispatch(habit.actions.setNumberOfDays(diffInDays))
   }
 
-//   const calculateDaysLeft = (startDate, endDate) => {
-//     if (!moment.isMoment(startDate)) startDate = moment(startDate)
-//     if (!moment.isMoment(endDate)) endDate = moment(endDate)
-
-//     return endDate.diff(startDate, "days")
-//   }
-
-//  console.log(endDate.diff(startDate, "days"))
-
   return (
     <StyledDatePickerWrapper>
       <DateRangePicker
@@ -73,8 +62,8 @@ const DatePicker = () => {
         focusedInput={focusedInput}
         onFocusChange={focusedInput => setFocusedInput(focusedInput)}
       />
-      {/* <h1>Hello: {startDate && endDate ? () => getNumberOfDays(startDate, endDate) : ''}</h1> */}
-      <button onClick={() => getNumberOfDays(startDate, endDate)}> Calculate number of days</button> 
+      {startDate && endDate ? getNumberOfDays(startDate, endDate) : ''}
+      {/* <button onClick={() => getNumberOfDays(startDate, endDate)}> Calculate number of days</button>  */}
       <h1>Number of days: {numberOfDays}</h1>
     </StyledDatePickerWrapper>
   );

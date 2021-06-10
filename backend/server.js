@@ -99,9 +99,13 @@ const documentation = {
   'Endpoint 4': {
     'https://ahabit-tracker.herokuapp.com/habits': 'POST endpoint - creates a habit for a particular user. Requires sending access token in the fetch headers to authenticate user and title (habits title/description) and duration (combination of totalDays and frequency) sent in the fetch body.',
   },
-//PATCH request to update a habit 
-//DELETE request to delete a habit
-};
+  'Endpoint 5': {
+    'https://ahabit-tracker.herokuapp.com/habits/:id': 'DELETE endpoint - deletes a specified habit for that user. Requires sending access token in the fetch headers to authenticate user and habit id in the path.',
+  },
+  'Endpoint 6': {
+    'https://ahabit-tracker.herokuapp.com/habits/:id': 'PATCH endpoint - updates a specified habit for that user. Requires sending access token in the fetch headers to authenticate user, habit id in the path and properties to be updated: title (habits title/description), duration (combination of totalDays and frequency), progress sent in the fetch body.'
+  }
+}
 
 
 // Start defining your routes here
@@ -244,6 +248,27 @@ app.delete('/habits/:id', async (req, res) => {
         success: true,
         deletedHabit,
         message: 'Habit deleted'
+      })
+    } else {
+      res.status(404).json({ message: 'Not found' })
+    }
+  } catch (error) {
+    res.status(400).json({ message: 'Invalid request', error })
+  } 
+})
+
+//PATCH endpoint to update a habit
+app.patch('/habits/:id', authenticateUser)
+app.patch('/habits/:id', async (req, res) => {
+  const { id } = req.params
+  
+  try {
+    const updatedHabit = await Habit.findByIdAndUpdate(id, req.body, {new: true})
+    if(updatedHabit) {
+      res.json({
+        success: true,
+        updatedHabit,
+        message: 'Habit updated'
       })
     } else {
       res.status(404).json({ message: 'Not found' })

@@ -1,12 +1,10 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import { useSelector, useDispatch, batch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components/macro'
 import { MdClose } from 'react-icons/md'
 
-import habit from '../reducers/habit'
-
-import { API_URL } from 'reusable/urls'
+import habit, { addNewHabit, fetchHabits, editHabit } from '../reducers/habit'
 
 import DatePicker from './DatePicker'
 
@@ -22,8 +20,8 @@ const Background = styled.div`
 `
 
 const ModalWrapper = styled.div`
-  width: 800px;
-  height: 500px;
+  width: 700px;
+  height: 400px;
   box-shadow: 0 5px 16px rgba(0, 0, 0, 0.2);
   background-color: #fff;
   color: #000;
@@ -102,98 +100,90 @@ const ModalForm = styled.form`
   align-items: center;
 `
 
+const ButtonContainer = styled.div`
+  min-width: 600px;
+  padding: 20px 0;
+`
+
 const HabitForm = () => {
-  const [newHabit, setNewHabit] = useState('')
+  const [title, setTitle] = useState('')
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
   const [showModal, setShowModal] = useState(false)
 
   const dispatch = useDispatch()
   
   const accessToken = useSelector(store => store.user.accessToken)
   const numberOfDays = useSelector(store => store.habit.numberOfDays)
+  const editMode = useSelector(store => store.habit.editMode)
+  const id = useSelector(store => store.habit.habitId)
 
-  const onFormSubmit = (e) => {
+  // Resetting the form to default states when user adds a habit
+  const resetForm = () => {
+    setTitle('')
+    setStartDate(null)
+    setEndDate(null)
+    dispatch(habit.actions.setNumberOfDays(null))
+  }
+
+  const onAddNewHabit = (e) => {
     e.preventDefault()
+    dispatch(addNewHabit(accessToken, { title, totalDays: numberOfDays }))
+    resetForm()
+  }
 
-    const options = {
-      method: 'POST',
-      headers: {
-        Authorization: accessToken,
-        'Content-Type': 'application/json'
-      }, 
-      body: JSON.stringify({ title: newHabit, totalDays: numberOfDays })
-    }
-
-    fetch(API_URL('habits'), options)
-      .then(res => res.json())
-      .then(data => {
-        if(data.success){
-          fetchHabits()
-          setNewHabit('')
-        } else {
-          dispatch(habit.actions.setErrors(data)) 
-        }
-     })
-     .catch()
+  const onEditHabit = (e) => {
+    e.preventDefault()
+    dispatch(editHabit(id, accessToken, { title, totalDays: numberOfDays }))
+    dispatch(habit.actions.setEditMode(false))
+    resetForm()
   }
 
   useEffect(() => {
-    fetchHabits()
+    dispatch(fetchHabits(accessToken))
     // eslint-disable-next-line
   }, [accessToken])
 
 
-  const fetchHabits = () => {
-    if (accessToken) {
-      const options = {
-          method: 'GET',
-          headers: {
-              Authorization: accessToken
-          }
-      }
-    fetch(API_URL('habits'), options)
-      .then(res => res.json())
-      .then(data => {
-          if (data.success) {
-            batch(() => {
-                dispatch(habit.actions.setHabitsArray(data.userHabits));
-                dispatch(habit.actions.setErrors(null));
-            });
-          } else {
-            dispatch(habit.actions.setErrors(data));
-          }
-          console.log(data.userHabits)
-      });
-    }
-  }
-
   const openModal = () => {
-    setShowModal(prev => !prev)
+    if(editMode === true) {
+      dispatch(habit.actions.setEditMode(false))
+    } else {
+      setShowModal(prev => !prev)
+    }
   }
   
   return (
     <>
-      {showModal 
+      {showModal || editMode
         ? 
           <Background>
             <ModalWrapper>
               <CloseButton onClick={openModal}></CloseButton>
-              <ModalForm onSubmit={onFormSubmit}>
-                <label for='habit-title'>Habit:</label>
+              <ModalForm onSubmit={editMode ? onEditHabit : onAddNewHabit}>
+                <label htmlFor='habit-title'>Habit:</label>
                 <TextInput
                   type='text'
                   id='habit-title'
                   required
-                  value={newHabit}
+                  value={title}
                   placeholder='Enter your habit'
-                  onChange={e => setNewHabit(e.target.value)}
+                  onChange={(e) => setTitle(e.target.value)}
                 />
-                <SubmitButton type="submit">Submit</SubmitButton>
+                <SubmitButton type="submit">{editMode? 'Update Task' : 'Add Habit'}</SubmitButton>
               </ModalForm>
-              <DatePicker />
+              <DatePicker
+                startDate={startDate}
+                endDate={endDate}
+                setStartDate={setStartDate}
+                setEndDate={setEndDate}
+              />
             </ModalWrapper>
           </Background>
         :
-          <AddButton onClick={openModal}>+</AddButton>
+          <ButtonContainer>
+            <AddButton onClick={openModal}>+</AddButton>
+          </ButtonContainer>
       }
     </>
   )

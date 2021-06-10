@@ -8,7 +8,9 @@ const habit = createSlice({
     initialState: {
         habitsArray: [],
         errors: null,
-        numberOfDays: null
+        numberOfDays: null,
+        editMode: false,
+        habitId: null
     },
     reducers: {
       setHabitsArray: (store, action) => {
@@ -19,6 +21,12 @@ const habit = createSlice({
       },
       setNumberOfDays: (store, action) => {
           store.numberOfDays = action.payload
+      },
+      setEditMode: (store, action) => {
+        store.editMode = action.payload
+      },
+      setHabitId: (store, action) => {
+        store.habitId = action.payload
       }
     }
 })
@@ -37,14 +45,79 @@ export const fetchHabits = (accessToken) => {
         .then(data => {
             if (data.success) {
               batch(() => {
-                  dispatch(habit.actions.setHabitsArray(data.userHabits));
-                  dispatch(habit.actions.setErrors(null));
+                  dispatch(habit.actions.setHabitsArray(data.userHabits))
+                  dispatch(habit.actions.setErrors(null))
               });
             } else {
-              dispatch(habit.actions.setErrors(data));
+              dispatch(habit.actions.setErrors(data))
             }
-            console.log(data.userHabits)
-        });
+        })
+    }
+  }
+}
+
+export const addNewHabit = (accessToken, { title, totalDays: numberOfDays }) => {
+  return (dispatch, getStore) => {
+    const options = {
+      method: 'POST',
+      headers: {
+        Authorization: accessToken,
+        'Content-Type': 'application/json'
+      }, 
+      body: JSON.stringify({ title, totalDays: numberOfDays })
+    }
+    fetch(API_URL('habits'), options)
+      .then(res => res.json())
+      .then(data => {
+        if(data.success){
+          dispatch(fetchHabits(accessToken))
+        } else {
+          dispatch(habit.actions.setErrors(data)) 
+        }
+     })
+     .catch()
+  }
+}
+
+export const deleteHabit = (id, accessToken) => {
+  return (dispatch, getStore) => {
+    if (accessToken) {
+      const options = {
+        method: 'DELETE',
+        headers: {
+          Authorization: accessToken,
+          'Content-Type': 'application/json'
+        }
+      }
+    fetch(API_URL(`habits/${id}`), options)
+      .then(res => res.json())
+      .then(data => {
+        if(data.success) {
+          dispatch(fetchHabits(accessToken))
+        }
+      })
+    }
+  }
+}
+
+export const editHabit = (id, accessToken, { title, totalDays: numberOfDays }) => {
+  return (dispatch, getStore) => {
+    if (accessToken) {
+      const options = {
+        method: 'PATCH',
+        headers: {
+          Authorization: accessToken,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ title, totalDays: numberOfDays }),
+      }
+    fetch(API_URL(`habits/${id}`), options)
+      .then(res => res.json())
+      .then(data => {
+        if(data.success) {
+          dispatch(fetchHabits(accessToken))
+        }
+      })
     }
   }
 }
