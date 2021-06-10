@@ -56,7 +56,7 @@ const Form = styled.form`
   text-align: right;
   height: 100%;
   padding: 0 50px;
-  margin: auto; 
+  margin: 40px auto; 
 `
 const TitleContainer = styled.div`
   display: flex; 
