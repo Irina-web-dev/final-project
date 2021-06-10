@@ -5,7 +5,6 @@ import styled from 'styled-components/macro'
 
 import HabitForm from '../components/HabitForm'
 import HabitCard from '../components/HabitCard'
-import Header from '../components/Header'
 
 const MainPageWrapper = styled.div`
   display: flex;
@@ -26,7 +25,6 @@ const Main = () => {
 
   return (
     <MainPageWrapper>
-      <Header />
       <HabitForm />
       <HabitCard />
     </MainPageWrapper>
