@@ -16,6 +16,7 @@ const SigninWrapper = styled.div`
   align-items: center;
   margin: 0;
   padding: 0;
+  position: fixed;
 `
 
 const Container = styled.div`
@@ -71,13 +72,12 @@ const InputArea = styled.input`
   background: #eee;
   border: none;
   border-radius: 5px;
-  padding: 10px 0;
-  margin: 8px 5px;
   min-width: 200px;
+  font-size: 18px;
+  padding: 16px;
 
   ::placeholder {
     color: #D21F3C;
-    padding: 12px; 
     opacity: 0.5; 
   }
 
@@ -87,16 +87,14 @@ const InputArea = styled.input`
   }
 
   @media (min-width: 668px) {
-    padding: 18px 0;
     margin: 10px 0;
     min-width: 300px;
-
-    ::placeholder {
-      font-size: 12px; 
-    }
+    font-size: 24px;
   }
 }
 `
+
+
 const ForgotPassword = styled.a`
   letter-spacing: 0,5px;
   text-decoration: none; 
@@ -149,6 +147,10 @@ const SignupLink = styled(Link)`
   }
 
   }
+`
+
+const ErrorMessage = styled.p`
+  color: #fff;
 `
 
 const SignIn = () => {
@@ -209,21 +211,21 @@ const SignIn = () => {
           <TitleContainer>
             <TitleText>Sign In</TitleText>
           </TitleContainer>
-            <InputArea
-              required
-              type="text"
-              placeholder="username or email"
-              value={usernameOrEmail}
-              onChange={(e) => setUsernameOrEmail(e.target.value)}
-            />
-            <InputArea
-              required
-              type="password"
-              placeholder="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            {errors? <p>{errors.message}</p> : ''}
+          <InputArea
+            required
+            type="text"
+            placeholder="username or email"
+            value={usernameOrEmail}
+            onChange={(e) => setUsernameOrEmail(e.target.value)}
+          />
+          <InputArea
+            required
+            type="password"
+            placeholder="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+            {errors? <ErrorMessage>{errors.message}</ErrorMessage> : ''}
             <ForgotPassword>Forgot password?</ForgotPassword>
             <Button type="submit">Sign in</Button>
             <SignupLink to='/signup'>Don´t have an account yet? Sign up here!</SignupLink>
