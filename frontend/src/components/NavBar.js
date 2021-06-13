@@ -27,7 +27,7 @@ const NavBarContainer = styled.div`
   padding: 0 24px;
 
   @media (min-width: 768px) {
-    max-width: 1100px;
+    max-width: 1300px;
   }
 `
 
@@ -123,8 +123,30 @@ const BtnLink = styled(Link)`
   }
 `
 
+const WelcomeMessage = styled.h1`
+  color: #fff;
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  font-size: 22px;
+  font-weight: normal;
+  margin-right: 20px;
+`
+
+const FlexContainer = styled.div`
+  display: flex;
+`
+
+const Links = styled.div`
+  margin-right: 50px; 
+  display: flex;
+  align-items: center;
+`
+
 const NavBar = ({ toggle }) => {
   const accessToken = useSelector(store => store.user.accessToken)
+  const username = useSelector(store => store.user.username)
 
   return (
     <>
@@ -133,23 +155,32 @@ const NavBar = ({ toggle }) => {
           <NavLogo to='/'>
             sticKtOiT
           </NavLogo>
-          <MobileIcon onClick={toggle}>
-            <MenuIcon />
-          </MobileIcon>
-          <NavMenu>
-            <NavItem>
-              <NavLinks to='/'>Home</NavLinks>
-            </NavItem>
-            <NavItem>
-              <NavLinks to='#'>About sticKtOT</NavLinks>
-            </NavItem>
-            <NavItem>
-              <NavLinks to='/signup'>Sign Up</NavLinks>
-            </NavItem>
-          </NavMenu>
-          <SigninNavBtn>
-            {!accessToken ? <BtnLink to='/signin'>Sign in</BtnLink> : <LogOut />}
-          </SigninNavBtn>
+          <FlexContainer>
+            {!username 
+              ?
+                <Links>
+                  <MobileIcon onClick={toggle}>
+                    <MenuIcon />
+                  </MobileIcon>
+                  <NavMenu>
+                    <NavItem>
+                      <NavLinks to='/'>Home</NavLinks>
+                    </NavItem>
+                    <NavItem>
+                      <NavLinks to='#'>About sticKtOT</NavLinks>
+                    </NavItem>
+                    <NavItem>
+                      <NavLinks to='/signup'>Sign Up</NavLinks>
+                    </NavItem>
+                  </NavMenu>
+                </Links>
+              :
+                <WelcomeMessage>Hi, {username}!</WelcomeMessage>
+            }
+            <SigninNavBtn>
+              {!accessToken ? <BtnLink to='/signin'>Sign in</BtnLink> : <LogOut />}
+            </SigninNavBtn>
+          </FlexContainer>
         </NavBarContainer>
       </Nav>
     </>

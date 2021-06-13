@@ -1,15 +1,23 @@
 import React from 'react'
+import moment from 'moment'
 
 import Checkbox from './Checkbox';
 import Collaborators from "./Collaborators";
 import Month from "./Month";
 
-const Timeline = ({ dateRange, Users }) => {
+const Timeline = () => {
+  //connect to collaborators
+  const Users = {
+    0: "Irina",
+    1: "Maria",
+  }
+  //connect to DatePicker, startDate and endDate
+  const dateRange = [moment(), moment().add(20, "days")]
   //difference between two dates
-  const days = Math.abs(dateRange[0].diff(dateRange[1], "days"));
-  const checkbox = Array.from(new Array(days));
-  const collaborators = Array.from(new Array(10));
-  const months = Array.from(new Array(Math.floor(days)));
+  const days = Math.abs(dateRange[0].diff(dateRange[1], "days"))
+  const checkbox = Array.from(new Array(days))
+  const collaborators = Array.from(new Array(10))
+  const months = Array.from(new Array(Math.floor(days)))
 
   return (
     <div className="timeline">
