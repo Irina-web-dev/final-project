@@ -7,47 +7,38 @@ import user from '../reducers/user'
 
 import { API_URL } from '../reusable/urls'
 
+const SignupWrapper = styled.div`
+  background: #07b066;
+  min-width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  position: fixed;
+`
+
 const Container = styled.div`
   height: 70vh; 
   margin: 20px auto; 
-  width: 80%; 
-  max-width: 100%; 
+  background: #000;
+  border-radius: 5px;
+  color: #fff;
+  max-width: 300px; 
+  display: flex;
+  flex-direction: column;
   box-shadow: 
     0 14px 28px rgba(0, 0, 0, .2), 
     0 10px 10px rgba(0, 0, 0, .2);
 
-  @media (min-width: 600px) {
-    max-width: 600px; 
-    display: flex; 
+  @media (min-width: 668px) {
+    min-width: 400px; 
     margin: 50px auto; 
   }
-
-  @media (min-width: 768px) {
-    max-width: 600px; 
-    display: flex; 
-    margin: 50px auto; 
-    width: 60%; 
-  }
-
-  @media (min-width: 1024px) {
-    width: 45%; 
-  }
 `
-const StyledLink = styled(Link)`
-  width: 100%;
-  font-size: 25px;  
-  outline: none; 
-  background: none; 
-  border: none; 
-  font-size: 20px; 
-  color: #D21F3C; 
-  text-decoration: none; 
-  padding-left: 10px; 
 
-  @media (min-width: 600px) {
-   font-size: 30px; 
-  }
-`
+
 const Form = styled.form`
   display: flex;
   flex-direction: column; 
@@ -55,39 +46,43 @@ const Form = styled.form`
   align-items: center;
   text-align: right;
   height: 100%;
-  padding: 0 50px;
   margin: 40px auto; 
+  min-width: 300px;
+
+  @media (min-width: 668px) {
+    padding: 18px 0;
+    margin: 10px 0;
+    min-width: 300px;
+
+  }
 `
+
+
 const TitleContainer = styled.div`
   display: flex; 
 `
 const TitleText = styled.h1`
-  font-size: 20px; 
+  font-size: 28px; 
   text-transform: uppercase;
   text-align: left; 
   margin-top: 0; 
 
-  @media (min-width: 600px) {
+  @media (min-width: 668px) {
     font-size: 35px;  
   }
 `
-const Separator = styled.span`
-  font-size: 20px; 
 
-  @media (min-width: 600px) {
-    font-size: 35px;  
-  }
-`
+
 const InputArea = styled.input`
   background: #eee;
   border: none;
-  padding: 10px 0;
-  margin: 8px 5px;
-  width: 100%;
+  border-radius: 5px;
+  min-width: 200px;
+  font-size: 18px;
+  padding: 16px;
 
   ::placeholder {
     color: #D21F3C;
-    padding: 12px; 
     opacity: 0.5; 
   }
 
@@ -96,30 +91,23 @@ const InputArea = styled.input`
     border: 2px solid #407294; 
   }
 
-  @media (min-width: 600px) {
-      padding: 18px 0;
-      margin: 10px 0;
-
-      ::placeholder {
-        font-size: 12px; 
-      }
+  @media (min-width: 668px) {
+    margin: 10px 0;
+    min-width: 300px;
+    font-size: 24px;
   }
-
-  @media (min-width: 768px) {
-    ::placeholder {
-      font-size: 14px; 
-    }
 }
 `
+
+
 const Button = styled.button`
   border-radius: 20px;
   border: 1px solid #eee;
-  width: 80%;
   color: #fff; 
-  background: #407294;
-  padding: 7px; 
+  background: #07b066;
+  padding: 12px 35px; 
   margin: 10px; 
-  font-size: 12px;
+  font-size: 16px;
   font-weight: bold;
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -130,11 +118,16 @@ const Button = styled.button`
     transform: scale(.95);
   } 
 
-  @media (min-width: 600px) {
+  @media (min-width: 668px) {
     font-size: 16px;
     width: 60%;
   }
-` 
+`
+
+const ErrorMessage = styled.p`
+  color: #fff;
+  z-index: 1200;
+`
 
 const SignUp = () => {
   const [username, setUsername] = useState('')
@@ -178,42 +171,43 @@ const SignUp = () => {
   }
 
   return (
-    <Container>
-    {!accessToken 
-      ?
-      <Form onSubmit={onFormSubmit}>
-        <TitleContainer>
-          <TitleText>Sign Up </TitleText>
-          <StyledLink to="/signin"> <Separator>|</Separator> Sign In</StyledLink>
-        </TitleContainer>
-      <InputArea
-        required
-        type="text"
-        placeholder="username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-      />
-      <InputArea
-        required
-        type="text"
-        placeholder="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <InputArea
-         required
-         type="password"
-         placeholder="password"
-         value={password}
-         onChange={(e) => setPassword(e.target.value)}
-      />
-      {errors? <p>{errors.message}</p> : ''}
-      <Button type='submit'>Sign up</Button>
-    </Form>
-    :
-    <div>You have an account now!<Link to="/signin">Sign in</Link></div>
-    }
-    </Container>
+    <SignupWrapper>
+      <Container>
+      {!accessToken 
+        ?
+        <Form onSubmit={onFormSubmit}>
+          <TitleContainer>
+            <TitleText>Sign Up </TitleText>
+          </TitleContainer>
+          <InputArea
+            required
+            type="text"
+            placeholder="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <InputArea
+            required
+            type="text"
+            placeholder="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <InputArea
+            required
+            type="password"
+            placeholder="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        {errors? <ErrorMessage>{errors.message}</ErrorMessage> : ''}
+        <Button type='submit'>Sign up</Button>
+      </Form>
+      :
+      <div>You have an account now!<Link to="/signin">Sign in</Link></div>
+      }
+      </Container>
+    </SignupWrapper>
   )
 }
 

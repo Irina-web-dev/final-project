@@ -7,19 +7,28 @@ import HeatMapCalendar from './HeatMapCalendar'
 
 import habit, { deleteHabit } from '../reducers/habit'
 
+import HabitCalendar from './HabitCalendar/HabitCalendar'
+
 
 const HabitContainer = styled.div`
   min-width: 600px;
-  height: 200px;
-  padding: 10px 30px;
+  height: 250px;
+  padding: 0 15px;
   border: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
   box-shadow:       
     0 14px 28px rgba(0, 0, 0, .2), 
     0 10px 10px rgba(0, 0, 0, .2);
   border-radius: 2px;
-  background-color: #d8c6e9;
+  background-color: #f4e664;
   cursor: pointer;
   margin-bottom: 30px;
+
+  h1, p {
+    margin: 0;
+  }
 `
 
 const DeleteButton = styled(MdDelete)`
@@ -46,9 +55,16 @@ const EditButton = styled(MdModeEdit)`
   }
 `
 
-const IconsWrapper = styled.div`
+const Header = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  padding-left: 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+`
+
+const Progressbar = styled.div`
+  display: flex;
+  justify-content: space-around;
 `
 
 const HabitCard = () => {
@@ -71,15 +87,21 @@ const HabitCard = () => {
     <HeatMapCalendar />
       {habitsItems.map(habit => (
         <HabitContainer key={habit._id}>
-          <IconsWrapper>
-            <EditButton onClick={() => onEditButtonClick(habit._id)}></EditButton>
-            <DeleteButton onClick={() => onDeleteButtonClick(habit._id)}></DeleteButton>
-          </IconsWrapper>
-          <h1>{habit.title}</h1>
-          <p>Total Days: {habit.duration.totalDays}</p>
-          <p>Collaborators: {habit.collaborators.map(user => (
-            <span key={user.user_id}>{user.user_id.username}</span>
-          ))}</p>
+          <Header>
+            <h1>{habit.title}</h1>
+            <div>
+              <EditButton onClick={() => onEditButtonClick(habit._id)}></EditButton>
+              <DeleteButton onClick={() => onDeleteButtonClick(habit._id)}></DeleteButton>
+            </div>
+          </Header>
+          <Progressbar>
+            <p>Progress Bar</p>
+            <p>Total Days: {habit.duration.totalDays}</p>
+            <p>Collaborators: {habit.collaborators.map(user => (
+              <span key={user.user_id}>{user.user_id.username}</span>
+            ))}</p>
+          </Progressbar>
+          <HabitCalendar />
         </HabitContainer>
       ))}
     </>
