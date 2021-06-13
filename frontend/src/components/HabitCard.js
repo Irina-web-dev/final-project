@@ -3,6 +3,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components/macro'
 import { MdDelete, MdModeEdit } from 'react-icons/md'
 
+import HeatMapCalendar from './HeatMapCalendar'
+
 import habit, { deleteHabit } from '../reducers/habit'
 
 
@@ -66,6 +68,7 @@ const HabitCard = () => {
   
   return (
     <>
+    <HeatMapCalendar />
       {habitsItems.map(habit => (
         <HabitContainer key={habit._id}>
           <IconsWrapper>
