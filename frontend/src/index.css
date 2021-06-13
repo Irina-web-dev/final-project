@@ -14,3 +14,40 @@ body {
   flex-direction: column;
   align-items: center;
 }
+
+.timeline {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  height: 100px;
+}
+
+.timeline-body {
+  display: flex;
+}
+
+.checkbox-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 20px;
+}
+
+.timeline-collaborators-collaborator {
+  font-size: 16px;
+  height: 20px;
+  margin: 2px;
+  width: 50px;
+  border: 1px solid transparent;
+  margin: 2px;
+  vertical-align: middle;
+}
+
+.timeline-months {
+  display: flex;
+  padding-left: 59px;
+}
+
+.timeline-months-month {
+  width: 20px;
+  font-size: 9px;
+  margin: 4px;
+}

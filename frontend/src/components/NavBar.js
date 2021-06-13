@@ -9,7 +9,7 @@ import LogOut from './LogOut'
 const Nav = styled.nav`
   background: #000;
   height: 80px;
-  min-width: 100%;
+  width: 100%;
   display: flex;
   justify-content: center;
   font-size: 1rem;
