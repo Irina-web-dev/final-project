@@ -8,7 +8,6 @@ const habit = createSlice({
     initialState: {
         habitsArray: [],
         errors: null,
-        numberOfDays: null,
         editMode: false,
         habitId: null
     },
@@ -18,9 +17,6 @@ const habit = createSlice({
       },
       setErrors: (store, action) => {
           store.errors = action.payload
-      },
-      setNumberOfDays: (store, action) => {
-          store.numberOfDays = action.payload
       },
       setEditMode: (store, action) => {
         store.editMode = action.payload
@@ -56,7 +52,7 @@ export const fetchHabits = (accessToken) => {
   }
 }
 
-export const addNewHabit = (accessToken, { title, totalDays: numberOfDays }) => {
+export const addNewHabit = (accessToken, { title, totalDays, startDate, endDate }) => {
   return (dispatch, getStore) => {
     const options = {
       method: 'POST',
@@ -64,7 +60,7 @@ export const addNewHabit = (accessToken, { title, totalDays: numberOfDays }) => 
         Authorization: accessToken,
         'Content-Type': 'application/json'
       }, 
-      body: JSON.stringify({ title, totalDays: numberOfDays })
+      body: JSON.stringify({ title, totalDays, startDate, endDate })
     }
     fetch(API_URL('habits'), options)
       .then(res => res.json())
@@ -100,7 +96,7 @@ export const deleteHabit = (id, accessToken) => {
   }
 }
 
-export const editHabit = (id, accessToken, { title, totalDays: numberOfDays }) => {
+export const editHabit = (id, accessToken, { title, totalDays, startDate, endDate }) => {
   return (dispatch, getStore) => {
     if (accessToken) {
       const options = {
@@ -109,7 +105,7 @@ export const editHabit = (id, accessToken, { title, totalDays: numberOfDays }) =
           Authorization: accessToken,
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ title, totalDays: numberOfDays }),
+        body: JSON.stringify({ title, totalDays, startDate, endDate }),
       }
     fetch(API_URL(`habits/${id}`), options)
       .then(res => res.json())

@@ -54,6 +54,12 @@ const habitSchema = new mongoose.Schema ({
     totalDays: {
       type: Number,
     },
+    startDate: {
+      type: Date,
+    },
+    endDate: {
+      type: Date,
+    },
     frequency: {
       type: Number,
       default: 0
@@ -164,13 +170,13 @@ app.post('/signin', async (req, res) => {
 ///createhabit or users/:d/createhabit
 app.post('/habits', authenticateUser)
 app.post('/habits', async (req, res) => {
-  const { title, totalDays } = req.body
+  const { title, totalDays, startDate, endDate } = req.body
   const { _id }= req.user
   
   try {
     const user = await User.findById(_id)
 
-    const newHabit = await new Habit({ title, duration: {totalDays}, collaborators: [{user_id: user}] }).save()
+    const newHabit = await new Habit({ title, duration: {totalDays, startDate, endDate}, collaborators: [{user_id: user}] }).save()
     res.json({
       success: true, 
       newHabit

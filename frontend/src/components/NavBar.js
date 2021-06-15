@@ -35,7 +35,7 @@ const NavLogo = styled(Link)`
   color: #fff;
   justify-self: flex-start;
   cusror: pointer;
-  font-size: 1.5rem;
+  font-size: 2rem;
   display: flex;
   align-items: center;
   margin-left: 24px;
@@ -142,6 +142,7 @@ const Links = styled.div`
   margin-right: 50px; 
   display: flex;
   align-items: center;
+  font-size: 18px;
 `
 
 const NavBar = ({ toggle }) => {

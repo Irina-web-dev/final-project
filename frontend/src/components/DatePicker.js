@@ -23,19 +23,15 @@ const StyledDatePickerWrapper = styled.div`
   }
 `
 
-const DatePicker = ({ startDate, endDate, setStartDate, setEndDate }) => {
+const DatePicker = ({ startDate, endDate, setStartDate, setEndDate, totalDays, setTotalDays}) => {
   const [focusedInput, setFocusedInput] = useState(null);
-
-  const dispatch = useDispatch()
 
   const handleDatesChange = ({ startDate, endDate }) => {
     setStartDate(startDate);
     setEndDate(endDate);
   }
 
-  const numberOfDays = useSelector(store => store.habit.numberOfDays)
-
-  const getNumberOfDays = (startDate, endDate) => {
+  const getTotalDays = (startDate, endDate) => {
     const date1 = new Date(startDate)
     const date2 = new Date(endDate)
 
@@ -48,7 +44,7 @@ const DatePicker = ({ startDate, endDate, setStartDate, setEndDate }) => {
     // Calculating the no. of days between two dates
     const diffInDays = Math.round(diffInTime / oneDay);
 
-    dispatch(habit.actions.setNumberOfDays(diffInDays))
+    setTotalDays(diffInDays)
   }
 
   return (
@@ -62,9 +58,8 @@ const DatePicker = ({ startDate, endDate, setStartDate, setEndDate }) => {
         focusedInput={focusedInput}
         onFocusChange={focusedInput => setFocusedInput(focusedInput)}
       />
-      {startDate && endDate ? getNumberOfDays(startDate, endDate) : ''}
-      {/* <button onClick={() => getNumberOfDays(startDate, endDate)}> Calculate number of days</button>  */}
-      <h1>Number of days: {numberOfDays}</h1>
+      {startDate && endDate ? getTotalDays(startDate, endDate) : ''}
+      <h1>Number of days: {totalDays}</h1>
     </StyledDatePickerWrapper>
   );
 }

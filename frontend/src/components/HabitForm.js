@@ -109,14 +109,14 @@ const ButtonContainer = styled.div`
 
 const HabitForm = () => {
   const [title, setTitle] = useState('')
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+  const [startDate, setStartDate] = useState(null)
+  const [endDate, setEndDate] = useState(null)
+  const [totalDays, setTotalDays] = useState(null)
   const [showModal, setShowModal] = useState(false)
 
   const dispatch = useDispatch()
   
   const accessToken = useSelector(store => store.user.accessToken)
-  const numberOfDays = useSelector(store => store.habit.numberOfDays)
   const editMode = useSelector(store => store.habit.editMode)
   const id = useSelector(store => store.habit.habitId)
 
@@ -125,18 +125,19 @@ const HabitForm = () => {
     setTitle('')
     setStartDate(null)
     setEndDate(null)
-    dispatch(habit.actions.setNumberOfDays(null))
+    setTotalDays(null)
   }
 
   const onAddNewHabit = (e) => {
     e.preventDefault()
-    dispatch(addNewHabit(accessToken, { title, totalDays: numberOfDays }))
+    dispatch(
+      addNewHabit(accessToken, { title, totalDays: totalDays, startDate: startDate, endDate: endDate }))
     resetForm()
   }
 
   const onEditHabit = (e) => {
     e.preventDefault()
-    dispatch(editHabit(id, accessToken, { title, totalDays: numberOfDays }))
+    dispatch(editHabit(id, accessToken, { title, totalDays: totalDays, startDate: startDate, endDate: endDate  }))
     dispatch(habit.actions.setEditMode(false))
     resetForm()
   }
@@ -179,6 +180,8 @@ const HabitForm = () => {
                 endDate={endDate}
                 setStartDate={setStartDate}
                 setEndDate={setEndDate}
+                totalDays={totalDays}
+                setTotalDays={setTotalDays}
               />
             </ModalWrapper>
           </Background>

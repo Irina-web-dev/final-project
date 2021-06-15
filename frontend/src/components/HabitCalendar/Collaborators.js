@@ -1,7 +1,7 @@
 import React from 'react'
 
-const Week = ({ index, DayNames }) => {
-  return <div className="timeline-collaborators-collaborator">{DayNames[index]}</div>;
+const Week = ({ index, users }) => {
+  return <div className="timeline-collaborators-collaborator">{users[index]}</div>;
 };
 
 export default Week
