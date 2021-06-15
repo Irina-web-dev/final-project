@@ -2,6 +2,7 @@ import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components/macro'
 import { MdDelete, MdModeEdit } from 'react-icons/md'
+import moment from 'moment'
 
 import habit, { deleteHabit } from '../reducers/habit'
 
@@ -65,7 +66,7 @@ const Progressbar = styled.div`
   justify-content: space-around;
 `
 
-const HabitCard = () => {
+const HabitList = () => {
   const habitsItems = useSelector(store => store.habit.habitsArray)
   const accessToken = useSelector(store => store.user.accessToken)
 
@@ -94,6 +95,8 @@ const HabitCard = () => {
           <Progressbar>
             <p>Progress Bar</p>
             <p>Total Days: {habit.duration.totalDays}</p>
+            <p>StartDate: {moment(habit.duration.startDate).format('DD/MM')}</p>
+            <p>endDate: {moment(habit.duration.endDate).format('DD/MM')}</p>
             <p>Collaborators: {habit.collaborators.map(user => (
               <span key={user.user_id}>{user.user_id.username}</span>
             ))}</p>
@@ -109,4 +112,4 @@ const HabitCard = () => {
   )
 }
 
-export default HabitCard 
+export default HabitList 

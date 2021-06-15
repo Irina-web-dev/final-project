@@ -60,7 +60,7 @@ export const addNewHabit = (accessToken, { title, totalDays, startDate, endDate 
         Authorization: accessToken,
         'Content-Type': 'application/json'
       }, 
-      body: JSON.stringify({ title, totalDays, startDate, endDate })
+      body: JSON.stringify( { title, totalDays, startDate, endDate })
     }
     fetch(API_URL('habits'), options)
       .then(res => res.json())

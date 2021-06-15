@@ -266,9 +266,24 @@ app.delete('/habits/:id', async (req, res) => {
 app.patch('/habits/:id', authenticateUser)
 app.patch('/habits/:id', async (req, res) => {
   const { id } = req.params
+  const { title, totalDays, startDate, endDate  } = req.body
   
   try {
-    const updatedHabit = await Habit.findByIdAndUpdate(id, req.body, {new: true})
+    const updatedHabit = await Habit.findByIdAndUpdate(
+      id,
+      { 
+        title,
+        duration: { 
+          totalDays, 
+          startDate, 
+          endDate  
+        }
+      }, 
+      {
+        new: true
+      }
+    )
+    console.log(req.body)
     if(updatedHabit) {
       res.json({
         success: true,

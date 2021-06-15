@@ -120,7 +120,7 @@ const HabitForm = () => {
   const editMode = useSelector(store => store.habit.editMode)
   const id = useSelector(store => store.habit.habitId)
 
-  // Resetting the form to default states when user adds a habit
+  // Resetting the form to default states when user adds/edits a habit
   const resetForm = () => {
     setTitle('')
     setStartDate(null)

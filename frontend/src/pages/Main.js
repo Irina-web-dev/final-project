@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom'
 import styled from 'styled-components/macro'
 
 import HabitForm from '../components/HabitForm'
-import HabitCard from '../components/HabitCard'
+import HabitList from '../components/HabitList'
 
 const MainPageWrapper = styled.div`
   display: flex;
@@ -26,7 +26,7 @@ const Main = () => {
   return (
     <MainPageWrapper>
       <HabitForm />
-      <HabitCard />
+      <HabitList />
     </MainPageWrapper>
   )
 }
