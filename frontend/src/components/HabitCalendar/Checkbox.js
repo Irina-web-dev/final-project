@@ -1,5 +1,15 @@
+<<<<<<< HEAD
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
+=======
+import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import styled from 'styled-components/macro'
+
+import { API_URL } from 'reusable/urls'
+
+import habit, { fetchHabits } from 'reducers/habit'
+>>>>>>> 74bd7c3ff0cef9353dedf4a1b79d29b1b13cf47a
 
 const CheckboxWrapper = styled.div`
   position: absolute;
@@ -49,6 +59,7 @@ const Checkmark = styled.input.attrs({type:'checkbox'}) `
   }
 `
 
+<<<<<<< HEAD
 const Checkbox = () => {
   const [checkedValue, setCheckedValue] = useState(0)
 
@@ -76,12 +87,54 @@ const Checkbox = () => {
   return (
     <CheckboxWrapper>
       <CheckBtn htmlFor='checkbox'></CheckBtn>
+=======
+const Checkbox = ({ habitId, index }) => {
+  const accessToken = useSelector(store => store.user.accessToken)
+  // const [isChecked, setIsChecked] = useState(false)
+  // const [mode, setMode] = useState('')
+
+  const dispatch = useDispatch()
+
+    //When checkbox is checked update the number of progress (and vice versa) on the server by using fetch post request and update also the store of all habits
+  const onProgressChange = (habitId, index) => {
+    if (accessToken) {
+      const options = {
+        method: 'PATCH',
+        headers: {
+          Authorization: accessToken,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ habitId, index }),
+      }
+    fetch(API_URL(`habits/${habitId}/progress`), options)
+    // fetch(API_URL(`habits/${habitId}/progress/${mode}`), options)   
+      .then(res => res.json())
+      .then(data => {
+        console.log(data)
+        if(data.success) {
+          dispatch(fetchHabits(accessToken))
+        } else {
+          dispatch(habit.actions.setErrors(data)) 
+        }
+      })
+    }
+  }
+
+  return (
+    <CheckboxWrapper>
+      <CheckBtn HtmlFor='checkbox'></CheckBtn>
+>>>>>>> 74bd7c3ff0cef9353dedf4a1b79d29b1b13cf47a
       <Checkmark
         type="checkbox"
         value={checkedValue}
         id='checkbox'
+<<<<<<< HEAD
         // checked={checkedValue}
         onChange={() => setCheckedValue(checkedValue => checkedValue =+ 1)}
+=======
+        // checked={}
+        onChange={() => onProgressChange(habitId, index)}
+>>>>>>> 74bd7c3ff0cef9353dedf4a1b79d29b1b13cf47a
       />
     </CheckboxWrapper>
   )

@@ -15,7 +15,8 @@ mongoose.Promise = Promise
 const userSchema = new mongoose.Schema ({
   username: {
     type: String,
-    required: true
+    required: true,
+    unique: true   
   },
   password: {
     type: String,
@@ -53,6 +54,12 @@ const habitSchema = new mongoose.Schema ({
   duration: {
     totalDays: {
       type: Number,
+    },
+    startDate: {
+      type: Date,
+    },
+    endDate: {
+      type: Date,
     },
     frequency: {
       type: Number,
@@ -157,7 +164,6 @@ app.post('/signup', async (req, res) => {
     })
   } catch (error) {
     res.status(400).json({ success: false, message: 'Invalid request', error })
-    console.log(error)
   }
 })
 
@@ -187,17 +193,16 @@ app.post('/signin', async (req, res) => {
   }
 })
 
-// POST endpoint adding a habit to the users habits array
-///createhabit or users/:d/createhabit
+// POST endpoint adding a new habit
 app.post('/habits', authenticateUser)
 app.post('/habits', async (req, res) => {
-  const { title, totalDays } = req.body
+  const { title, totalDays, startDate, endDate } = req.body
   const { _id }= req.user
   
   try {
     const user = await User.findById(_id)
 
-    const newHabit = await new Habit({ title, duration: {totalDays}, collaborators: [{user_id: user}] }).save()
+    const newHabit = await new Habit({ title, duration: {totalDays, startDate, endDate}, collaborators: [{user_id: user}] }).save()
     res.json({
       success: true, 
       newHabit
@@ -226,40 +231,40 @@ app.get('/habits', async (req, res) => {
   })
 })
 
-//GET endpoint to get all habits of a single user
-app.get('/habits', authenticateUser)
-app.get('/habits', async (req, res) => {
-  const { _id } = req.user
+//GET endpoint to get all users
+app.get('/users', authenticateUser)
+app.get('/users', async (req, res) => {
+  let usersArray = []
 
-  const userHabits = await Habit.find({'collaborators.user_id': _id}).populate({ 
-    path: 'collaborators',
-      populate: { 
-        path: 'user_id',
-        select: 'username'
-      }
-  })
-  res.json({ 
-    success: true,
-    userHabits
-  })
+  try {
+    const users = await User.find()
+    for (const user of users) {
+      usersArray.push({ value: user.username.toLowerCase(), label: user.username }) 
+    }
+    res.status(201).json({ success: true, usersArray })
+  } catch (error) {
+    res.status(400).json({ success: false, message: 'Could not get users', error })
+  }
 })
 
-//GET endpoint to get all habits of a single user
-app.get('/habits', authenticateUser)
-app.get('/habits', async (req, res) => {
-  const { _id } = req.user
-
-  const userHabits = await Habit.find({'collaborators.user_id': _id}).populate({ 
-    path: 'collaborators',
-      populate: { 
-        path: 'user_id',
-        select: 'username'
-      }
-  })
-  res.json({ 
-    success: true,
-    userHabits
-  })
+//GET endpoint to get user by username
+app.get('/users/:username', authenticateUser)
+app.get('/users/:username', async (req, res) => {
+  const { username } = req.params
+  
+  try {
+    const user = await User.findOne({ username: username })
+    if(user) {
+      res.json({
+        success: true,
+        user
+      })
+    } else {
+      res.status(404).json({ message: 'User not found' })
+    }
+  } catch (error) {
+    res.status(400).json({ message: 'Invalid request', error })
+  } 
 })
 
 //DELETE endpoint to delete a habit
@@ -287,9 +292,56 @@ app.delete('/habits/:id', async (req, res) => {
 app.patch('/habits/:id', authenticateUser)
 app.patch('/habits/:id', async (req, res) => {
   const { id } = req.params
+  const { title, totalDays, startDate, endDate  } = req.body
   
   try {
-    const updatedHabit = await Habit.findByIdAndUpdate(id, req.body, {new: true})
+    const updatedHabit = await Habit.findByIdAndUpdate(
+      id,
+      { 
+        title,
+        duration: { 
+          totalDays, 
+          startDate, 
+          endDate  
+        }
+      }, 
+      {
+        new: true
+      }
+    )
+    if(updatedHabit) {
+      res.json({
+        success: true,
+        updatedHabit,
+        message: 'Habit updated'
+      })
+    } else {
+      res.status(404).json({ message: 'Not found' })
+    }
+  } catch (error) {
+    res.status(400).json({ message: 'Invalid request', error })
+  } 
+})
+
+//PATCH endpoint to update individual progress
+app.patch('/habits/:id/progress', authenticateUser)
+app.patch('/habits/:id/progress', async (req, res) => {
+  const { id } = req.params //Habit id
+  const { _id } = req.user
+  const { mode } = req.query
+  
+  try {
+    const updatedHabit = await Habit.findOneAndUpdate(
+      { _id: id, "collaborators.user_id": _id },
+      { 
+        $inc: { //$inc is a special mongoose query selector used to update a number value
+          "collaborators.$.progress": Number(mode)
+        } 
+      },
+      {
+        new: true
+      }
+    )
     if(updatedHabit) {
       res.json({
         success: true,

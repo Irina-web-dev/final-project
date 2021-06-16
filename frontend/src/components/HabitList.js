@@ -1,15 +1,22 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components/macro'
 import { MdDelete, MdModeEdit } from 'react-icons/md'
+import moment from 'moment'
 
+<<<<<<< HEAD:frontend/src/components/HabitCard.js
 import habit, { deleteHabit } from '../reducers/habit'
 
 import HabitCalendar from './HabitCalendar/HabitCalendar'
+=======
+import habit, { deleteHabit, fetchHabits } from '../reducers/habit'
+
+import Timeline from './HabitCalendar/Timeline'
+>>>>>>> 74bd7c3ff0cef9353dedf4a1b79d29b1b13cf47a:frontend/src/components/HabitList.js
 
 
 const HabitContainer = styled.div`
-  min-width: 600px;
+  width: 800px;
   height: 250px;
   padding: 0 15px;
   border: none;
@@ -65,10 +72,10 @@ const Progressbar = styled.div`
   justify-content: space-around;
 `
 
-const HabitCard = () => {
+const HabitList = () => {
   const habitsItems = useSelector(store => store.habit.habitsArray)
   const accessToken = useSelector(store => store.user.accessToken)
-
+  
   const dispatch = useDispatch()
 
   const onDeleteButtonClick = (id) => {
@@ -79,7 +86,13 @@ const HabitCard = () => {
     dispatch(habit.actions.setEditMode(true))
     dispatch(habit.actions.setHabitId(id))
   }
-  
+
+  useEffect(() => {
+    dispatch(fetchHabits(accessToken))
+    // eslint-disable-next-line
+  }, [accessToken])
+
+
   return (
     <>
       {habitsItems.map(habit => (
@@ -94,15 +107,23 @@ const HabitCard = () => {
           <Progressbar>
             <p>Progress Bar</p>
             <p>Total Days: {habit.duration.totalDays}</p>
+            <p>StartDate: {moment(habit.duration.startDate).format('DD/MM')}</p>
+            <p>endDate: {moment(habit.duration.endDate).format('DD/MM')}</p>
             <p>Collaborators: {habit.collaborators.map(user => (
               <span key={user.user_id}>{user.user_id.username}</span>
             ))}</p>
           </Progressbar>
-          <HabitCalendar />
+          <Timeline
+            startDate={habit.duration.startDate}
+            endDate={habit.duration.endDate}
+            totalDays={habit.duration.totalDays}
+            collaborators={habit.collaborators}
+            habitId={habit._id}
+          />
         </HabitContainer>
       ))}
     </>
   )
 }
 
-export default HabitCard 
+export default HabitList 

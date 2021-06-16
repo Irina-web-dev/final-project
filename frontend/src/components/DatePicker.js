@@ -1,19 +1,19 @@
 import React, { useState } from "react"
-import { useDispatch, useSelector } from 'react-redux'
 import 'react-dates/initialize'
 import { DateRangePicker } from 'react-dates'
 import "react-dates/lib/css/_datepicker.css"
 import styled from 'styled-components/macro'
 
-import habit from '../reducers/habit'
-
 const StyledDatePickerWrapper = styled.div`
+  display: flex;
+  margin-top: 20px;
+  align-items: center;
   & .DateRangePicker,
   .DateRangePickerInput {
     display: flex;
     flex-direction: row;
-    margin-top: 20px;
     border: none;
+    width: 400px;
   }
   .DateInput_input {
     border: 1px solid #c9c4c1;
@@ -23,19 +23,20 @@ const StyledDatePickerWrapper = styled.div`
   }
 `
 
-const DatePicker = ({ startDate, endDate, setStartDate, setEndDate }) => {
-  const [focusedInput, setFocusedInput] = useState(null);
+const TotalDays = styled.p`
+  font-size: 16px;
+  margin: 0;
+`
 
-  const dispatch = useDispatch()
+const DatePicker = ({ startDate, endDate, setStartDate, setEndDate, totalDays, setTotalDays}) => {
+  const [focusedInput, setFocusedInput] = useState(null);
 
   const handleDatesChange = ({ startDate, endDate }) => {
     setStartDate(startDate);
     setEndDate(endDate);
   }
 
-  const numberOfDays = useSelector(store => store.habit.numberOfDays)
-
-  const getNumberOfDays = (startDate, endDate) => {
+  const getTotalDays = (startDate, endDate) => {
     const date1 = new Date(startDate)
     const date2 = new Date(endDate)
 
@@ -48,11 +49,12 @@ const DatePicker = ({ startDate, endDate, setStartDate, setEndDate }) => {
     // Calculating the no. of days between two dates
     const diffInDays = Math.round(diffInTime / oneDay);
 
-    dispatch(habit.actions.setNumberOfDays(diffInDays))
+    setTotalDays(diffInDays)
   }
 
   return (
     <StyledDatePickerWrapper>
+      <h3>Choose a time period: </h3>
       <DateRangePicker
         startDate={startDate}
         startDateId='tata-start-date'
@@ -62,9 +64,8 @@ const DatePicker = ({ startDate, endDate, setStartDate, setEndDate }) => {
         focusedInput={focusedInput}
         onFocusChange={focusedInput => setFocusedInput(focusedInput)}
       />
-      {startDate && endDate ? getNumberOfDays(startDate, endDate) : ''}
-      {/* <button onClick={() => getNumberOfDays(startDate, endDate)}> Calculate number of days</button>  */}
-      <h1>Number of days: {numberOfDays}</h1>
+      {startDate && endDate ? getTotalDays(startDate, endDate) : ''}
+      <TotalDays>Total days: {totalDays}</TotalDays>
     </StyledDatePickerWrapper>
   );
 }

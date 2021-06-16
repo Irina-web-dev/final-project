@@ -97,10 +97,10 @@ const SidebarTop = ({ isOpen, toggle }) => {
         <SidebarWrapper>
           <SidebarMenu>
             <SidebarLink to='#'>
-              About Us
+              Home
             </SidebarLink>
             <SidebarLink to='#'>
-              About Habits
+              About sticKtOiT
             </SidebarLink>
           </SidebarMenu>
           <SideBtnWrap>
