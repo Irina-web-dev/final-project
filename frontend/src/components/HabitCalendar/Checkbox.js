@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 
 const CheckboxWrapper = styled.div`
@@ -50,14 +50,38 @@ const Checkmark = styled.input.attrs({type:'checkbox'}) `
 `
 
 const Checkbox = () => {
+  const [checkedValue, setCheckedValue] = useState(0)
+
+  // const onHandleChange = (event) => {
+
+  //   setCheckedValue({
+  //     ...checkedValue,
+  //     [event.target]: event.target.checked
+  //   })
+    // const target = event.target
+    // const value = target.value 
+
+    // if(target.checked) {
+    //   [value] = value 
+    // } else {
+    //   checkedValue.splice(value, 1)
+    // }
+    // console.log(value)
+  // }
+
+  useEffect(() => {
+    console.log('Here is the value:',checkedValue);
+    }, [checkedValue])
+
   return (
     <CheckboxWrapper>
-      <CheckBtn for='checkbox'></CheckBtn>
+      <CheckBtn htmlFor='checkbox'></CheckBtn>
       <Checkmark
         type="checkbox"
+        value={checkedValue}
         id='checkbox'
-        // checked={}
-        // onChange={}
+        // checked={checkedValue}
+        onChange={() => setCheckedValue(checkedValue => checkedValue =+ 1)}
       />
     </CheckboxWrapper>
   )

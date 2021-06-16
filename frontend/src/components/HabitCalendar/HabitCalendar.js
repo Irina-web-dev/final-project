@@ -15,6 +15,6 @@ const HabitCalendar = () => {
   const dateRange = [moment(), moment().add(20, "days")]
 
   return <Timeline Users={Users} dateRange={dateRange} />
-};
+}
 
 export default HabitCalendar

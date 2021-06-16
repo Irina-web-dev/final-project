@@ -58,6 +58,10 @@ const habitSchema = new mongoose.Schema ({
       type: Number,
       default: 0
     }
+  }, 
+  createdAt: {
+    type: Date, 
+    default: Date.now
   }
 })
 const Habit = mongoose.model('Habit', habitSchema)
@@ -111,6 +115,28 @@ const documentation = {
 // Start defining your routes here
 app.get('/', (req, res) => {
   res.send(documentation)
+})
+
+//change password
+app.patch('/user/password', authenticateUser)
+app.patch('/user/password', async (req, res) => {
+  const { _id } = req.user
+  const { newPassword } = req.body
+  try {
+    const salt  = bcrypt.genSaltSync()
+
+    if(req.user && bcrypt.compareSync(oldPassword, req.user.password)) {
+      const updatedUser = await User.findByIdAndUpdate(_id, {
+        password: bcrypt.hashSync(newPassword, salt)
+      }, { new: true })
+      res.json({ success: true })
+    } else {
+      res.status(401).json({ success: false, error})
+    }
+  } catch {
+    res.status(400).json({ success: false, error })
+  }
+
 })
 
 app.post('/signup', async (req, res) => {
