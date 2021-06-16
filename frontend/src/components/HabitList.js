@@ -1,16 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components/macro'
 import { MdDelete, MdModeEdit } from 'react-icons/md'
 import moment from 'moment'
 
-import habit, { deleteHabit } from '../reducers/habit'
+import habit, { deleteHabit, fetchHabits } from '../reducers/habit'
 
-import HabitCalendar from './HabitCalendar/HabitCalendar'
+import Timeline from './HabitCalendar/Timeline'
 
 
 const HabitContainer = styled.div`
-  min-width: 600px;
+  width: 800px;
   height: 250px;
   padding: 0 15px;
   border: none;
@@ -69,7 +69,7 @@ const Progressbar = styled.div`
 const HabitList = () => {
   const habitsItems = useSelector(store => store.habit.habitsArray)
   const accessToken = useSelector(store => store.user.accessToken)
-
+  
   const dispatch = useDispatch()
 
   const onDeleteButtonClick = (id) => {
@@ -80,7 +80,13 @@ const HabitList = () => {
     dispatch(habit.actions.setEditMode(true))
     dispatch(habit.actions.setHabitId(id))
   }
-  
+
+  useEffect(() => {
+    dispatch(fetchHabits(accessToken))
+    // eslint-disable-next-line
+  }, [accessToken])
+
+
   return (
     <>
       {habitsItems.map(habit => (
@@ -101,10 +107,12 @@ const HabitList = () => {
               <span key={user.user_id}>{user.user_id.username}</span>
             ))}</p>
           </Progressbar>
-          <HabitCalendar
+          <Timeline
             startDate={habit.duration.startDate}
             endDate={habit.duration.endDate}
             totalDays={habit.duration.totalDays}
+            collaborators={habit.collaborators}
+            habitId={habit._id}
           />
         </HabitContainer>
       ))}

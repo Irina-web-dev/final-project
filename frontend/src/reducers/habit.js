@@ -9,14 +9,18 @@ const habit = createSlice({
         habitsArray: [],
         errors: null,
         editMode: false,
+        addMode: false,
         habitId: null
     },
     reducers: {
       setHabitsArray: (store, action) => {
-          store.habitsArray = action.payload
+        store.habitsArray = action.payload
       },
       setErrors: (store, action) => {
           store.errors = action.payload
+      },
+      setAddMode: (store, action) => {
+        store.addMode = action.payload
       },
       setEditMode: (store, action) => {
         store.editMode = action.payload
@@ -90,6 +94,8 @@ export const deleteHabit = (id, accessToken) => {
       .then(data => {
         if(data.success) {
           dispatch(fetchHabits(accessToken))
+        } else {
+          dispatch(habit.actions.setErrors(data)) 
         }
       })
     }
@@ -112,6 +118,8 @@ export const editHabit = (id, accessToken, { title, totalDays, startDate, endDat
       .then(data => {
         if(data.success) {
           dispatch(fetchHabits(accessToken))
+        } else {
+          dispatch(habit.actions.setErrors(data)) 
         }
       })
     }

@@ -1,14 +1,13 @@
 import React from 'react'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components/macro'
 import { MdClose } from 'react-icons/md'
 
-
-import habit, { addNewHabit, fetchHabits, editHabit } from '../reducers/habit'
+import habit, { addNewHabit, editHabit } from '../reducers/habit'
 
 import DatePicker from './DatePicker'
-
+import SearchBar from './SearchBar'
 
 const Background = styled.div`
   width: 100%;
@@ -28,6 +27,8 @@ const ModalWrapper = styled.div`
   background-color: #fff;
   color: #000;
   display: flex;
+  justify-content: center;
+  align-items: center;
   align-self: center;
   flex-direction: column;
   position: relative;
@@ -38,8 +39,9 @@ const ModalWrapper = styled.div`
 `
 
 const TextInput = styled.input`
-  width: 200px;
+  width: 400px;
   height: 30px;
+  border: 1px solid #c9c4c1;
 `
 
 const SubmitButton = styled.button`
@@ -79,50 +81,41 @@ const CloseButton = styled(MdClose)`
   }
 `
 
-const AddButton = styled.button`
-  height: 50px;
-  width: 50px;
-  background: #3caea3;
-  border-radius: 50%;
-  color: #fff;
-  font-size: 24px;
-  box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.4);
-  transition: all .2s ease-out;
-  cursor: pointer;
-  border: none;
-
-  &:hover {
-    background-color: #85dad1;
-  }
-`
-
 const ModalForm = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  max-width: 100%;
+  margin: 20px 40px;
 `
 
-const ButtonContainer = styled.div`
-  min-width: 600px;
-  padding: 20px 0;
+const InputLabel = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  font-weight: bold;
+  font-size: 20px;
 `
 
 const HabitForm = () => {
-  const [title, setTitle] = useState('')
+  const editMode = useSelector(store => store.habit.editMode)
+
+  const [title, setTitle] = useState(editMode ? 'Hello' : '')
   const [startDate, setStartDate] = useState(null)
   const [endDate, setEndDate] = useState(null)
   const [totalDays, setTotalDays] = useState(null)
-  const [showModal, setShowModal] = useState(false)
 
   const dispatch = useDispatch()
   
   const accessToken = useSelector(store => store.user.accessToken)
-  const editMode = useSelector(store => store.habit.editMode)
   const id = useSelector(store => store.habit.habitId)
 
   // Resetting the form to default states when user adds/edits a habit
   const resetForm = () => {
-    setTitle('')
+    setTitle(editMode ? 'Hello' : '')
     setStartDate(null)
     setEndDate(null)
     setTotalDays(null)
@@ -142,54 +135,41 @@ const HabitForm = () => {
     resetForm()
   }
 
-  useEffect(() => {
-    dispatch(fetchHabits(accessToken))
-    // eslint-disable-next-line
-  }, [accessToken])
-
-
-  const openModal = () => {
-    if(editMode === true) {
-      dispatch(habit.actions.setEditMode(false))
-    } else {
-      setShowModal(prev => !prev)
-    }
+  const onCloseButton = () => {
+    dispatch(habit.actions.setAddMode(false))
+    dispatch(habit.actions.setEditMode(false))
   }
-  
+
   return (
     <>
-      {showModal || editMode
-        ? 
-          <Background>
-            <ModalWrapper>
-              <CloseButton onClick={openModal}></CloseButton>
-              <ModalForm onSubmit={editMode ? onEditHabit : onAddNewHabit}>
-                <label htmlFor='habit-title'>Habit:</label>
-                <TextInput
-                  type='text'
-                  id='habit-title'
-                  required
-                  value={title}
-                  placeholder='Enter your habit'
-                  onChange={(e) => setTitle(e.target.value)}
-                />
-                <SubmitButton type="submit">{editMode? 'Update Task' : 'Add Habit'}</SubmitButton>
-              </ModalForm>
-              <DatePicker
-                startDate={startDate}
-                endDate={endDate}
-                setStartDate={setStartDate}
-                setEndDate={setEndDate}
-                totalDays={totalDays}
-                setTotalDays={setTotalDays}
+      <Background>
+        <ModalWrapper>
+          <CloseButton onClick={onCloseButton}></CloseButton>
+          <ModalForm onSubmit={editMode ? onEditHabit : onAddNewHabit}>
+            <InputLabel htmlFor='habit-title'>
+              Habit description: 
+              <TextInput
+                type='text'
+                id='habit-title'
+                required
+                value={title}
+                placeholder='Enter your habit'
+                onChange={(e) => setTitle(e.target.value)}
               />
-            </ModalWrapper>
-          </Background>
-        :
-          <ButtonContainer>
-            <AddButton onClick={openModal}>+</AddButton>
-          </ButtonContainer>
-      }
+            </InputLabel>
+            <DatePicker
+              startDate={startDate}
+              endDate={endDate}
+              setStartDate={setStartDate}
+              setEndDate={setEndDate}
+              totalDays={totalDays}
+              setTotalDays={setTotalDays}
+            />
+            <SearchBar />
+            <SubmitButton type="submit">{editMode ? 'Update Habit' : 'Add Habit'}</SubmitButton>
+          </ModalForm>
+        </ModalWrapper>
+      </Background>
     </>
   )
 }

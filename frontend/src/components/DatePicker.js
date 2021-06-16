@@ -1,19 +1,19 @@
 import React, { useState } from "react"
-import { useDispatch, useSelector } from 'react-redux'
 import 'react-dates/initialize'
 import { DateRangePicker } from 'react-dates'
 import "react-dates/lib/css/_datepicker.css"
 import styled from 'styled-components/macro'
 
-import habit from '../reducers/habit'
-
 const StyledDatePickerWrapper = styled.div`
+  display: flex;
+  margin-top: 20px;
+  align-items: center;
   & .DateRangePicker,
   .DateRangePickerInput {
     display: flex;
     flex-direction: row;
-    margin-top: 20px;
     border: none;
+    width: 400px;
   }
   .DateInput_input {
     border: 1px solid #c9c4c1;
@@ -21,6 +21,11 @@ const StyledDatePickerWrapper = styled.div`
   .DateRangePickerInput_arrow_svg {
     width: 100px;
   }
+`
+
+const TotalDays = styled.p`
+  font-size: 16px;
+  margin: 0;
 `
 
 const DatePicker = ({ startDate, endDate, setStartDate, setEndDate, totalDays, setTotalDays}) => {
@@ -49,6 +54,7 @@ const DatePicker = ({ startDate, endDate, setStartDate, setEndDate, totalDays, s
 
   return (
     <StyledDatePickerWrapper>
+      <h3>Choose a time period: </h3>
       <DateRangePicker
         startDate={startDate}
         startDateId='tata-start-date'
@@ -59,7 +65,7 @@ const DatePicker = ({ startDate, endDate, setStartDate, setEndDate, totalDays, s
         onFocusChange={focusedInput => setFocusedInput(focusedInput)}
       />
       {startDate && endDate ? getTotalDays(startDate, endDate) : ''}
-      <h1>Number of days: {totalDays}</h1>
+      <TotalDays>Total days: {totalDays}</TotalDays>
     </StyledDatePickerWrapper>
   );
 }

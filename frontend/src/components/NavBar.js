@@ -168,7 +168,7 @@ const NavBar = ({ toggle }) => {
                       <NavLinks to='/'>Home</NavLinks>
                     </NavItem>
                     <NavItem>
-                      <NavLinks to='#'>About sticKtOT</NavLinks>
+                      <NavLinks to='#'>About sticKtOiT</NavLinks>
                     </NavItem>
                     <NavItem>
                       <NavLinks to='/signup'>Sign Up</NavLinks>
