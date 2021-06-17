@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-import React, { useState } from 'react'
-=======
 
 import React, { useState, useEffect } from 'react'
->>>>>>> 912d7b3211b407765e0917377eff17720b5d20a3
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components/macro'
 
@@ -59,12 +55,8 @@ const Checkmark = styled.input.attrs({type:'checkbox'}) `
   }
 `
 
-<<<<<<< HEAD
-const Checkbox = ({ habitId, index }) => {
-=======
 
 const Checkbox = ({ id }) => {
->>>>>>> 912d7b3211b407765e0917377eff17720b5d20a3
   const accessToken = useSelector(store => store.user.accessToken)
   const [isChecked, setIsChecked] = useState(false)
   const [mode, setMode] = useState(null)
@@ -109,13 +101,8 @@ const Checkbox = ({ id }) => {
         type="checkbox"
         value={1}
         id='checkbox'
-<<<<<<< HEAD
-        // checked={}
-        onChange={() => onProgressChange(habitId, index)}
-=======
         checked={isChecked}
         onChange={(e) => onChange(e, id)}
->>>>>>> 912d7b3211b407765e0917377eff17720b5d20a3
       />
     </CheckboxWrapper>
   )
