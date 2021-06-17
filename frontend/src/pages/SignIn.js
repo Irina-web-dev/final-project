@@ -108,8 +108,7 @@ const ForgotPassword = styled.a`
   }
 `
 const Button = styled.button`
-  border-radius: 20px;
-  border: 1px solid #eee;
+  border-radius: 50px;
   color: #fff; 
   background: #07b066;
   padding: 12px 35px; 

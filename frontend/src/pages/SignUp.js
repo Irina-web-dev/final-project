@@ -101,8 +101,7 @@ const InputArea = styled.input`
 
 
 const Button = styled.button`
-  border-radius: 20px;
-  border: 1px solid #eee;
+  border-radius: 50px;
   color: #fff; 
   background: #07b066;
   padding: 12px 35px; 
@@ -127,6 +126,40 @@ const Button = styled.button`
 const ErrorMessage = styled.p`
   color: #fff;
   z-index: 1200;
+`
+
+const SignUpText = styled.div`
+  font-size: 20px;
+  text-align: center;
+  margin-bottom: 25px;
+`
+
+const SignInLink = styled(Link)`
+  text-decoration: none;
+  color: #fff;
+  margin-top: 15px;
+  max-width: 200px;
+  text-align: center;
+
+  &:active {
+    border-bottom: 3px solid #f4e664;
+  }
+
+  @media (min-width: 668px) {
+    font-size: 16px;
+    max-width: 300px;
+  }
+
+  }
+`
+
+const SignedUpContainer = styled.div`
+  display: flex;
+  flex-direction: column; 
+  justify-content: center; 
+  align-items: center; 
+  margin: auto; 
+  padding: 20px;
 `
 
 const SignUp = () => {
@@ -204,7 +237,10 @@ const SignUp = () => {
         <Button type='submit'>Sign up</Button>
       </Form>
       :
-      <div>You have an account now!<Link to="/signin">Sign in</Link></div>
+      <SignedUpContainer>
+        <SignUpText>Your account is set up, login to get started with your new habits!</SignUpText>
+        <Button><SignInLink to="/signin">Sign in</SignInLink></Button> 
+      </SignedUpContainer>
       }
       </Container>
     </SignupWrapper>

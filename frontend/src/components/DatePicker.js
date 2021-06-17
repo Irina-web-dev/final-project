@@ -32,8 +32,8 @@ const DatePicker = ({ startDate, endDate, setStartDate, setEndDate, totalDays, s
   const [focusedInput, setFocusedInput] = useState(null);
 
   const handleDatesChange = ({ startDate, endDate }) => {
-    setStartDate(startDate);
-    setEndDate(endDate);
+    setStartDate(startDate)
+    setEndDate(endDate)
   }
 
   const getTotalDays = (startDate, endDate) => {
@@ -41,13 +41,13 @@ const DatePicker = ({ startDate, endDate, setStartDate, setEndDate, totalDays, s
     const date2 = new Date(endDate)
 
     // One day in milliseconds
-    const oneDay = 1000 * 60 * 60 * 24;
+    const oneDay = 1000 * 60 * 60 * 24
 
     // Calculating the time difference between two dates
-    const diffInTime = date2.getTime() - date1.getTime();
+    const diffInTime = date2.getTime() - date1.getTime()
 
     // Calculating the no. of days between two dates
-    const diffInDays = Math.round(diffInTime / oneDay);
+    const diffInDays = Math.round(diffInTime / oneDay)
 
     setTotalDays(diffInDays)
   }
@@ -67,7 +67,7 @@ const DatePicker = ({ startDate, endDate, setStartDate, setEndDate, totalDays, s
       {startDate && endDate ? getTotalDays(startDate, endDate) : ''}
       <TotalDays>Total days: {totalDays}</TotalDays>
     </StyledDatePickerWrapper>
-  );
+  )
 }
 
-export default DatePicker;
+export default DatePicker

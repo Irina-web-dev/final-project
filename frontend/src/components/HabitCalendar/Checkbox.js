@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-import React, { useState, useEffect } from 'react'
-import styled from 'styled-components'
-=======
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components/macro'
@@ -9,7 +5,6 @@ import styled from 'styled-components/macro'
 import { API_URL } from 'reusable/urls'
 
 import habit, { fetchHabits } from 'reducers/habit'
->>>>>>> 74bd7c3ff0cef9353dedf4a1b79d29b1b13cf47a
 
 const CheckboxWrapper = styled.div`
   position: absolute;
@@ -59,35 +54,6 @@ const Checkmark = styled.input.attrs({type:'checkbox'}) `
   }
 `
 
-<<<<<<< HEAD
-const Checkbox = () => {
-  const [checkedValue, setCheckedValue] = useState(0)
-
-  // const onHandleChange = (event) => {
-
-  //   setCheckedValue({
-  //     ...checkedValue,
-  //     [event.target]: event.target.checked
-  //   })
-    // const target = event.target
-    // const value = target.value 
-
-    // if(target.checked) {
-    //   [value] = value 
-    // } else {
-    //   checkedValue.splice(value, 1)
-    // }
-    // console.log(value)
-  // }
-
-  useEffect(() => {
-    console.log('Here is the value:',checkedValue);
-    }, [checkedValue])
-
-  return (
-    <CheckboxWrapper>
-      <CheckBtn htmlFor='checkbox'></CheckBtn>
-=======
 const Checkbox = ({ habitId, index }) => {
   const accessToken = useSelector(store => store.user.accessToken)
   // const [isChecked, setIsChecked] = useState(false)
@@ -123,18 +89,12 @@ const Checkbox = ({ habitId, index }) => {
   return (
     <CheckboxWrapper>
       <CheckBtn HtmlFor='checkbox'></CheckBtn>
->>>>>>> 74bd7c3ff0cef9353dedf4a1b79d29b1b13cf47a
       <Checkmark
         type="checkbox"
-        value={checkedValue}
+        value={1}
         id='checkbox'
-<<<<<<< HEAD
-        // checked={checkedValue}
-        onChange={() => setCheckedValue(checkedValue => checkedValue =+ 1)}
-=======
         // checked={}
         onChange={() => onProgressChange(habitId, index)}
->>>>>>> 74bd7c3ff0cef9353dedf4a1b79d29b1b13cf47a
       />
     </CheckboxWrapper>
   )
