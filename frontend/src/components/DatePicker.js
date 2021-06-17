@@ -34,6 +34,7 @@ const DatePicker = ({ startDate, endDate, setStartDate, setEndDate, totalDays, s
   const handleDatesChange = ({ startDate, endDate }) => {
     setStartDate(startDate);
     setEndDate(endDate);
+    console.log('startdate', startDate)
   }
 
   const getTotalDays = (startDate, endDate) => {

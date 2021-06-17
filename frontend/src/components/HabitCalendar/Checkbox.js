@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components/macro'
 
@@ -54,37 +54,43 @@ const Checkmark = styled.input.attrs({type:'checkbox'}) `
   }
 `
 
-const Checkbox = ({ habitId, index }) => {
+const Checkbox = ({ id }) => {
   const accessToken = useSelector(store => store.user.accessToken)
-  // const [isChecked, setIsChecked] = useState(false)
-  // const [mode, setMode] = useState('')
+  const [isChecked, setIsChecked] = useState(false)
+  const [mode, setMode] = useState(null)
+  const [habitId, setHabitId] = useState(null)
 
   const dispatch = useDispatch()
 
-    //When checkbox is checked update the number of progress (and vice versa) on the server by using fetch post request and update also the store of all habits
-  const onProgressChange = (habitId, index) => {
-    if (accessToken) {
+  //When checkbox is checked update the number of progress (and vice versa) on the server by using fetch post request and update also the store of all habits
+  const onChange = (e, id) => {
+    setIsChecked(e.target.checked)
+    setHabitId(id)
+    setMode(isChecked ? -1 : 1)  
+  }
+
+  useEffect(() => {
+    if (accessToken && mode) {
       const options = {
         method: 'PATCH',
         headers: {
           Authorization: accessToken,
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ habitId, index }),
+        body: JSON.stringify({ habitId }),
       }
-    fetch(API_URL(`habits/${habitId}/progress`), options)
-    // fetch(API_URL(`habits/${habitId}/progress/${mode}`), options)   
-      .then(res => res.json())
-      .then(data => {
-        console.log(data)
-        if(data.success) {
-          dispatch(fetchHabits(accessToken))
-        } else {
-          dispatch(habit.actions.setErrors(data)) 
-        }
-      })
-    }
-  }
+      fetch(API_URL(`habits/${habitId}/progress?mode=${mode}`), options)
+        .then(res => res.json())
+        .then(data => {
+          console.log(data)
+          if(data.success) {
+            dispatch(fetchHabits(accessToken))
+          } else {
+            dispatch(habit.actions.setErrors(data)) 
+          }
+        })
+      }
+  }, [accessToken, mode, habitId, dispatch])
 
   return (
     <CheckboxWrapper>
@@ -92,8 +98,8 @@ const Checkbox = ({ habitId, index }) => {
       <Checkmark
         type="checkbox"
         id='checkbox'
-        // checked={}
-        onChange={() => onProgressChange(habitId, index)}
+        checked={isChecked}
+        onChange={(e) => onChange(e, id)}
       />
     </CheckboxWrapper>
   )

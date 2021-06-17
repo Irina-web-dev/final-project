@@ -10,7 +10,10 @@ const habit = createSlice({
         errors: null,
         editMode: false,
         addMode: false,
-        habitId: null
+        habitId: null,
+        habitDescription: '',
+        startDate: null,
+        endDate: null
     },
     reducers: {
       setHabitsArray: (store, action) => {
@@ -27,6 +30,15 @@ const habit = createSlice({
       },
       setHabitId: (store, action) => {
         store.habitId = action.payload
+      },
+      setHabitDescription: (store, action) => {
+        store.habitDescription = action.payload
+      },
+      setStartDate: (store, action) => {
+        store.startDate = action.payload
+      },
+      setEndDate: (store, action) => {
+        store.endDate = action.payload
       }
     }
 })

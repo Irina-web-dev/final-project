@@ -35,7 +35,7 @@ const ModalWrapper = styled.div`
   z-index: 10;
   border: 1px solid;
   border-radius: 10px;
-  padding: 30px;
+  padding: 10px;
 `
 
 const TextInput = styled.input`
@@ -45,15 +45,15 @@ const TextInput = styled.input`
 `
 
 const SubmitButton = styled.button`
-  min-width: 100px;
+  min-width: 80%;
   background: #141414;
   color: #fff;
-  font-size: 24px;
+  font-size: 20px;
   box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.4);
   cursor: pointer;
   border: none;
   border-radius: 4px;
-  padding: 16px 32px;
+  padding: 12px 24px;
   transition: all .2s ease-out;
   margin-top: 20px;
 
@@ -100,22 +100,29 @@ const InputLabel = styled.div`
   font-size: 20px;
 `
 
+const Title = styled.h1`
+  margin: 0;
+  padding-bottom: 20px;
+`
+
 const HabitForm = () => {
   const editMode = useSelector(store => store.habit.editMode)
-
-  const [title, setTitle] = useState(editMode ? 'Hello' : '')
-  const [startDate, setStartDate] = useState(null)
-  const [endDate, setEndDate] = useState(null)
-  const [totalDays, setTotalDays] = useState(null)
-
-  const dispatch = useDispatch()
-  
+  const habitDescription = useSelector(store => store.habit.habitDescription)
+  const habitStartDate = useSelector(store => store.habit.startDate)
+  const habitEndDate = useSelector(store => store.habit.endDate)
   const accessToken = useSelector(store => store.user.accessToken)
   const id = useSelector(store => store.habit.habitId)
 
+  const [title, setTitle] = useState(editMode ? habitDescription : '')
+  const [startDate, setStartDate] = useState(editMode ? habitStartDate : null)
+  const [endDate, setEndDate] = useState(editMode ? habitEndDate : null)
+  const [totalDays, setTotalDays] = useState(null)
+
+  const dispatch = useDispatch()
+
   // Resetting the form to default states when user adds/edits a habit
   const resetForm = () => {
-    setTitle(editMode ? 'Hello' : '')
+    setTitle('')
     setStartDate(null)
     setEndDate(null)
     setTotalDays(null)
@@ -146,6 +153,7 @@ const HabitForm = () => {
         <ModalWrapper>
           <CloseButton onClick={onCloseButton}></CloseButton>
           <ModalForm onSubmit={editMode ? onEditHabit : onAddNewHabit}>
+            <Title>{editMode ? 'Update your habit' : 'Create new habit'}</Title>
             <InputLabel htmlFor='habit-title'>
               Habit description: 
               <TextInput
@@ -166,7 +174,7 @@ const HabitForm = () => {
               setTotalDays={setTotalDays}
             />
             <SearchBar />
-            <SubmitButton type="submit">{editMode ? 'Update Habit' : 'Add Habit'}</SubmitButton>
+            <SubmitButton type="submit">{editMode ? 'UPDATE HABIT' : 'ADD HABIT'}</SubmitButton>
           </ModalForm>
         </ModalWrapper>
       </Background>
