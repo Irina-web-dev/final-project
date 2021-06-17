@@ -7,6 +7,7 @@ const Timeline = ({ startDate, totalDays, habitId, collaborators }) => {
   const checkbox = Array.from(new Array(totalDays))
   const months = Array.from(new Array(Math.floor(totalDays)))
 
+
   return (
     <div className="timeline">
       <div className="timeline-months">
@@ -27,7 +28,7 @@ const Timeline = ({ startDate, totalDays, habitId, collaborators }) => {
                 <Checkbox 
                   startDate={startDate}
                   index={index}
-                  habitId={habitId}
+                  id={habitId}
                 />
               </div>
             ))}

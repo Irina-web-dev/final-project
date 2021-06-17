@@ -82,9 +82,13 @@ const HabitList = () => {
     dispatch(deleteHabit(id, accessToken))
   }
 
-  const onEditButtonClick = (id) => {
+  const onEditButtonClick = (id, description, startDate, endDate) => {
+    console.log(startDate)
     dispatch(habit.actions.setEditMode(true))
     dispatch(habit.actions.setHabitId(id))
+    dispatch(habit.actions.setHabitDescription(description))
+    dispatch(habit.actions.setStartDate(moment(startDate)))
+    dispatch(habit.actions.setEndDate(moment(endDate)))
   }
 
   useEffect(() => {
@@ -100,17 +104,16 @@ const HabitList = () => {
           <Header>
             <h1>{habit.title}</h1>
             <div>
-              <EditButton onClick={() => onEditButtonClick(habit._id)}></EditButton>
+              <EditButton onClick={() => onEditButtonClick(habit._id, habit.title, habit.duration.startDate, habit.duration.endDate)}></EditButton>
               <DeleteButton onClick={() => onDeleteButtonClick(habit._id)}></DeleteButton>
             </div>
           </Header>
           <Progressbar>
-            <p>Progress Bar</p>
             <p>Total Days: {habit.duration.totalDays}</p>
             <p>StartDate: {moment(habit.duration.startDate).format('DD/MM')}</p>
             <p>endDate: {moment(habit.duration.endDate).format('DD/MM')}</p>
             <p>Collaborators: {habit.collaborators.map(user => (
-              <span key={user.user_id}>{user.user_id.username}</span>
+              <span key={user.user_id}> {user.user_id.username} has done {user.progress} days</span>
             ))}</p>
           </Progressbar>
           <Timeline
