@@ -4,9 +4,15 @@ import styled from 'styled-components/macro'
 import { MdDelete, MdModeEdit } from 'react-icons/md'
 import moment from 'moment'
 
+<<<<<<< HEAD:frontend/src/components/HabitCard.js
+import habit, { deleteHabit } from '../reducers/habit'
+
+import HabitCalendar from './HabitCalendar/HabitCalendar'
+=======
 import habit, { deleteHabit, fetchHabits } from '../reducers/habit'
 
 import Timeline from './HabitCalendar/Timeline'
+>>>>>>> 74bd7c3ff0cef9353dedf4a1b79d29b1b13cf47a:frontend/src/components/HabitList.js
 
 
 const HabitContainer = styled.div`

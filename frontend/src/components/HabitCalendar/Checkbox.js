@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components/macro'
@@ -54,6 +55,7 @@ const Checkmark = styled.input.attrs({type:'checkbox'}) `
   }
 `
 
+
 const Checkbox = ({ id }) => {
   const accessToken = useSelector(store => store.user.accessToken)
   const [isChecked, setIsChecked] = useState(false)
@@ -97,6 +99,7 @@ const Checkbox = ({ id }) => {
       <CheckBtn HtmlFor='checkbox'></CheckBtn>
       <Checkmark
         type="checkbox"
+        value={checkedValue}
         id='checkbox'
         checked={isChecked}
         onChange={(e) => onChange(e, id)}
