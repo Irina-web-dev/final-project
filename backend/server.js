@@ -124,7 +124,7 @@ app.get('/', (req, res) => {
   res.send(documentation)
 })
 
-//change password
+//change password in profile page
 app.patch('/user/password', authenticateUser)
 app.patch('/user/password', async (req, res) => {
   const { _id } = req.user
@@ -143,7 +143,7 @@ app.patch('/user/password', async (req, res) => {
   } catch {
     res.status(400).json({ success: false, error })
   }
-
+ 
 })
 
 app.post('/signup', async (req, res) => {

@@ -153,7 +153,7 @@ const NavBar = ({ toggle }) => {
     <>
       <Nav>
         <NavBarContainer>
-          <NavLogo to='/'>
+          <NavLogo to='/main'>  {/*changd to main as we do  not want to be logged out while having accesstoken active */}
             sticKtOiT
           </NavLogo>
           <FlexContainer>
