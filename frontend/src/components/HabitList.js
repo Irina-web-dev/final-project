@@ -63,7 +63,9 @@ const Header = styled.div`
 
 const Progressbar = styled.div`
   display: flex;
-  justify-content: space-around;
+  flex-direction: column;
+  font-size: 15px;
+  padding-left: 10px;
 `
 
 const HabitList = () => {
@@ -77,7 +79,6 @@ const HabitList = () => {
   }
 
   const onEditButtonClick = (id, description, startDate, endDate) => {
-    console.log(startDate)
     dispatch(habit.actions.setEditMode(true))
     dispatch(habit.actions.setHabitId(id))
     dispatch(habit.actions.setHabitDescription(description))
@@ -103,12 +104,12 @@ const HabitList = () => {
             </div>
           </Header>
           <Progressbar>
-            <p>Total Days: {habit.duration.totalDays}</p>
-            <p>StartDate: {moment(habit.duration.startDate).format('DD/MM')}</p>
-            <p>endDate: {moment(habit.duration.endDate).format('DD/MM')}</p>
-            <p>Collaborators: {habit.collaborators.map(user => (
-              <span key={user.user_id}> {user.user_id.username} has done {user.progress} days</span>
-            ))}</p>
+            <p>Let´s do it for {habit.duration.totalDays} days!</p>
+            <p>Your habit starts at {moment(habit.duration.startDate).format('DD/MM')}</p>
+            <p>You will be finished by {moment(habit.duration.endDate).format('DD/MM')}</p>
+            {/* <p>Collaborators: {habit.collaborators.map(user => (
+              <span key={user.user_id._id}> {user.user_id.username} has done {user.progress} days</span>
+            ))}</p> */}
           </Progressbar>
           <Timeline
             startDate={habit.duration.startDate}

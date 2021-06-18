@@ -99,7 +99,6 @@ const Checkbox = ({ id }) => {
       <CheckBtn HtmlFor='checkbox'></CheckBtn>
       <Checkmark
         type="checkbox"
-        value={1}
         id='checkbox'
         checked={isChecked}
         onChange={(e) => onChange(e, id)}

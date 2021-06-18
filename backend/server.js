@@ -196,13 +196,13 @@ app.post('/signin', async (req, res) => {
 // POST endpoint adding a new habit
 app.post('/habits', authenticateUser)
 app.post('/habits', async (req, res) => {
-  const { title, totalDays, startDate, endDate } = req.body
+  const { title, totalDays, startDate, endDate, collaborator } = req.body
   const { _id }= req.user
   
   try {
     const user = await User.findById(_id)
 
-    const newHabit = await new Habit({ title, duration: {totalDays, startDate, endDate}, collaborators: [{user_id: user}] }).save()
+    const newHabit = await new Habit({ title, duration: {totalDays, startDate, endDate}, collaborators: [{user_id: user}, {user_id: collaborator}] }).save()
     res.json({
       success: true, 
       newHabit
@@ -355,6 +355,39 @@ app.patch('/habits/:id/progress', async (req, res) => {
     res.status(400).json({ message: 'Invalid request', error })
   } 
 })
+
+// //PATCH endpoint to add collaborator
+// app.patch('/habits/:id/collaborators', authenticateUser)
+// app.patch('/habits/:id/collaborators', async (req, res) => {
+//   const { id } = req.params //Habit id
+//   const { _id } = req.body
+  
+//   try {
+//     const updatedHabit = await Habit.findOneAndUpdate(
+//       { _id: id},
+//       { 
+//         $push: { 
+//           "collaborators": _id 
+//         } 
+//       },
+//       {
+//         new: true
+//       }
+//     )
+//     if(updatedHabit) {
+//       res.json({
+//         success: true,
+//         updatedHabit,
+//         message: 'Collaborator added'
+//       })
+//     } else {
+//       res.status(404).json({ message: 'Not found' })
+//     }
+//   } catch (error) {
+//     res.status(400).json({ message: 'Invalid request', error })
+//   } 
+// })
+
 
 // Start the server
 app.listen(port, () => {

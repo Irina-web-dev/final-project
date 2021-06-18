@@ -117,6 +117,7 @@ const HabitForm = () => {
   const [startDate, setStartDate] = useState(editMode ? habitStartDate : null)
   const [endDate, setEndDate] = useState(editMode ? habitEndDate : null)
   const [totalDays, setTotalDays] = useState(null)
+  const [collaborator, setCollaborator] = useState('')
 
   const dispatch = useDispatch()
 
@@ -130,14 +131,15 @@ const HabitForm = () => {
 
   const onAddNewHabit = (e) => {
     e.preventDefault()
+    console.log('This is what we send in the header', collaborator)
     dispatch(
-      addNewHabit(accessToken, { title, totalDays: totalDays, startDate: startDate, endDate: endDate }))
+      addNewHabit(accessToken, { title, collaborator, totalDays: totalDays, startDate: startDate, endDate: endDate }))
     resetForm()
   }
 
   const onEditHabit = (e) => {
     e.preventDefault()
-    dispatch(editHabit(id, accessToken, { title, totalDays: totalDays, startDate: startDate, endDate: endDate  }))
+    dispatch(editHabit(id, accessToken, { title, collaborator, totalDays: totalDays, startDate: startDate, endDate: endDate  }))
     dispatch(habit.actions.setEditMode(false))
     resetForm()
   }
@@ -173,7 +175,10 @@ const HabitForm = () => {
               totalDays={totalDays}
               setTotalDays={setTotalDays}
             />
-            <SearchBar />
+            <SearchBar
+              collaborator={collaborator}
+              setCollaborator={setCollaborator}
+            />
             <SubmitButton type="submit">{editMode ? 'UPDATE HABIT' : 'ADD HABIT'}</SubmitButton>
           </ModalForm>
         </ModalWrapper>
