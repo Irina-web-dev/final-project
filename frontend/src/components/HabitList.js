@@ -69,6 +69,8 @@ const Progressbar = styled.div`
 const HabitList = () => {
   const habitsItems = useSelector(store => store.habit.habitsArray)
   const accessToken = useSelector(store => store.user.accessToken)
+
+  console.log(habitsItems)
   
   const dispatch = useDispatch()
 
@@ -106,9 +108,9 @@ const HabitList = () => {
             <p>Total Days: {habit.duration.totalDays}</p>
             <p>StartDate: {moment(habit.duration.startDate).format('DD/MM')}</p>
             <p>endDate: {moment(habit.duration.endDate).format('DD/MM')}</p>
-            <p>Collaborators: {habit.collaborators.map(user => (
-              <span key={user.user_id}> {user.user_id.username} has done {user.progress} days</span>
-            ))}</p>
+            {/* <p>Collaborators: {habit.collaborators.map(user => (
+              <span key={user.user_id._id}> {user.user_id.username} has done {user.progress} days</span>
+            ))}</p> */}
           </Progressbar>
           <Timeline
             startDate={habit.duration.startDate}
