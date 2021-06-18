@@ -81,13 +81,8 @@ const SearchBar = ({ setCollaborator }) => {
             if (data.success) {
               batch(() => {
                   dispatch(habit.actions.setErrors(null))
-<<<<<<< HEAD
-                  setFilteredUsers(data.users)
-              })
-=======
                   setUser(data.user)
               });
->>>>>>> ba56b454d4133c807c743f05adb176cc6d907cb3
             } else {
               dispatch(habit.actions.setErrors(data))
             }

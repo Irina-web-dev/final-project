@@ -22,10 +22,10 @@ const CheckBtn = styled.label`
 const Checkmark = styled.input.attrs({type:'checkbox'}) `
   appearance: none;
   -webkit-appearance: none;
-  height: 25px;
-  width: 25px;
+  height: 30px;
+  width: 30px;
   background-color: #d5d5d5;
-  border-radius: 5px;
+  border-radius: 50px;
   cursor: pointer; 
   display: flex;
   align-items: center;
