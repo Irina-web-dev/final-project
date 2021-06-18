@@ -35,7 +35,7 @@ const Timeline = ({ startDate, totalDays, habitId, collaborators }) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
 export default Timeline

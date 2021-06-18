@@ -64,6 +64,7 @@ const SearchBar = ({ setCollaborator }) => {
 
   useEffect(() => {
     getUsers(search)
+    // eslint-disable-next-line
   }, [query])
 
   const getUsers = (username) => {
