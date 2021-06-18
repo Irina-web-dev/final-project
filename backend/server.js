@@ -193,9 +193,9 @@ app.post('/signin', async (req, res) => {
   }
 })
 
-// POST endpoint adding a new habit
-app.post('/habits', authenticateUser)
-app.post('/habits', async (req, res) => {
+// POST endpoint adding a new habit with collaborators
+app.post('/habits/collaborators', authenticateUser)
+app.post('/habits/collaborators', async (req, res) => {
   const { title, totalDays, startDate, endDate, collaborator } = req.body
   const { _id }= req.user
   
@@ -203,6 +203,26 @@ app.post('/habits', async (req, res) => {
     const user = await User.findById(_id)
 
     const newHabit = await new Habit({ title, duration: {totalDays, startDate, endDate}, collaborators: [{user_id: user}, {user_id: collaborator}] }).save()
+    res.json({
+      success: true, 
+      newHabit
+    })
+
+  } catch (error) {
+    res.status(400).json({ success: false, message: 'Invalid request', error })
+  }
+})
+
+// POST endpoint adding a new habit whithout collaborators
+app.post('/habits', authenticateUser)
+app.post('/habits', async (req, res) => {
+  const { title, totalDays, startDate, endDate } = req.body
+  const { _id }= req.user
+  
+  try {
+    const user = await User.findById(_id)
+
+    const newHabit = await new Habit({ title, duration: {totalDays, startDate, endDate}, collaborators: [{user_id: user}] }).save()
     res.json({
       success: true, 
       newHabit

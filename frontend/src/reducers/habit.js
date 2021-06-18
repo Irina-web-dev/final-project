@@ -70,24 +70,46 @@ export const fetchHabits = (accessToken) => {
 
 export const addNewHabit = (accessToken, { title, totalDays, startDate, endDate, collaborator }) => {
   return (dispatch, getStore) => {
-    const options = {
-      method: 'POST',
-      headers: {
-        Authorization: accessToken,
-        'Content-Type': 'application/json'
-      }, 
-      body: JSON.stringify( { title, totalDays, startDate, endDate, collaborator })
+    if(collaborator) {
+      const options = {
+        method: 'POST',
+        headers: {
+          Authorization: accessToken,
+          'Content-Type': 'application/json'
+        }, 
+        body: JSON.stringify( { title, totalDays, startDate, endDate, collaborator })
+      }
+      fetch(API_URL('habits/collaborators'), options)
+        .then(res => res.json())
+        .then(data => {
+          if(data.success){
+            dispatch(fetchHabits(accessToken))
+          } else {
+            dispatch(habit.actions.setErrors(data)) 
+          }
+       })
+       .catch()
+    } else {
+      const options = {
+        method: 'POST',
+        headers: {
+          Authorization: accessToken,
+          'Content-Type': 'application/json'
+        }, 
+        body: JSON.stringify( { title, totalDays, startDate, endDate })
+      }
+      fetch(API_URL('habits'), options)
+        .then(res => res.json())
+        .then(data => {
+          if(data.success){
+            dispatch(fetchHabits(accessToken))
+          } else {
+            dispatch(habit.actions.setErrors(data)) 
+          }
+       })
+       .catch()
     }
-    fetch(API_URL('habits'), options)
-      .then(res => res.json())
-      .then(data => {
-        if(data.success){
-          dispatch(fetchHabits(accessToken))
-        } else {
-          dispatch(habit.actions.setErrors(data)) 
-        }
-     })
-     .catch()
+
   }
 }
 

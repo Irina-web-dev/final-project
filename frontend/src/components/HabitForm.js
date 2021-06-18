@@ -131,7 +131,6 @@ const HabitForm = () => {
 
   const onAddNewHabit = (e) => {
     e.preventDefault()
-    console.log('This is what we send in the header', collaborator)
     dispatch(
       addNewHabit(accessToken, { title, collaborator, totalDays: totalDays, startDate: startDate, endDate: endDate }))
     resetForm()
