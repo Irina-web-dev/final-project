@@ -17,19 +17,21 @@ const Timeline = ({ startDate, totalDays, habitId, collaborators }) => {
       <div className="timeline-body">
         <div className="timeline-collaborators">
           {collaborators.map(user => (
-            <div key={user.user_id._id} className="timeline-collaborators-collaborator">{user.user_id.username}</div>
-          ))}
-        </div>
-        <div className="timeline-checkboxes">
-          {checkbox.map((item, index) => (
-              <div key={index} className='checkbox-container'> 
-                <Checkbox 
-                  startDate={startDate}
-                  index={index}
-                  id={habitId}
-                />
+            <div className="collaborator">
+              <div key={user.user_id._id} className="timeline-collaborators-collaborator">{user.user_id.username}</div>
+              <div className="timeline-checkboxes">
+                {checkbox.map((item, index) => (
+                  <div key={index} className='checkbox-container'> 
+                    <Checkbox 
+                      startDate={startDate}
+                      index={index}
+                      id={habitId}
+                    />
+                  </div>
+                ))}
               </div>
-            ))}
+            </div>
+          ))}
         </div>
       </div>
     </div>

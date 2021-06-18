@@ -51,14 +51,12 @@ body {
   padding: 5px;
   height: 100px;
   overflow-x: auto; 
-}
-
-.timeline::-webkit-scrollbar {
-  display: none;
+  border-radius: 2px;
 }
 
 .timeline-body {
   display: flex;
+  height: 70%;
 }
 
 .timeline-checkboxes {
@@ -70,8 +68,19 @@ body {
 .checkbox-container {
   width: 25px;
   height: 25px;
+  margin-right: 25px;
 }
 
+.timeline-collaborators {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+}
+
+.collaborator {
+  display: flex;
+}
 .timeline-collaborators-collaborator {
   font-size: 16px;
   height: 20px;
@@ -86,11 +95,11 @@ body {
 .timeline-months {
   display: flex;
   justify-content: space-between;
-  width: 705px;
-  margin-left: 80px;
+  margin: 0 0 10px 50px;
 }
 
 .timeline-months-month {
   width: 20px;
-  font-size: 10px;
+  font-size: 7.5px;
+  margin-right: 10.1px;
 }
