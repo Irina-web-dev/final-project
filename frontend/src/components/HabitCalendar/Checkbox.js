@@ -24,7 +24,7 @@ const Checkmark = styled.input.attrs({type:'checkbox'}) `
   -webkit-appearance: none;
   height: 30px;
   width: 30px;
-  background-color: #d5d5d5;
+  background-color: #2a2a2a;
   border-radius: 50px;
   cursor: pointer; 
   display: flex;
@@ -38,17 +38,11 @@ const Checkmark = styled.input.attrs({type:'checkbox'}) `
     width: 9px;
     bottom: 10px;
     height: 14px;
-    border-right: 3px solid #fff;
-    border-bottom: 3px solid #fff;
+    border-right: 3px solid #f4e664;
+    border-bottom: 3px solid #f4e664;
     transform: rotateZ(40deg);
     color: #fff;
     display: none;
-  }
-  &:hover {
-    background-color: #2faa8c;
-  }
-  &:checked {
-    background-color: #2faa8c;
   }
   &:checked:after {
     display: block;
@@ -56,19 +50,22 @@ const Checkmark = styled.input.attrs({type:'checkbox'}) `
 `
 
 
-const Checkbox = ({ id }) => {
+const Checkbox = ({ id, checkboxId }) => {
   const accessToken = useSelector(store => store.user.accessToken)
   const [isChecked, setIsChecked] = useState(false)
   const [mode, setMode] = useState(null)
   const [habitId, setHabitId] = useState(null)
+  const [checkedCheckbox, setCheckedCheckbox] = useState('')
 
   const dispatch = useDispatch()
+  console.log(checkedCheckbox)
 
   //When checkbox is checked update the number of progress (and vice versa) on the server by using fetch post request and update also the store of all habits
-  const onChange = (e, id) => {
+  const onChange = (e, id, checkboxId) => {
     setIsChecked(e.target.checked)
     setHabitId(id)
     setMode(isChecked ? -1 : 1)  
+    setCheckedCheckbox(checkboxId)
   }
 
   useEffect(() => {
@@ -84,7 +81,6 @@ const Checkbox = ({ id }) => {
       fetch(API_URL(`habits/${habitId}/progress?mode=${mode}`), options)
         .then(res => res.json())
         .then(data => {
-          console.log(data)
           if(data.success) {
             dispatch(fetchHabits(accessToken))
           } else {
@@ -101,7 +97,7 @@ const Checkbox = ({ id }) => {
         type="checkbox"
         id='checkbox'
         checked={isChecked}
-        onChange={(e) => onChange(e, id)}
+        onChange={(e) => onChange(e, id, checkboxId)}
       />
     </CheckboxWrapper>
   )

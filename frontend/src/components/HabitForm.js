@@ -20,10 +20,16 @@ const Background = styled.div`
   z-index: 10;
 `
 
+const ModalBorder = styled.div`
+  padding: 7px;
+  background-color: #f4e664;
+  box-shadow: 0 5px 16px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+`
+
 const ModalWrapper = styled.div`
   width: 700px;
   height: 400px;
-  box-shadow: 0 5px 16px rgba(0, 0, 0, 0.2);
   background-color: #fff;
   color: #000;
   display: flex;
@@ -33,14 +39,15 @@ const ModalWrapper = styled.div`
   flex-direction: column;
   position: relative;
   z-index: 10;
-  border: 1px solid;
   border-radius: 10px;
-  padding: 10px;
+  padding: 5px;
 `
 
 const TextInput = styled.input`
-  width: 400px;
+  width: 408px;
   height: 30px;
+  font-size: 16px;
+  padding-left: 5px;
   border: 1px solid #c9c4c1;
 `
 
@@ -66,6 +73,7 @@ const SubmitButton = styled.button`
 const CloseButton = styled(MdClose)`
   cursor: pointer;
   position: absolute;
+  border-radius: 4px;
   top: 20px;
   right: 20px;
   width: 32px;
@@ -73,7 +81,7 @@ const CloseButton = styled(MdClose)`
   padding: 0;
   margin: 0;
   z-index: 10;
-  transition: all .2s ease-out;
+  transition: all .3s ease-out;
 
   &:hover {
     background-color: #fb3222;
@@ -96,6 +104,7 @@ const InputLabel = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  height: 50px;
   font-weight: bold;
   font-size: 20px;
 `
@@ -103,6 +112,14 @@ const InputLabel = styled.div`
 const Title = styled.h1`
   margin: 0;
   padding-bottom: 20px;
+  font-weight: normal;
+`
+
+const Question = styled.h2`
+  margin: 0;
+  font-size: 20px;
+  width: 200px;
+  font-weight: normal;
 `
 
 const HabitForm = () => {
@@ -149,14 +166,14 @@ const HabitForm = () => {
   }
 
   return (
-    <>
-      <Background>
+    <Background>
+      <ModalBorder>
         <ModalWrapper>
           <CloseButton onClick={onCloseButton}></CloseButton>
           <ModalForm onSubmit={editMode ? onEditHabit : onAddNewHabit}>
             <Title>{editMode ? 'Update your habit' : 'Create new habit'}</Title>
             <InputLabel htmlFor='habit-title'>
-              Habit description: 
+              <Question>Habit description: </Question>
               <TextInput
                 type='text'
                 id='habit-title'
@@ -181,8 +198,8 @@ const HabitForm = () => {
             <SubmitButton type="submit">{editMode ? 'UPDATE HABIT' : 'ADD HABIT'}</SubmitButton>
           </ModalForm>
         </ModalWrapper>
-      </Background>
-    </>
+      </ModalBorder>
+    </Background>
   )
 }
 

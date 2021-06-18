@@ -7,14 +7,16 @@ import moment from 'moment'
 import habit, { deleteHabit, fetchHabits } from '../reducers/habit'
 
 import Timeline from './HabitCalendar/Timeline'
+import ProgressBar from './ProgressBar'
 
 
 const HabitContainer = styled.div`
-  width: 800px;
-  height: 250px;
+  width: 780px;
+  height: 300px;
   padding: 0 15px;
   border: none;
   display: flex;
+  color: #313131;
   flex-direction: column;
   justify-content: space-around;
   box-shadow:       
@@ -57,15 +59,30 @@ const EditButton = styled(MdModeEdit)`
 const Header = styled.div`
   display: flex;
   justify-content: space-between;
-  padding-left: 20px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  color: #313131
 `
 
-const Progressbar = styled.div`
+const Summary = styled.div`
   display: flex;
   flex-direction: column;
-  font-size: 15px;
-  padding-left: 10px;
+  font-size: 16px;
+`
+
+const FlexboxSummaryProgressbar = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`
+
+const SummaryText = styled.h3`
+  margin-bottom: 20px;
+`
+
+const Description = styled.h1`
+  font-weight: normal;
+  font-size: 34px;
+  margin: 0;
 `
 
 const HabitList = () => {
@@ -97,20 +114,23 @@ const HabitList = () => {
       {habitsItems.map(habit => (
         <HabitContainer key={habit._id}>
           <Header>
-            <h1>{habit.title}</h1>
+            <Description>{habit.title}</Description>
             <div>
               <EditButton onClick={() => onEditButtonClick(habit._id, habit.title, habit.duration.startDate, habit.duration.endDate)}></EditButton>
               <DeleteButton onClick={() => onDeleteButtonClick(habit._id)}></DeleteButton>
             </div>
           </Header>
-          <Progressbar>
-            <p>Let´s do it for {habit.duration.totalDays} days!</p>
-            <p>Your habit starts at {moment(habit.duration.startDate).format('DD/MM')}</p>
-            <p>You will be finished by {moment(habit.duration.endDate).format('DD/MM')}</p>
-            {/* <p>Collaborators: {habit.collaborators.map(user => (
-              <span key={user.user_id._id}> {user.user_id.username} has done {user.progress} days</span>
-            ))}</p> */}
-          </Progressbar>
+          <FlexboxSummaryProgressbar>
+            <Summary>
+              <SummaryText>Let´s do it for {habit.duration.totalDays} days!</SummaryText>
+              <p>Start: {moment(habit.duration.startDate).format('DD/MM/YYYY')}</p>
+              <p>Finish: {moment(habit.duration.endDate).format('DD/MM/YYYY')}</p>
+            </Summary>
+            <ProgressBar 
+              collaborators={habit.collaborators}
+              totalDays={habit.duration.totalDays}
+            />
+          </FlexboxSummaryProgressbar>
           <Timeline
             startDate={habit.duration.startDate}
             endDate={habit.duration.endDate}

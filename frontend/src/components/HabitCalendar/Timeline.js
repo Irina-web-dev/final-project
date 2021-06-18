@@ -1,11 +1,12 @@
 import React from 'react'
+import uniqid from 'uniqid'
 
 import Checkbox from './Checkbox';
 import Month from "./Month";
 
 const Timeline = ({ startDate, totalDays, habitId, collaborators }) => { 
-  const checkbox = Array.from(new Array(totalDays))
-  const months = Array.from(new Array(Math.floor(totalDays)))
+  const checkbox = Array.from(new Array(totalDays)).map(() => uniqid())
+  const months = Array.from(new Array(Math.floor(totalDays))).map(() => uniqid())
 
   return (
     <div className="timeline">
@@ -26,6 +27,7 @@ const Timeline = ({ startDate, totalDays, habitId, collaborators }) => {
                       startDate={startDate}
                       index={index}
                       id={habitId}
+                      checkboxId={item}
                     />
                   </div>
                 ))}

@@ -16,14 +16,14 @@ const MainPageWrapper = styled.div`
 `
 
 const ButtonContainer = styled.div`
-  min-width: 600px;
+  min-width: 780px;
   padding: 20px 0;
 `
 
 const AddButton = styled.button`
   height: 50px;
   width: 50px;
-  background: #3caea3;
+  background: #07b066;
   border-radius: 50%;
   color: #fff;
   font-size: 24px;
@@ -33,7 +33,7 @@ const AddButton = styled.button`
   border: none;
 
   &:hover {
-    background-color: #85dad1;
+    background-color: #07b067b6;
   }
 `
 

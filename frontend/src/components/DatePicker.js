@@ -6,26 +6,50 @@ import styled from 'styled-components/macro'
 
 const StyledDatePickerWrapper = styled.div`
   display: flex;
-  margin-top: 20px;
+  width: 100%;
   align-items: center;
+  height: 50px;
   & .DateRangePicker,
   .DateRangePickerInput {
     display: flex;
     flex-direction: row;
     border: none;
-    width: 400px;
+    width: 300px;
   }
   .DateInput_input {
     border: 1px solid #c9c4c1;
+    height: 12px;
+    font-size: 16px;
   }
   .DateRangePickerInput_arrow_svg {
-    width: 100px;
+    width: 80px;
+  }
+  .DateRangePickerInput_arrow_svg_1 {
+    width: 60px;
+    height: 37px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 `
 
 const TotalDays = styled.p`
   font-size: 16px;
+  margin-left: 28px;
+  display: flex;
+`
+
+const Question = styled.h2`
   margin: 0;
+  font-size: 20px;
+  width: 200px;
+  font-weight: normal;
+`
+
+const Underline = styled.div`
+  width: 50px;
+  border-bottom: 1px solid #c9c4c1;
+  text-align: center;
 `
 
 const DatePicker = ({ startDate, endDate, setStartDate, setEndDate, totalDays, setTotalDays}) => {
@@ -54,7 +78,7 @@ const DatePicker = ({ startDate, endDate, setStartDate, setEndDate, totalDays, s
 
   return (
     <StyledDatePickerWrapper>
-      <h3>Choose a time period: </h3>
+      <Question>Choose a time period: </Question>
       <DateRangePicker
         startDate={startDate}
         startDateId='tata-start-date'
@@ -65,7 +89,7 @@ const DatePicker = ({ startDate, endDate, setStartDate, setEndDate, totalDays, s
         onFocusChange={focusedInput => setFocusedInput(focusedInput)}
       />
       {startDate && endDate ? getTotalDays(startDate, endDate) : ''}
-      <TotalDays>Total days: {totalDays}</TotalDays>
+      <TotalDays>Total: <Underline>{totalDays}</Underline></TotalDays>
     </StyledDatePickerWrapper>
   )
 }
