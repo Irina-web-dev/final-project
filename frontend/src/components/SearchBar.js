@@ -30,6 +30,7 @@ const SearchBar = () => {
 
   useEffect(() => {
     getUsers(search)
+    // eslint-disable-next-line
   }, [query])
 
   const getUsers = (username) => {
@@ -48,7 +49,7 @@ const SearchBar = () => {
                   console.log(data)
                   dispatch(habit.actions.setErrors(null))
                   setFilteredUsers(data.users)
-              });
+              })
             } else {
               dispatch(habit.actions.setErrors(data))
             }
