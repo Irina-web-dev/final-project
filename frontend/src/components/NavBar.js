@@ -24,10 +24,11 @@ const NavBarContainer = styled.div`
   height: 80px;
   z-index: 1;
   width: 100%;
-  padding: 0 24px;
+  padding: 0 30px;
 
-  @media (min-width: 768px) {
+  @media (min-width: 668px) {
     max-width: 1300px;
+    padding: 0 24px;
   }
 `
 
@@ -38,9 +39,12 @@ const NavLogo = styled(Link)`
   font-size: 2rem;
   display: flex;
   align-items: center;
-  margin-left: 24px;
   font-weight: bold;
   text-decoration: none;
+
+  @media (min-width: 668px) {
+    margin-left: 24px;
+  }
 `
 
 const MobileIcon = styled.div`
@@ -131,7 +135,10 @@ const WelcomeMessage = styled.h1`
   padding: 0;
   font-size: 22px;
   font-weight: normal;
-  margin-right: 20px;
+
+  @media (min-width: 668px) {
+    margin-right: 20px;
+  }
 `
 
 const FlexContainer = styled.div`

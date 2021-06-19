@@ -7,12 +7,13 @@ import Month from "./Month";
 const Timeline = ({ startDate, totalDays, habitId, collaborators }) => { 
   const checkbox = Array.from(new Array(totalDays)).map(() => uniqid())
   const months = Array.from(new Array(Math.floor(totalDays))).map(() => uniqid())
+  console.log(checkbox)
 
   return (
     <div className="timeline">
       <div className="timeline-months">
-        {months.map((_, index) => (
-          <Month key={index} startDate={startDate} index={index}  />
+        {months.map((item) => (
+          <Month key={item} startDate={startDate} totalDays={totalDays}  />
         ))}
       </div>
       <div className="timeline-body">
@@ -22,7 +23,7 @@ const Timeline = ({ startDate, totalDays, habitId, collaborators }) => {
               <div className="timeline-collaborators-collaborator">{user.user_id.username}</div>
               <div className="timeline-checkboxes">
                 {checkbox.map((item, index) => (
-                  <div key={index} className='checkbox-container'> 
+                  <div key={item} className='checkbox-container'> 
                     <Checkbox 
                       startDate={startDate}
                       index={index}

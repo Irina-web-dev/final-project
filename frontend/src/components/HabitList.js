@@ -11,7 +11,7 @@ import ProgressBar from './ProgressBar'
 
 
 const HabitContainer = styled.div`
-  width: 780px;
+  max-width: 280px;
   height: 300px;
   padding: 0 15px;
   border: none;
@@ -29,6 +29,14 @@ const HabitContainer = styled.div`
 
   h1, p {
     margin: 0;
+  }
+
+  @media (min-width: 668px) {
+    min-width: 650px;
+  }
+
+  @media (min-width: 1024px) {
+    min-width: 750px;
   }
 `
 
@@ -65,24 +73,68 @@ const Header = styled.div`
 
 const Summary = styled.div`
   display: flex;
-  flex-direction: column;
-  font-size: 16px;
+  font-size: 12px;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  
+  @media (min-width: 668px) {
+    flex-direction: column;
+    align-items: start;
+    font-size: 16px;
+  }
 `
 
 const FlexboxSummaryProgressbar = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
+
+  @media (min-width: 668px) {
+    flex-direction: row;
+  }
 `
 
 const SummaryText = styled.h3`
-  margin-bottom: 20px;
+  margin: 0;
+  min-width: 170px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+
+  @media (min-width: 668px) {
+    margin-bottom: 10px;
+  }
 `
 
 const Description = styled.h1`
   font-weight: normal;
-  font-size: 34px;
+  font-size: 28px;
   margin: 0;
+  align-self: center;
+
+  @media (min-width: 668px) {
+    font-size: 34px;
+  }
+`
+
+const DateRangeFlexbox = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`
+
+const DateRange = styled.p`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+`
+
+const DateRangeSpace = styled.span`
+  margin-right: 6px;
 `
 
 const HabitList = () => {
@@ -123,8 +175,10 @@ const HabitList = () => {
           <FlexboxSummaryProgressbar>
             <Summary>
               <SummaryText>Let´s do it for {habit.duration.totalDays} days!</SummaryText>
-              <p>Start: {moment(habit.duration.startDate).format('DD/MM/YYYY')}</p>
-              <p>Finish: {moment(habit.duration.endDate).format('DD/MM/YYYY')}</p>
+              <DateRangeFlexbox>
+                <DateRange><DateRangeSpace>Start:</DateRangeSpace><span>{moment(habit.duration.startDate).format('DD/MM/YYYY')}</span></DateRange>
+                <DateRange><DateRangeSpace>Finish:</DateRangeSpace><span>{moment(habit.duration.endDate).format('DD/MM/YYYY')}</span></DateRange>
+              </DateRangeFlexbox>
             </Summary>
             <ProgressBar 
               collaborators={habit.collaborators}

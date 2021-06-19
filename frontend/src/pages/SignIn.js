@@ -75,6 +75,7 @@ const InputArea = styled.input`
   min-width: 200px;
   font-size: 18px;
   padding: 16px;
+  margin: 10px 0;
 
   ::placeholder {
     color: #D21F3C;
@@ -87,7 +88,6 @@ const InputArea = styled.input`
   }
 
   @media (min-width: 668px) {
-    margin: 10px 0;
     min-width: 300px;
     font-size: 24px;
   }
@@ -173,9 +173,6 @@ const SignIn = () => {
   const errors = useSelector(store => store.user.errors)
   const dispatch = useDispatch()
   const history = useHistory()
-
-  console.log(errors)
-
 
   useEffect(() => {
     if(accessToken && loggedIn) {

@@ -102,9 +102,12 @@ const SidebarTop = ({ isOpen, toggle }) => {
             <SidebarLink to='#'>
               About sticKtOiT
             </SidebarLink>
+            <SidebarLink to='/signup'>
+              Sign up
+            </SidebarLink>
           </SidebarMenu>
           <SideBtnWrap>
-            <SidebarRoute to='/signup'>Sign Up</SidebarRoute>
+            <SidebarRoute to='/signin'>Sign In</SidebarRoute>
           </SideBtnWrap>
         </SidebarWrapper>
       </SidebarContainer>

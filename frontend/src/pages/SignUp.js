@@ -126,10 +126,15 @@ const Button = styled.button`
 const ErrorMessage = styled.div`
   color: #ff3801;
   z-index: 1200;
-  height: 40px;
+  height: 25px;
   margin: 0;
   align-items: center;
   padding-top: 5px;
+  font-size: 12px;
+
+  @media (min-width: 668px) {
+    font-size: 16px;
+  }
 `
 
 const SignUpText = styled.div`

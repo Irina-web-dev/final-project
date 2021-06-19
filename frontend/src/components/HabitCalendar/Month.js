@@ -1,8 +1,8 @@
 import React from 'react'
 import moment from "moment"
 
-const Month = ({ startDate, index }) => {
-  const date = moment(startDate).add(index, 'day')
+const Month = ({ startDate, totalDays }) => {
+  const date = moment(startDate).add(totalDays, 'day')
   const monthName = date.format('DD/MM')
 
   return <div className="timeline-months-month">{monthName}</div>
