@@ -83,7 +83,7 @@ const NavLinks = styled(Link)`
   padding: 0 1rem;
   cursor: pointer;
 
-  &:active {
+  &:hover {
     border-bottom: 3px solid #f4e664;
   }
 `

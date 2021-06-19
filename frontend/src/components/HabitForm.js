@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { toast } from 'react-toastify';
 import styled from 'styled-components/macro'
 import { MdClose } from 'react-icons/md'
 
@@ -151,6 +152,7 @@ const HabitForm = () => {
     dispatch(
       addNewHabit(accessToken, { title, collaborator, totalDays: totalDays, startDate: startDate, endDate: endDate }))
     resetForm()
+    toast.success('Habit created succesfully! Go ahead and add another one!')
   }
 
   const onEditHabit = (e) => {

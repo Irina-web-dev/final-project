@@ -60,6 +60,7 @@ const Form = styled.form`
 
 const TitleContainer = styled.div`
   display: flex; 
+  margin-bottom: 10px;
 `
 const TitleText = styled.h1`
   font-size: 28px; 
@@ -92,7 +93,6 @@ const InputArea = styled.input`
   }
 
   @media (min-width: 668px) {
-    margin: 10px 0;
     min-width: 300px;
     font-size: 24px;
   }
@@ -123,9 +123,13 @@ const Button = styled.button`
   }
 `
 
-const ErrorMessage = styled.p`
-  color: #fff;
+const ErrorMessage = styled.div`
+  color: #ff3801;
   z-index: 1200;
+  height: 40px;
+  margin: 0;
+  align-items: center;
+  padding-top: 5px;
 `
 
 const SignUpText = styled.div`
@@ -164,22 +168,23 @@ const SignedUpContainer = styled.div`
 
 const SignUp = () => {
   const [username, setUsername] = useState('')
-  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
   const accessToken = useSelector(store => store.user.accessToken)
   const errors = useSelector(store => store.user.errors)
   const dispatch = useDispatch()
 
+  console.log(errors)
+
   const onFormSubmit = (e) => {
     e.preventDefault()
-    
+
     const options = {
       method: 'POST',
       headers: {
         'Content-type': 'application/json'
       },
-      body: JSON.stringify({ username, email, password })
+      body: JSON.stringify({ username, password })
     }
 
     fetch(API_URL('signup'), options)
@@ -188,7 +193,6 @@ const SignUp = () => {
         if (data.success) {
           batch (() => {
             dispatch(user.actions.setUsername(data.username))
-            dispatch(user.actions.setEmail(data.email))
             dispatch(user.actions.setAccessToken(data.accessToken))
             dispatch(user.actions.setErrors(null))
           })
@@ -196,44 +200,46 @@ const SignUp = () => {
         } else {
           dispatch(user.actions.setErrors(data))
           setUsername('')
-          setEmail('')
           setPassword('')
         }
       })
       .catch()
   }
 
+
   return (
     <SignupWrapper>
       <Container>
-      {!accessToken 
+      {!accessToken
         ?
         <Form onSubmit={onFormSubmit}>
           <TitleContainer>
             <TitleText>Sign Up </TitleText>
           </TitleContainer>
-          <InputArea
-            required
-            type="text"
-            placeholder="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          <InputArea
-            required
-            type="text"
-            placeholder="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <InputArea
-            required
-            type="password"
-            placeholder="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        {errors? <ErrorMessage>{errors.message}</ErrorMessage> : ''}
+          <label htmlFor='username'>
+            <InputArea
+              id='username'
+              required
+              minlength='2'
+              type="text"
+              placeholder="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+           </label>
+          <ErrorMessage>{errors && errors.error.code === 11000? 'Sorry, that username is already in use': ''}</ErrorMessage>
+          <label htmlFor='password'>
+            <InputArea
+              id='password'
+              required
+              minlength="6"
+              type="password"
+              placeholder="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </label>
+        <ErrorMessage>{errors && errors.error.code !== 11000 ? errors.message : ''}</ErrorMessage>
         <Button type='submit'>Sign up</Button>
       </Form>
       :

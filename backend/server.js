@@ -4,7 +4,6 @@ import mongoose from 'mongoose'
 import bcrypt from 'bcrypt'
 import crypto from 'crypto'
 import dotenv from 'dotenv'
-import "mongoose-type-email"
 
 dotenv.config()
 
@@ -15,19 +14,14 @@ mongoose.Promise = Promise
 const userSchema = new mongoose.Schema ({
   username: {
     type: String,
-    required: true,
-    unique: true   
+    required: [true, 'Username is required'],
+    unique: [true, 'Sorry, that username is already in use'],
+    minlength: [2, 'Password should be at least 2 characters long']
   },
   password: {
     type: String,
-    required: true
-  },
-  email: {
-    type: mongoose.SchemaTypes.Email,
-    trim: true,
-    lowercase: true,
-    unique: [true, 'Sorry, that email is already in use'],
-    required: [true, 'Email is required']
+    required: [true, 'Username is required'],
+    minlength: [6, 'Password should be at least 6 characters long']
   },
   accessToken: {
     type: String,
@@ -52,7 +46,9 @@ const habitSchema = new mongoose.Schema ({
   }],
   title: {
     type: String,
-    required: true
+    required: true,
+    minlength: [5, 'Your message is too short'],
+    maxlength: [140, 'Your message is too long']
   },
   duration: {
     totalDays: {
@@ -60,9 +56,11 @@ const habitSchema = new mongoose.Schema ({
     },
     startDate: {
       type: Date,
+      required: true
     },
     endDate: {
       type: Date,
+      required: true
     },
     frequency: {
       type: Number,
@@ -102,10 +100,10 @@ app.use(express.json())
 const documentation = {
   'Welcome': '🌟 Welcome to Irina´s and Maria´s digital habits tracker 🌟',
   'Endpoint 1': {
-    'https://ahabit-tracker.herokuapp.com/signup': 'POST endpoint - register a user. Requires username, password and email in fetch body.',
+    'https://ahabit-tracker.herokuapp.com/signup': 'POST endpoint - register a user. Requires username and password in fetch body.',
   },
   'Endpoint 2': {
-    'https://ahabit-tracker.herokuapp.com/signin': 'POST endpoint- login by finding user in database based on email and password. Requires email and password in fetch body.',
+    'https://ahabit-tracker.herokuapp.com/signin': 'POST endpoint- login by finding user in database based on username and password. Requires username and password in fetch body.',
   },
   'Endpoint 3': {
     'https://ahabit-tracker.herokuapp.com/habits': 'GET endpoint - gives access to the users habits if access token is valid. Requires sending access token in the fetch headers to authenticate user.',
@@ -150,41 +148,33 @@ app.patch('/user/password', async (req, res) => {
 })
 
 app.post('/signup', async (req, res) => {
-  const { username, password, email } = req.body
+  const { username, password } = req.body
   try {
     const salt = bcrypt.genSaltSync()
     const newUser = await new User({
       username,
       password: bcrypt.hashSync(password, salt),
-      email
     }).save()
     res.json({
       success: true,
       userID: newUser._id,
       username: newUser.username,
-      email: newUser.email,
       accessToken: newUser.accessToken
     })
   } catch (error) {
-    res.status(400).json({ success: false, message: 'Invalid request', error })
+    res.status(400).json({ success: false, message: 'Invalid request. Please try again', error })
   }
 })
 
 app.post('/signin', async (req, res) => {
-  const { usernameOrEmail, password } = req.body
+  const { username, password } = req.body
 
   try {
-    const user = await User.findOne({ 
-      $or: [
-        { username: usernameOrEmail },
-        { email: usernameOrEmail }
-      ]
-    })
+    const user = await User.findOne({ username: username })
     if (user && bcrypt.compareSync(password, user.password)) {
       res.json({
         success: true, 
         user_id: user._id,
-        email: user.email,
         username: user.username,
         accessToken: user.accessToken
       })
@@ -192,7 +182,7 @@ app.post('/signin', async (req, res) => {
       res.status(404).json({ success: false, message: 'User not found' })
     }
   } catch (error) {
-    res.status(400).json({ success: false, message: 'Invalid request', error })
+    res.status(400).json({ success: false, message: 'Invalid request. Please try again', error })
   }
 })
 
@@ -241,13 +231,15 @@ app.get('/habits', authenticateUser)
 app.get('/habits', async (req, res) => {
   const { _id } = req.user
 
-  const userHabits = await Habit.find({'collaborators.user_id': _id}).populate({ 
-    path: 'collaborators',
-      populate: { 
-        path: 'user_id',
-        select: 'username'
-      }
-  })
+  const userHabits = await Habit.find({'collaborators.user_id': _id})
+    .sort({createdAt: -1 })
+    .populate({ 
+      path: 'collaborators',
+        populate: { 
+          path: 'user_id',
+          select: 'username'
+        }
+    })
   res.json({ 
     success: true,
     userHabits

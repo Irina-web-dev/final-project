@@ -36,6 +36,7 @@ const Text = styled.p`
 
 const User = styled.div`
   margin-right: 10px;
+  width: 50px;
 `
 
 const ProgressBar = ({ collaborators, totalDays }) => {

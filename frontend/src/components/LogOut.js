@@ -32,7 +32,6 @@ const LogOut = () => {
   const onButtonClick = () => {
     batch(() => {
       dispatch(user.actions.setUsername(null))
-      dispatch(user.actions.setEmail(null))
       dispatch(user.actions.setAccessToken(null))
       dispatch(habit.actions.setHabitsArray([]))
 
