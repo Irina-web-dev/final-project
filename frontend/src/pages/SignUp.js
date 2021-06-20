@@ -100,7 +100,7 @@ const InputArea = styled.input`
 `
 
 
-const Button = styled.button`
+const SubmitButton = styled.button`
   border-radius: 50px;
   color: #fff; 
   background: #07b066;
@@ -120,6 +120,12 @@ const Button = styled.button`
   @media (min-width: 668px) {
     font-size: 16px;
     width: 60%;
+  }
+`
+const HomeButton = styled(SubmitButton) `
+  @media (min-width: 668px) {
+    font-size: 16px;
+    width: 100%;
   }
 `
 
@@ -142,8 +148,8 @@ const SignInLink = styled(Link)`
   text-align: center;
 
   &:active {
-    border-bottom: 3px solid #f4e664;
-  }
+    transform: scale(.95);
+  } 
 
   @media (min-width: 668px) {
     font-size: 16px;
@@ -234,12 +240,12 @@ const SignUp = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         {errors? <ErrorMessage>{errors.message}</ErrorMessage> : ''}
-        <Button type='submit'>Sign up</Button>
+        <SubmitButton type='submit'>Sign up</SubmitButton>
       </Form>
       :
       <SignedUpContainer>
-        <SignUpText>Your account is set up, login to get started with your new habits!</SignUpText>
-        <Button><SignInLink to="/signin">Sign in</SignInLink></Button> 
+        <SignUpText>Your account is set up!</SignUpText>
+        <HomeButton><SignInLink to="/main">TO HOME PAGE</SignInLink></HomeButton> 
       </SignedUpContainer>
       }
       </Container>
