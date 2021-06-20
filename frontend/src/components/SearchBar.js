@@ -12,27 +12,44 @@ import Notification from './Notification'
 
 const SearchBarWrapper = styled.div`
   display: flex;
+  flex-direction: column;
   width: 100%;
-  align-items: start;
   justify-content: flex-start;
+  align-items: start;
   height: 50px;
+  margin-top: 10px;
+
+  @media (min-width: 668px) {
+    flex-direction: row;
+    margin-top: 0;
+  }
 `
 
 const Search = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
 `
 
 const SearchFieldWrapper = styled.div`
   display: flex;
-  width: 100%;
+  max-width: 100px;
   height: 30px;
+
+  @media (min-width: 668px) {
+    max-width: 100%;
+    justify-content: space-between;
 `
 
 const Input = styled.input`
-  width: 300px;
-  font-size: 16px;
+  min-width: 212px;
+  font-size: 14px;
+  padding: 7px;
   border: 1px solid #c9c4c1;
+
+  @media (min-width: 668px) {
+    min-width: 331px;
+    font-size: 16px;
 `
 
 const UserContainer = styled.div`
@@ -78,9 +95,13 @@ const AddButton = styled.button`
 
 const Question = styled.h2`
   margin: 0;
-  font-size: 20px;
+  font-size: 16px;
   width: 200px;
   font-weight: normal;
+
+  @media (min-width: 668px) {
+    font-size: 20px;
+  }
 `
 
 const SearchButton = styled.button`

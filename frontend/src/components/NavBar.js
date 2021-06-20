@@ -100,10 +100,15 @@ const MenuIcon = styled(MdMenu)`
 const SigninNavBtn = styled.nav`
   display: none;
 
-  @media (min-width: 768px) {
+  @media (min-width: 668px) {
     display: flex;
     align-items: center;
   }
+`
+
+const LogoutBtn = styled.nav`
+display: flex;
+align-items: center;
 `
 
 const BtnLink = styled(Link)`
@@ -131,18 +136,25 @@ const WelcomeMessage = styled.h1`
   color: #fff;
   display: flex;
   align-items: center;
-  margin: 0;
   padding: 0;
   font-size: 22px;
   font-weight: normal;
+  margin: 0 0 5px 0;
 
   @media (min-width: 668px) {
-    margin-right: 20px;
+    margin: 0 20px 0 0;
   }
 `
 
 const FlexContainer = styled.div`
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  @media (min-width: 668px) {
+    flex-direction: row;
+  }
 `
 
 const Links = styled.div`
@@ -160,7 +172,7 @@ const NavBar = ({ toggle }) => {
     <>
       <Nav>
         <NavBarContainer>
-          <NavLogo to='/main'>  {/*changd to main as we do  not want to be logged out while having accesstoken active */}
+          <NavLogo to='/main'>
             sticKtOiT
           </NavLogo>
           <FlexContainer>
@@ -185,9 +197,17 @@ const NavBar = ({ toggle }) => {
               :
                 <WelcomeMessage>Hi, {username}!</WelcomeMessage>
             }
-            <SigninNavBtn>
-              {!accessToken ? <BtnLink to='/signin'>Sign in</BtnLink> : <LogOut />}
-            </SigninNavBtn>
+
+              {!accessToken 
+                ? 
+                <SigninNavBtn>
+                  <BtnLink to='/signin'>Sign in</BtnLink> 
+                </SigninNavBtn>
+                : 
+                <LogoutBtn>
+                  <LogOut />
+                </LogoutBtn>
+              }
           </FlexContainer>
         </NavBarContainer>
       </Nav>

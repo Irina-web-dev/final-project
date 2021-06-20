@@ -29,7 +29,7 @@ const ModalBorder = styled.div`
 `
 
 const ModalWrapper = styled.div`
-  width: 700px;
+  max-width: 300px;
   height: 400px;
   background-color: #fff;
   color: #000;
@@ -42,26 +42,34 @@ const ModalWrapper = styled.div`
   z-index: 10;
   border-radius: 10px;
   padding: 5px;
+
+  @media (min-width: 668px) {
+    min-width: 700px;
+  }
 `
 
 const TextInput = styled.input`
-  width: 408px;
-  height: 30px;
-  font-size: 16px;
-  padding-left: 5px;
+  width: 289px;
+  font-size: 14px;
+  padding: 7px;
   border: 1px solid #c9c4c1;
+
+  @media (min-width: 668px) {
+    width: 408px;
+    font-size: 16px;
+  }
 `
 
 const SubmitButton = styled.button`
   min-width: 80%;
   background: #141414;
   color: #fff;
-  font-size: 20px;
+  font-size: 16px;
   box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.4);
   cursor: pointer;
   border: none;
   border-radius: 4px;
-  padding: 12px 24px;
+  padding: 10px 20px;
   transition: all .2s ease-out;
   margin-top: 20px;
 
@@ -69,16 +77,21 @@ const SubmitButton = styled.button`
     background-color: #85dad1;
     color: #000;
   }
+
+  @media (min-width: 668px) {
+    font-size: 20px;
+    padding: 12px 24px;
+  }
 `
 
 const CloseButton = styled(MdClose)`
   cursor: pointer;
   position: absolute;
   border-radius: 4px;
-  top: 20px;
-  right: 20px;
-  width: 32px;
-  height: 32px;
+  top: 10px;
+  right: 15px;
+  width: 26px;
+  height: 26px;
   padding: 0;
   margin: 0;
   z-index: 10;
@@ -87,6 +100,13 @@ const CloseButton = styled(MdClose)`
   &:hover {
     background-color: #fb3222;
     color: #fff;
+  }
+
+  @media (min-width: 668px) {
+    width: 32px;
+    height: 32px;
+    top: 20px;
+    right: 20px;
   }
 `
 
@@ -103,24 +123,41 @@ const ModalForm = styled.form`
 const InputLabel = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  height: 50px;
+  flex-direction: column;
+  align-items: flex-start;
+  height: 40px;
   font-weight: bold;
-  font-size: 20px;
+  font-size: 16px;
+
+  @media (min-width: 668px) {
+    font-size: 20px;
+    height: 50px;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+  }
 `
 
 const Title = styled.h1`
   margin: 0;
-  padding-bottom: 20px;
   font-weight: normal;
+  font-size: 24px;
+
+  @media (min-width: 668px) {
+    font-size: 34px;
+    padding-bottom: 20px;
+  }
 `
 
 const Question = styled.h2`
   margin: 0;
-  font-size: 20px;
+  font-size: 16px;
   width: 200px;
   font-weight: normal;
+
+  @media (min-width: 668px) {
+    font-size: 20px;
+  }
 `
 
 const HabitForm = () => {

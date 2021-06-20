@@ -24,7 +24,7 @@ const ButtonContainer = styled.div`
   width: 50px;
 
   @media (min-width: 668px) {
-    margin-left: 100px;
+    padding-left: 100px;
     width: 100%;
   }
 
