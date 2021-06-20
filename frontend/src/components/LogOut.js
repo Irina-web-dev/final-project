@@ -9,9 +9,9 @@ const LogOutBtn = styled.button`
   border-radius: 50px;
   background: #f4e664;
   white-space: nowrap;
-  padding: 10px 22px;
+  padding: 5px 11px;
   color: #010606;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: bold;
   outline: none;
   border: none;
@@ -24,6 +24,11 @@ const LogOutBtn = styled.button`
     color: #010606;
     transition: all 0.2s ease-in-out;
   }
+
+  @media (min-width: 668px) {
+    padding: 10px 22px;
+    font-size: 16px;
+  }
 `
 
 const LogOut = () => {
@@ -32,7 +37,6 @@ const LogOut = () => {
   const onButtonClick = () => {
     batch(() => {
       dispatch(user.actions.setUsername(null))
-      dispatch(user.actions.setEmail(null))
       dispatch(user.actions.setAccessToken(null))
       dispatch(habit.actions.setHabitsArray([]))
 

@@ -12,17 +12,31 @@ const MainPageWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items:center;
-  width: 100%;
+  max-width: 100%;
+
+  @media (min-width: 668px) {
+    width: 780px;
+  }
 `
 
 const ButtonContainer = styled.div`
-  min-width: 780px;
-  padding: 20px 0;
+  padding: 20px;
+  width: 50px;
+
+  @media (min-width: 668px) {
+    padding-left: 100px;
+    width: 100%;
+  }
+
+  @media (min-width: 1024px) {
+    margin-left: 0;
+  }
 `
 
 const AddButton = styled.button`
   height: 50px;
   width: 50px;
+  align-self: center;
   background: #07b066;
   border-radius: 50%;
   color: #fff;
@@ -34,6 +48,10 @@ const AddButton = styled.button`
 
   &:hover {
     background-color: #07b067b6;
+  }
+
+  @media (min-width: 668px) {
+    align-self: start;
   }
 `
 

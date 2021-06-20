@@ -75,6 +75,7 @@ const InputArea = styled.input`
   min-width: 200px;
   font-size: 18px;
   padding: 16px;
+  margin: 10px 0;
 
   ::placeholder {
     color: #D21F3C;
@@ -87,7 +88,6 @@ const InputArea = styled.input`
   }
 
   @media (min-width: 668px) {
-    margin: 10px 0;
     min-width: 300px;
     font-size: 24px;
   }
@@ -98,9 +98,10 @@ const InputArea = styled.input`
 const ForgotPassword = styled.a`
   letter-spacing: 0,5px;
   text-decoration: none; 
-  margin: 20px 0; 
+  margin: 5px 0 10px 0; 
   text-align: center; 
   font-size: 14px;
+  color: #fff;
   cursor: pointer;
 
   @media (min-width: 668px) {
@@ -149,11 +150,22 @@ const SignupLink = styled(Link)`
 `
 
 const ErrorMessage = styled.p`
-  color: #fff;
+  color: #ff3801;
+  margin: 0;
+  padding: 0;
+  height: 20px;
+`
+
+const Underline = styled.span`
+  border-bottom: 1px solid #fff;
+
+  &:hover {
+    border-bottom: 1px solid #f4e664;
+  }
 `
 
 const SignIn = () => {
-  const [usernameOrEmail, setUsernameOrEmail] = useState('')
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [loggedIn, setLoggedIn] = useState(false)
 
@@ -176,7 +188,7 @@ const SignIn = () => {
       headers: {
         'Content-type': 'application/json'
       },
-      body: JSON.stringify({ usernameOrEmail, password })
+      body: JSON.stringify({ username, password })
     }
 
     fetch(API_URL('signin'), options)
@@ -185,13 +197,11 @@ const SignIn = () => {
         if (data.success) {
           batch (() => {
             dispatch(user.actions.setUsername(data.username))
-            dispatch(user.actions.setEmail(data.email))
             dispatch(user.actions.setAccessToken(data.accessToken))
             dispatch(user.actions.setErrors(null))
 
             localStorage.setItem('user', JSON.stringify({
               username: data.username,
-              email: data.email,
               accessToken: data.accessToken
               }))
           })
@@ -210,24 +220,38 @@ const SignIn = () => {
           <TitleContainer>
             <TitleText>Sign In</TitleText>
           </TitleContainer>
-          <InputArea
-            required
-            type="text"
-            placeholder="username or email"
-            value={usernameOrEmail}
-            onChange={(e) => setUsernameOrEmail(e.target.value)}
-          />
-          <InputArea
-            required
-            type="password"
-            placeholder="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-            {errors? <ErrorMessage>{errors.message}</ErrorMessage> : ''}
-            <ForgotPassword>Forgot password?</ForgotPassword>
-            <Button type="submit">Sign in</Button>
-            <SignupLink to='/signup'>Don´t have an account yet? Sign up here!</SignupLink>
+          <label htmlFor='username'>
+            <InputArea
+              id='username'
+              required
+              minlength='2'
+              type="text"
+              placeholder="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          </label>
+          <label>
+            <InputArea
+              id='password'
+              required
+              minlength='6'
+              type="password"
+              placeholder="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </label>
+          <ErrorMessage>{errors? errors.message : ''}</ErrorMessage>
+          <ForgotPassword 
+            href='https://medium.propoweruser.com/password-managers-how-to-remember-all-my-passwords-9482bafa60be' 
+            target='_blank'
+            rel='noopener noreferrer'
+          >
+            Forgot password?
+          </ForgotPassword>
+          <Button type="submit">Sign in</Button>
+          <SignupLink to='/signup'>Don´t have an account yet? <Underline>Sign up!</Underline></SignupLink>
         </Form>
       </Container>
     </SigninWrapper>

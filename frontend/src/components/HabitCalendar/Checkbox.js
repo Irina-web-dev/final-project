@@ -24,7 +24,7 @@ const Checkmark = styled.input.attrs({type:'checkbox'}) `
   -webkit-appearance: none;
   height: 30px;
   width: 30px;
-  background-color: #2a2a2a;
+  background-color: #74726b;
   border-radius: 50px;
   cursor: pointer; 
   display: flex;
@@ -38,8 +38,8 @@ const Checkmark = styled.input.attrs({type:'checkbox'}) `
     width: 9px;
     bottom: 10px;
     height: 14px;
-    border-right: 3px solid #f4e664;
-    border-bottom: 3px solid #f4e664;
+    border-right: 3px solid #fff;
+    border-bottom: 3px solid #fff;
     transform: rotateZ(40deg);
     color: #fff;
     display: none;

@@ -1,42 +1,64 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch, batch } from 'react-redux'
+import { toast } from 'react-toastify';
 import { MdPersonAdd } from 'react-icons/md'
 import styled from 'styled-components/macro'
 
 import { API_URL } from '../reusable/urls'
 
-import habit, { fetchHabits } from '../reducers/habit'
+import habit from '../reducers/habit'
+
+import Notification from './Notification'
 
 const SearchBarWrapper = styled.div`
   display: flex;
+  flex-direction: column;
   width: 100%;
-  align-items: start;
   justify-content: flex-start;
+  align-items: start;
   height: 50px;
+  margin-top: 10px;
+
+  @media (min-width: 668px) {
+    flex-direction: row;
+    margin-top: 0;
+  }
 `
 
 const Search = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
 `
 
 const SearchFieldWrapper = styled.div`
   display: flex;
-  width: 100%;
+  max-width: 100px;
   height: 30px;
+
+  @media (min-width: 668px) {
+    max-width: 100%;
+    justify-content: space-between;
 `
 
 const Input = styled.input`
-  width: 300px;
-  font-size: 16px;
+  min-width: 212px;
+  font-size: 14px;
+  padding: 7px;
   border: 1px solid #c9c4c1;
+
+  @media (min-width: 668px) {
+    min-width: 331px;
+    font-size: 16px;
 `
 
 const UserContainer = styled.div`
   display: flex;
+  justify-content: space-between;
   height: 30px;
   padding: 5px;
   align-items: center;
+  background: #dddddd;
 `
 
 const User = styled.span`
@@ -44,28 +66,42 @@ const User = styled.span`
   font-size: 14px;
 `
 
+const ErrorMessage = styled.div`
+  display: flex;
+  height: 30px;
+  padding: 5px;
+  align-items: center;
+  color: #ff3801;
+`
+
 const AddButton = styled.button`
   display: flex;
   align-items: center;
-  justify-content: center;
-  background-color: #fff;
-  width: 30px;
+  justify-content: space-between;
+  background-color: #f4e664;
+  width: 100px;
   height: 30px;
+  color: #010606;
   border: none;
+  border-radius: 5px;
   cursor: pointer;
-  transition: all .2s ease-out;
+  transition: all 0.2s ease-in-out;
 
   &:hover {
-    background-color: #d9d9d9;
-    border-radius: 50%;
+    background: #02db82;
+    color: #010606;
   }
 `
 
 const Question = styled.h2`
   margin: 0;
-  font-size: 20px;
+  font-size: 16px;
   width: 200px;
   font-weight: normal;
+
+  @media (min-width: 668px) {
+    font-size: 20px;
+  }
 `
 
 const SearchButton = styled.button`
@@ -94,6 +130,8 @@ const SearchBar = ({ setCollaborator }) => {
   
 
   const accessToken = useSelector(store => store.user.accessToken)
+  const errors = useSelector(store => store.habit.errors)
+  console.log(user)
 
   const dispatch = useDispatch()
 
@@ -139,6 +177,7 @@ const SearchBar = ({ setCollaborator }) => {
   const onAddCollaborator = (e) => {
     e.preventDefault()
     setCollaborator(user)
+    toast.success(`${user.username} is your buddy now!`)
   }
 
   // const onAddCollaborator = (e) => {
@@ -179,11 +218,13 @@ const SearchBar = ({ setCollaborator }) => {
             />
           <SearchButton onClick={getSearch}>Search</SearchButton>
         </SearchFieldWrapper>
+        <Notification />
         {user &&
           <UserContainer>
-            <User>{user.username}</User><AddButton onClick={onAddCollaborator}><MdPersonAdd /></AddButton>
+            <User>{user.username}</User><AddButton onClick={onAddCollaborator}><MdPersonAdd /><span>  add buddy</span><span></span> </AddButton>
           </UserContainer>
         }
+        <ErrorMessage>{errors ? errors.message : ''}</ErrorMessage>
       </Search>
     </SearchBarWrapper>
   )

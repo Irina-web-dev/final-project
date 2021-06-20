@@ -6,20 +6,24 @@ import styled from 'styled-components/macro'
 
 const StyledDatePickerWrapper = styled.div`
   display: flex;
+  flex-direction: column;
   width: 100%;
-  align-items: center;
+  align-items: flex-start;
   height: 50px;
   & .DateRangePicker,
   .DateRangePickerInput {
     display: flex;
     flex-direction: row;
     border: none;
-    width: 300px;
   }
   .DateInput_input {
     border: 1px solid #c9c4c1;
     height: 12px;
-    font-size: 16px;
+    font-size: 14px;
+    max-width: 150px;
+  }
+  .DateInput_1 {
+    max-width: 110px;
   }
   .DateRangePickerInput_arrow_svg {
     width: 80px;
@@ -31,19 +35,45 @@ const StyledDatePickerWrapper = styled.div`
     align-items: center;
     justify-content: center;
   }
+
+  @media (min-width: 668px) {
+    flex-direction: row;
+    align-items: center;
+    
+    & .DateRangePicker,
+    .DateRangePickerInput {
+      width: 300px;
+    }
+    .DateInput_input {
+      max-width: 100px;
+      font-size: 16px;
+    }
+    .DateInput_1 {
+      max-width: 120px;
+    }
+}
 `
 
 const TotalDays = styled.p`
   font-size: 16px;
-  margin-left: 28px;
+  margin: 10px 0px;
   display: flex;
+  align-self: flex-end;
+
+  @media (min-width: 668px) {
+    margin-left: 28px;
+  }
 `
 
 const Question = styled.h2`
   margin: 0;
-  font-size: 20px;
+  font-size: 16px;
   width: 200px;
   font-weight: normal;
+
+  @media (min-width: 668px) {
+    font-size: 20px;
+  }
 `
 
 const Underline = styled.div`

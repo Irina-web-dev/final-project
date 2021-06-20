@@ -12,6 +12,7 @@ const HeroContainer = styled.div`
   paddind: 0 30px;
   postion: relative;
   z-index: 1;
+  height: 100%;
 `
 const HeroBackground = styled.div`
   position: absolute;
@@ -41,6 +42,13 @@ const HeroContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
+  height: 85%;
+
+  @media (min-width: 668px) {
+    justify-content: flex-start;
+    height: 100%;
+  }
 `
 
 const HeroH1 = styled.h1`
@@ -49,7 +57,7 @@ const HeroH1 = styled.h1`
   text-align: center;
   margin: 14px 0 10px 0;
 
-  @media (min-width: 768px) {
+  @media (min-width: 668px) {
     font-size: 48px;
   }
 `
@@ -59,6 +67,11 @@ const HeroBtnWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-end;
+
+  @media (min-width: 668px) {
+    font-size: 48px;
+  }
 `
 
 const ArrowForward = styled(MdArrowForward)`
