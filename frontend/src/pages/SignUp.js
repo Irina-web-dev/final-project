@@ -38,7 +38,6 @@ const Container = styled.div`
   }
 `
 
-
 const Form = styled.form`
   display: flex;
   flex-direction: column; 
@@ -53,10 +52,8 @@ const Form = styled.form`
     padding: 18px 0;
     margin: 10px 0;
     min-width: 300px;
-
   }
 `
-
 
 const TitleContainer = styled.div`
   display: flex; 
@@ -105,7 +102,7 @@ const SubmitButton = styled.button`
   color: #fff; 
   background: #07b066;
   padding: 12px 35px; 
-  margin: 10px; 
+  margin: 25px; 
   font-size: 16px;
   font-weight: bold;
   letter-spacing: 1px;
@@ -157,14 +154,22 @@ const SignInLink = styled(Link)`
   text-align: center;
 
   &:active {
-    transform: scale(.95);
-  } 
+    border-bottom: 3px solid #f4e664;
+  }
 
   @media (min-width: 668px) {
     font-size: 16px;
     max-width: 300px;
   }
 
+  }
+`
+
+const Underline = styled.span`
+  border-bottom: 1px solid #fff;
+
+  &:hover {
+    border-bottom: 1px solid #f4e664;
   }
 `
 
@@ -227,31 +232,6 @@ const SignUp = () => {
           <TitleContainer>
             <TitleText>Sign Up </TitleText>
           </TitleContainer>
-<<<<<<< HEAD
-          <InputArea
-            required
-            type="text"
-            placeholder="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          <InputArea
-            required
-            type="text"
-            placeholder="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <InputArea
-            required
-            type="password"
-            placeholder="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        {errors? <ErrorMessage>{errors.message}</ErrorMessage> : ''}
-        <SubmitButton type='submit'>Sign up</SubmitButton>
-=======
           <label htmlFor='username'>
             <InputArea
               id='username'
@@ -276,8 +256,8 @@ const SignUp = () => {
             />
           </label>
         <ErrorMessage>{errors && errors.error.code !== 11000 ? errors.message : ''}</ErrorMessage>
-        <Button type='submit'>Sign up</Button>
->>>>>>> 4cbfa2621136b0fef54ce4b77931bcf3e81bdaae
+        <SignInLink to='/signin'>Already have an account? <Underline>Click here!</Underline></SignInLink>
+        <SubmitButton type='submit'>Sign up</SubmitButton>
       </Form>
       :
       <SignedUpContainer>

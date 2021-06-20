@@ -5,6 +5,7 @@ import styled from 'styled-components/macro'
 
 import HabitForm from '../components/HabitForm'
 import HabitList from '../components/HabitList'
+import EmptyState from '../components/EmptyState'
 
 import habit from '../reducers/habit'
 
@@ -74,7 +75,7 @@ const Main = () => {
       <ButtonContainer>
         <AddButton onClick={() => dispatch(habit.actions.setAddMode(true))}>+</AddButton>
       </ButtonContainer>
-      {addMode || editMode ? <HabitForm /> : ''}
+      {addMode || editMode ? <HabitForm /> : <EmptyState />}
       <HabitList />
     </MainPageWrapper>
   )
