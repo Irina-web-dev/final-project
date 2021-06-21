@@ -75,7 +75,7 @@ const Main = () => {
       <ButtonContainer>
         <AddButton onClick={() => dispatch(habit.actions.setAddMode(true))}>+</AddButton>
       </ButtonContainer>
-      {addMode || editMode ? <HabitForm /> : <EmptyState />}
+      {addMode || editMode ? <HabitForm /> : ''}
       <HabitList />
     </MainPageWrapper>
   )
