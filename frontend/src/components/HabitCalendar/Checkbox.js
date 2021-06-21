@@ -5,7 +5,7 @@ import styled from 'styled-components/macro'
 
 import { API_URL } from 'reusable/urls'
 
-import habit, { fetchHabits } from 'reducers/habit'
+import { fetchHabits } from 'reducers/habit'
 
 const CheckboxWrapper = styled.div`
   position: absolute;
@@ -50,54 +50,59 @@ const Checkmark = styled.input.attrs({type:'checkbox'}) `
 `
 
 
-const Checkbox = ({ id, checkboxId }) => {
+const Checkbox = ({ habit, id, checked }) => {
   const accessToken = useSelector(store => store.user.accessToken)
-  const [isChecked, setIsChecked] = useState(false)
+  const [isChecked, setIsChecked] = useState(checked)
+  const [checkboxId, setCheckboxId] = useState(null)
   const [mode, setMode] = useState(null)
   const [habitId, setHabitId] = useState(null)
-  const [checkedCheckbox, setCheckedCheckbox] = useState('')
+
+  console.log(checkboxId)
 
   const dispatch = useDispatch()
-  console.log(checkedCheckbox)
 
   //When checkbox is checked update the number of progress (and vice versa) on the server by using fetch post request and update also the store of all habits
-  const onChange = (e, id, checkboxId) => {
+  const onChange = (e, habit, id) => {
     setIsChecked(e.target.checked)
-    setHabitId(id)
+    setCheckboxId(id)
+    setHabitId(habit)
     setMode(isChecked ? -1 : 1)  
-    setCheckedCheckbox(checkboxId)
   }
 
   useEffect(() => {
     if (accessToken && mode) {
-      const options = {
-        method: 'PATCH',
-        headers: {
-          Authorization: accessToken,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ habitId }),
-      }
-      fetch(API_URL(`habits/${habitId}/progress?mode=${mode}`), options)
-        .then(res => res.json())
-        .then(data => {
-          if(data.success) {
-            dispatch(fetchHabits(accessToken))
-          } else {
-            dispatch(habit.actions.setErrors(data)) 
-          }
-        })
-      }
+      updateProgress()
+    }
   }, [accessToken, mode, habitId, dispatch])
+
+  const updateProgress = () => {
+    const options = {
+      method: 'PATCH',
+      headers: {
+        Authorization: accessToken,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ habitId, checkboxId }),
+    }
+    fetch(API_URL(`habits/${habitId}/progress?mode=${mode}`), options)
+      .then(res => res.json())
+      .then(data => {
+        if(data.success) {
+          dispatch(fetchHabits(accessToken))
+        } else {
+          dispatch(habit.actions.setErrors(data)) 
+        }
+    })
+  }
 
   return (
     <CheckboxWrapper>
-      <CheckBtn HtmlFor='checkbox'></CheckBtn>
+      <CheckBtn HtmlFor={id}></CheckBtn>
       <Checkmark
         type="checkbox"
-        id='checkbox'
+        id={id}
         checked={isChecked}
-        onChange={(e) => onChange(e, id, checkboxId)}
+        onChange={(e) => onChange(e, habit, id)}
       />
     </CheckboxWrapper>
   )

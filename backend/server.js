@@ -40,9 +40,9 @@ const habitSchema = new mongoose.Schema ({
       type: Number,
       default: 0
     },
-    checkbox: {
+    checkedCheckbox: {
       type: Array
-    }
+    } 
   }],
   title: {
     type: String,
@@ -344,6 +344,8 @@ app.patch('/habits/:id/progress', async (req, res) => {
   const { id } = req.params //Habit id
   const { _id } = req.user
   const { mode } = req.query
+  const { checkboxId } = req.body
+  console.log(checkboxId)
   
   try {
     const updatedHabit = await Habit.findOneAndUpdate(
@@ -351,7 +353,10 @@ app.patch('/habits/:id/progress', async (req, res) => {
       { 
         $inc: { //$inc is a special mongoose query selector used to update a number value
           "collaborators.$.progress": Number(mode)
-        } 
+        },
+        $push: { 
+          "collaborators.$.checkedCheckbox": checkboxId
+        }
       },
       {
         new: true
@@ -371,38 +376,6 @@ app.patch('/habits/:id/progress', async (req, res) => {
   } 
 })
 
-//PATCH endpoint to keep track of individually checked checkboxes
-app.patch('/habits/:id/checkbox', authenticateUser)
-app.patch('/habits/:id/checkbox', async (req, res) => {
-  const { id } = req.params //Habit id
-  const { _id } = req.user
-  const { checkboxId } = req.body
-  
-  try {
-    const updatedHabit = await Habit.findOneAndUpdate(
-      { _id: id, "collaborators.user_id": _id },
-      { 
-        $push: { 
-          "collaborators.$.checkbox": checkboxId
-        } 
-      },
-      {
-        new: true
-      }
-    )
-    if(updatedHabit) {
-      res.json({
-        success: true,
-        updatedHabit,
-        message: 'Habit updated'
-      })
-    } else {
-      res.status(404).json({ message: 'Not found' })
-    }
-  } catch (error) {
-    res.status(400).json({ message: 'Invalid request', error })
-  } 
-})
 
 // //PATCH endpoint to add collaborator
 // app.patch('/habits/:id/collaborators', authenticateUser)
