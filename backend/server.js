@@ -162,7 +162,7 @@ app.post('/signup', async (req, res) => {
       accessToken: newUser.accessToken
     })
   } catch (error) {
-    res.status(400).json({ success: false, message: 'Invalid request. Please try again', error })
+    res.status(400).json({ success: false, message: 'Username or email already exist', error })
   }
 })
 
@@ -179,7 +179,7 @@ app.post('/signin', async (req, res) => {
         accessToken: user.accessToken
       })
     } else {
-      res.status(404).json({ success: false, message: 'User not found' })
+      res.status(404).json({ success: false, message: 'Incorrect username or password' })
     }
   } catch (error) {
     res.status(400).json({ success: false, message: 'Invalid request. Please try again', error })

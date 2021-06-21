@@ -38,7 +38,6 @@ const Container = styled.div`
   }
 `
 
-
 const Form = styled.form`
   display: flex;
   flex-direction: column; 
@@ -53,10 +52,8 @@ const Form = styled.form`
     padding: 18px 0;
     margin: 10px 0;
     min-width: 300px;
-
   }
 `
-
 
 const TitleContainer = styled.div`
   display: flex; 
@@ -100,12 +97,12 @@ const InputArea = styled.input`
 `
 
 
-const Button = styled.button`
+const SubmitButton = styled.button`
   border-radius: 50px;
   color: #fff; 
   background: #07b066;
   padding: 12px 35px; 
-  margin: 10px; 
+  margin: 25px; 
   font-size: 16px;
   font-weight: bold;
   letter-spacing: 1px;
@@ -120,6 +117,12 @@ const Button = styled.button`
   @media (min-width: 668px) {
     font-size: 16px;
     width: 60%;
+  }
+`
+const HomeButton = styled(SubmitButton) `
+  @media (min-width: 668px) {
+    font-size: 16px;
+    width: 100%;
   }
 `
 
@@ -159,6 +162,14 @@ const SignInLink = styled(Link)`
     max-width: 300px;
   }
 
+  }
+`
+
+const Underline = styled.span`
+  border-bottom: 1px solid #fff;
+
+  &:hover {
+    border-bottom: 1px solid #f4e664;
   }
 `
 
@@ -245,12 +256,13 @@ const SignUp = () => {
             />
           </label>
         <ErrorMessage>{errors && errors.error.code !== 11000 ? errors.message : ''}</ErrorMessage>
-        <Button type='submit'>Sign up</Button>
+        <SignInLink to='/signin'>Already have an account? <Underline>Click here!</Underline></SignInLink>
+        <SubmitButton type='submit'>Sign up</SubmitButton>
       </Form>
       :
       <SignedUpContainer>
-        <SignUpText>Your account is set up, login to get started with your new habits!</SignUpText>
-        <Button><SignInLink to="/signin">Sign in</SignInLink></Button> 
+        <SignUpText>Your account is set up!</SignUpText>
+        <HomeButton><SignInLink to="/main">TO HOME PAGE</SignInLink></HomeButton> 
       </SignedUpContainer>
       }
       </Container>
