@@ -7,7 +7,7 @@ import styled from 'styled-components/macro'
 const StyledDatePickerWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 90%;
   align-items: flex-start;
   height: 50px;
   & .DateRangePicker,

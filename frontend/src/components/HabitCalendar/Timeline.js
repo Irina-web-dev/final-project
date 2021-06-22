@@ -14,8 +14,8 @@ const Timeline = ({ startDate, totalDays, habitId, collaborators }) => {
             <div key={user.user_id._id} className="collaborator">
               <div className="timeline-collaborators-collaborator">{user.user_id.username}</div>
               <div className="timeline-months">
-                {NumberOfDates.map((_, index) => (
-                  <Date key={index} startDate={startDate} index={index} habitId={habitId} checkbox={user.checkedCheckbox} />                               
+                {NumberOfDates.map((item, index) => (
+                  <Date key={item} startDate={startDate} index={index} habitId={habitId} checkbox={user.checkedCheckbox} />                               
                 ))}
               </div>
             </div>
