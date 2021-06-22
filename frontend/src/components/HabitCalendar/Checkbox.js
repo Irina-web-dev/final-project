@@ -3,9 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components/macro'
 
-import { API_URL } from 'reusable/urls'
-
-import { fetchHabits } from 'reducers/habit'
+import { updateCheckedCheckboxArray } from 'reducers/habit'
 
 const CheckboxWrapper = styled.div`
   position: absolute;
@@ -49,7 +47,6 @@ const Checkmark = styled.input.attrs({type:'checkbox'}) `
   }
 `
 
-
 const Checkbox = ({ habit, id, checked }) => {
   const accessToken = useSelector(store => store.user.accessToken)
   const [isChecked, setIsChecked] = useState(checked)
@@ -59,7 +56,6 @@ const Checkbox = ({ habit, id, checked }) => {
 
   const dispatch = useDispatch()
 
-  //When checkbox is checked update the number of progress (and vice versa) on the server by using fetch post request and update also the store of all habits
   const onChange = (e, habit, id) => {
     setIsChecked(e.target.checked)
     setCheckboxId(id)
@@ -69,29 +65,11 @@ const Checkbox = ({ habit, id, checked }) => {
 
   useEffect(() => {
     if (accessToken && checkboxMode) {
-      updateCheckedCheckboxArray()
+      dispatch (
+        updateCheckedCheckboxArray(accessToken, { checkboxMode, habitId, checkboxId })
+      )
     }
-  }, [accessToken, checkboxMode, habitId, dispatch])
-
-  const updateCheckedCheckboxArray = () => {
-    const options = {
-      method: 'PATCH',
-      headers: {
-        Authorization: accessToken,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ habitId, checkboxId }),
-    }
-    fetch(API_URL(`habits/${habitId}/checkbox?checkboxMode=${checkboxMode}`), options)
-      .then(res => res.json())
-      .then(data => {
-        if(data.success) {
-          dispatch(fetchHabits(accessToken))
-        } else {
-          dispatch(habit.actions.setErrors(data)) 
-        }
-    })
-  }
+  }, [accessToken, checkboxMode, habitId, dispatch, checkboxId])
 
   return (
     <CheckboxWrapper>

@@ -15,7 +15,7 @@ const Container =styled.div`
   padding: 3px;
   display: flex;
   align-items: center;
-  width: 250px;
+  width: 260px;
 
   @media (min-width: 668px) {
     padding: 10px;

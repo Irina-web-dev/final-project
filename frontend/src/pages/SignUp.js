@@ -190,8 +190,6 @@ const SignUp = () => {
   const errors = useSelector(store => store.user.errors)
   const dispatch = useDispatch()
 
-  console.log(errors)
-
   const onFormSubmit = (e) => {
     e.preventDefault()
 

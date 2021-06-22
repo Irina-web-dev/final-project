@@ -36,10 +36,6 @@ const habitSchema = new mongoose.Schema ({
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User'
     },
-    progress: {
-      type: Number,
-      default: 0
-    },
     checkedCheckbox: {
       type: Array
     } 
@@ -119,32 +115,8 @@ const documentation = {
   }
 }
 
-
-// Start defining your routes here
 app.get('/', (req, res) => {
   res.send(documentation)
-})
-
-//change password in profile page
-app.patch('/user/password', authenticateUser)
-app.patch('/user/password', async (req, res) => {
-  const { _id } = req.user
-  const { newPassword } = req.body
-  try {
-    const salt  = bcrypt.genSaltSync()
-
-    if(req.user && bcrypt.compareSync(oldPassword, req.user.password)) {
-      const updatedUser = await User.findByIdAndUpdate(_id, {
-        password: bcrypt.hashSync(newPassword, salt)
-      }, { new: true })
-      res.json({ success: true })
-    } else {
-      res.status(401).json({ success: false, error})
-    }
-  } catch {
-    res.status(400).json({ success: false, error })
-  }
- 
 })
 
 app.post('/signup', async (req, res) => {
@@ -320,39 +292,6 @@ app.patch('/habits/:id', async (req, res) => {
           endDate  
         }
       }, 
-      {
-        new: true
-      }
-    )
-    if(updatedHabit) {
-      res.json({
-        success: true,
-        updatedHabit,
-        message: 'Habit updated'
-      })
-    } else {
-      res.status(404).json({ message: 'Not found' })
-    }
-  } catch (error) {
-    res.status(400).json({ message: 'Invalid request', error })
-  } 
-})
-
-//PATCH endpoint to update individual progress
-app.patch('/habits/:id/progress', authenticateUser)
-app.patch('/habits/:id/progress', async (req, res) => {
-  const { id } = req.params //Habit id
-  const { _id } = req.user
-  const { mode } = req.query
-  
-  try {
-    const updatedHabit = await Habit.findOneAndUpdate(
-      { _id: id, "collaborators.user_id": _id },
-      { 
-        $inc: { //$inc is a special mongoose query selector used to update a number value
-          "collaborators.$.progress": Number(mode)
-        }
-      },
       {
         new: true
       }

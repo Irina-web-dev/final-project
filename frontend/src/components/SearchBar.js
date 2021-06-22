@@ -127,15 +127,10 @@ const SearchBar = ({ setCollaborator }) => {
   const [query, setQuery] = useState('')
   const [user, setUser] = useState(null)
 
-  
-
   const accessToken = useSelector(store => store.user.accessToken)
   const errors = useSelector(store => store.habit.errors)
-  console.log(user)
 
   const dispatch = useDispatch()
-
-  //const users = useSelector(store => store.users.users)
 
   useEffect(() => {
     getUsers(search)
@@ -179,28 +174,6 @@ const SearchBar = ({ setCollaborator }) => {
     setCollaborator(user)
     toast.success(`${user.username} is your buddy now!`)
   }
-
-  // const onAddCollaborator = (e) => {
-  //   e.preventDefault()
-  //   if(accessToken) {
-  //     const options = {
-  //       method: 'PATCH',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         'Authorization': accessToken
-  //       },
-  //       body: JSON.stringify(user)
-  //     }
-
-  //   fetch(API_URL(`/habits/${habitId}/collaborators`), options)
-  //     .then(res => res.json())
-  //     .then(data => {
-  //       console.log(data)
-  //       dispatch(fetchHabits(accessToken))
-  //     })
-  //   }
-  // }
-  
 
   return (
     <SearchBarWrapper>
