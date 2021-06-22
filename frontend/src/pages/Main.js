@@ -5,7 +5,7 @@ import styled from 'styled-components/macro'
 
 import HabitForm from '../components/HabitForm'
 import HabitList from '../components/HabitList'
-import EmptyState from '../components/EmptyState'
+// import EmptyState from '../components/EmptyState'
 
 import habit from '../reducers/habit'
 
