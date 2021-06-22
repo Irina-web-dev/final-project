@@ -160,4 +160,26 @@ export const editHabit = (id, accessToken, { title, totalDays, startDate, endDat
   }
 }
 
+export   const updateCheckedCheckboxArray = (accessToken, { checkboxMode, habitId, checkboxId }) => {
+  return (dispatch, getStore) => {
+    const options = {
+      method: 'PATCH',
+      headers: {
+        Authorization: accessToken,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ habitId, checkboxId }),
+    }
+    fetch(API_URL(`habits/${habitId}/checkbox?checkboxMode=${checkboxMode}`), options)
+      .then(res => res.json())
+      .then(data => {
+        if(data.success) {
+          dispatch(fetchHabits(accessToken))
+        } else {
+          dispatch(habit.actions.setErrors(data)) 
+        }
+    })
+  }
+}
+
 export default habit

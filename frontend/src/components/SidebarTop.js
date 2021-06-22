@@ -99,7 +99,7 @@ const SidebarTop = ({ isOpen, toggle }) => {
             <SidebarLink to='#'>
               Home
             </SidebarLink>
-            <SidebarLink to='#'>
+            <SidebarLink to='/about'>
               About sticKtOiT
             </SidebarLink>
             <SidebarLink to='/signup'>

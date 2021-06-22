@@ -36,13 +36,9 @@ const habitSchema = new mongoose.Schema ({
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User'
     },
-    progress: {
-      type: Number,
-      default: 0
-    },
-    checkbox: {
+    checkedCheckbox: {
       type: Array
-    }
+    } 
   }],
   title: {
     type: String,
@@ -119,32 +115,8 @@ const documentation = {
   }
 }
 
-
-// Start defining your routes here
 app.get('/', (req, res) => {
   res.send(documentation)
-})
-
-//change password in profile page
-app.patch('/user/password', authenticateUser)
-app.patch('/user/password', async (req, res) => {
-  const { _id } = req.user
-  const { newPassword } = req.body
-  try {
-    const salt  = bcrypt.genSaltSync()
-
-    if(req.user && bcrypt.compareSync(oldPassword, req.user.password)) {
-      const updatedUser = await User.findByIdAndUpdate(_id, {
-        password: bcrypt.hashSync(newPassword, salt)
-      }, { new: true })
-      res.json({ success: true })
-    } else {
-      res.status(401).json({ success: false, error})
-    }
-  } catch {
-    res.status(400).json({ success: false, error })
-  }
- 
 })
 
 app.post('/signup', async (req, res) => {
@@ -338,58 +310,44 @@ app.patch('/habits/:id', async (req, res) => {
   } 
 })
 
-//PATCH endpoint to update individual progress
-app.patch('/habits/:id/progress', authenticateUser)
-app.patch('/habits/:id/progress', async (req, res) => {
-  const { id } = req.params //Habit id
-  const { _id } = req.user
-  const { mode } = req.query
-  
-  try {
-    const updatedHabit = await Habit.findOneAndUpdate(
-      { _id: id, "collaborators.user_id": _id },
-      { 
-        $inc: { //$inc is a special mongoose query selector used to update a number value
-          "collaborators.$.progress": Number(mode)
-        } 
-      },
-      {
-        new: true
-      }
-    )
-    if(updatedHabit) {
-      res.json({
-        success: true,
-        updatedHabit,
-        message: 'Habit updated'
-      })
-    } else {
-      res.status(404).json({ message: 'Not found' })
-    }
-  } catch (error) {
-    res.status(400).json({ message: 'Invalid request', error })
-  } 
-})
-
-//PATCH endpoint to keep track of individually checked checkboxes
+//PATCH endpoint to update checkedCheckbox array
 app.patch('/habits/:id/checkbox', authenticateUser)
 app.patch('/habits/:id/checkbox', async (req, res) => {
   const { id } = req.params //Habit id
   const { _id } = req.user
+  const { checkboxMode } = req.query
   const { checkboxId } = req.body
   
   try {
-    const updatedHabit = await Habit.findOneAndUpdate(
-      { _id: id, "collaborators.user_id": _id },
-      { 
-        $push: { 
-          "collaborators.$.checkbox": checkboxId
-        } 
-      },
-      {
-        new: true
-      }
-    )
+    let updatedHabit = {}
+    if(checkboxMode === 'decrease') {
+      const updatedCheckboxArray = await Habit.findOneAndUpdate(
+        { _id: id, "collaborators.user_id": _id },
+        { 
+          $pull: { 
+            "collaborators.$.checkedCheckbox": checkboxId
+          }
+        },
+        {
+          new: true
+        }
+      )
+      updatedHabit = updatedCheckboxArray
+
+    } else if (checkboxMode === 'increase') {
+      const updatedCheckboxArray = await Habit.findOneAndUpdate(
+        { _id: id, "collaborators.user_id": _id },
+        { 
+          $push: { 
+            "collaborators.$.checkedCheckbox": checkboxId
+          }
+        },
+        {
+          new: true
+        }
+      )
+      updatedHabit = updatedCheckboxArray
+    }
     if(updatedHabit) {
       res.json({
         success: true,
@@ -403,39 +361,6 @@ app.patch('/habits/:id/checkbox', async (req, res) => {
     res.status(400).json({ message: 'Invalid request', error })
   } 
 })
-
-// //PATCH endpoint to add collaborator
-// app.patch('/habits/:id/collaborators', authenticateUser)
-// app.patch('/habits/:id/collaborators', async (req, res) => {
-//   const { id } = req.params //Habit id
-//   const { _id } = req.body
-  
-//   try {
-//     const updatedHabit = await Habit.findOneAndUpdate(
-//       { _id: id},
-//       { 
-//         $push: { 
-//           "collaborators": _id 
-//         } 
-//       },
-//       {
-//         new: true
-//       }
-//     )
-//     if(updatedHabit) {
-//       res.json({
-//         success: true,
-//         updatedHabit,
-//         message: 'Collaborator added'
-//       })
-//     } else {
-//       res.status(404).json({ message: 'Not found' })
-//     }
-//   } catch (error) {
-//     res.status(400).json({ message: 'Invalid request', error })
-//   } 
-// })
-
 
 // Start the server
 app.listen(port, () => {

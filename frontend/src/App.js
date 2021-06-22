@@ -10,6 +10,7 @@ import Main from './pages/Main'
 import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
 import Home from './pages/Home'
+import About from './pages/About'
 
 import Header from './components/Header'
 
@@ -26,6 +27,7 @@ export const App = () => {
         <Header />
         <Switch>
           <Route exact path='/' component={Home}/>
+          <Route path='/about' component={About}/>
           <Route path='/main' component={Main}/>
           <Route path='/signin' component={SignIn}/>
           <Route path='/signup' component={SignUp}/>

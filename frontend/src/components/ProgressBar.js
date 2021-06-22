@@ -15,7 +15,7 @@ const Container =styled.div`
   padding: 3px;
   display: flex;
   align-items: center;
-  width: 250px;
+  width: 260px;
 
   @media (min-width: 668px) {
     padding: 10px;
@@ -59,15 +59,16 @@ const User = styled.div`
 `
 
 const ProgressBar = ({ collaborators, totalDays }) => {
+
   return (
     <ProgressContainer>
       {collaborators.map(user => (
         <Container key={user.user_id._id}>
           <User>{user.user_id.username}</User>
           <ProgressBarWrap >
-            <ProgressBarFill style={{width: user.progress/totalDays*100}}></ProgressBarFill>
+            <ProgressBarFill style={{width: user.checkedCheckbox.length/totalDays*100}}></ProgressBarFill>
           </ProgressBarWrap>
-          <Text>{user.progress}/{totalDays} done</Text>
+          <Text>{user.checkedCheckbox.length}/{totalDays} done</Text>
         </Container>
       ))}
     </ProgressContainer>

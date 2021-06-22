@@ -56,7 +56,7 @@ const MobileIcon = styled.div`
   font-size: 1.8rem;
   cusror: pointer;
 
-  @media (min-width: 768px) {
+  @media (min-width: 668px) {
     display: none;
   }
 `
@@ -187,7 +187,7 @@ const NavBar = ({ toggle }) => {
                       <NavLinks to='/'>Home</NavLinks>
                     </NavItem>
                     <NavItem>
-                      <NavLinks to='#'>About sticKtOiT</NavLinks>
+                      <NavLinks to='/about'>About sticKtOiT</NavLinks>
                     </NavItem>
                     <NavItem>
                       <NavLinks to='/signup'>Sign Up</NavLinks>
