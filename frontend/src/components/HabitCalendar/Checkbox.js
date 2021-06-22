@@ -54,11 +54,8 @@ const Checkbox = ({ habit, id, checked }) => {
   const accessToken = useSelector(store => store.user.accessToken)
   const [isChecked, setIsChecked] = useState(checked)
   const [checkboxId, setCheckboxId] = useState(null)
-  const [mode, setMode] = useState(null)
   const [checkboxMode, setCheckboxMode ] = useState(null)
   const [habitId, setHabitId] = useState(null)
-
-  console.log(checkboxId)
 
   const dispatch = useDispatch()
 
@@ -67,36 +64,14 @@ const Checkbox = ({ habit, id, checked }) => {
     setIsChecked(e.target.checked)
     setCheckboxId(id)
     setHabitId(habit)
-    setMode(isChecked ? -1 : 1)
     setCheckboxMode(isChecked ? 'decrease' : 'increase')  
   }
 
   useEffect(() => {
-    if (accessToken && mode) {
-      updateProgress()
+    if (accessToken && checkboxMode) {
       updateCheckedCheckboxArray()
     }
-  }, [accessToken, mode, habitId, dispatch])
-
-  const updateProgress = () => {
-    const options = {
-      method: 'PATCH',
-      headers: {
-        Authorization: accessToken,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ habitId }),
-    }
-    fetch(API_URL(`habits/${habitId}/progress?mode=${mode}`), options)
-      .then(res => res.json())
-      .then(data => {
-        if(data.success) {
-          dispatch(fetchHabits(accessToken))
-        } else {
-          dispatch(habit.actions.setErrors(data)) 
-        }
-    })
-  }
+  }, [accessToken, checkboxMode, habitId, dispatch])
 
   const updateCheckedCheckboxArray = () => {
     const options = {
