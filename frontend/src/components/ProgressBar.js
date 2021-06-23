@@ -11,7 +11,7 @@ const ProgressContainer =styled.div`
   }
 `
 
-const Container =styled.div`
+const Container = styled.div`
   padding: 3px;
   display: flex;
   align-items: center;

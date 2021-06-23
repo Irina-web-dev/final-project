@@ -12,7 +12,10 @@ const Header = () => {
 
   return(
     <>
-      <SidebarTop isOpen={isOpen} toggle={toggle}/>
+      <SidebarTop 
+        isOpen={isOpen} 
+        toggle={toggle}
+      />
       <NavBar toggle={toggle}/>
     </>
   )

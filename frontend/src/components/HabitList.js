@@ -11,7 +11,7 @@ import ProgressBar from './ProgressBar'
 
 
 const HabitContainer = styled.div`
-  max-width: 280px;
+  max-width: 350px;
   height: 300px;
   padding: 0 15px;
   border: none;

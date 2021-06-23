@@ -1,7 +1,7 @@
 import React from 'react'
-import moment from "moment"
+import moment from 'moment'
 
-import Checkbox from './Checkbox';
+import Checkbox from './Checkbox'
 
 const Date = ({ startDate, index, habitId, checkbox }) => {
   const timelineDate = moment(startDate).add(index, 'day')

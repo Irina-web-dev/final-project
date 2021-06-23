@@ -43,7 +43,7 @@ const habitSchema = new mongoose.Schema ({
   title: {
     type: String,
     required: true,
-    minlength: [5, 'Your message is too short'],
+    minlength: [3, 'Your message is too short'],
     maxlength: [140, 'Your message is too long']
   },
   duration: {
@@ -96,22 +96,28 @@ app.use(express.json())
 const documentation = {
   'Welcome': '🌟 Welcome to Irina´s and Maria´s digital habits tracker 🌟',
   'Endpoint 1': {
-    'https://ahabit-tracker.herokuapp.com/signup': 'POST endpoint - register a user. Requires username and password in fetch body.',
+    'https://ahabit-tracker.herokuapp.com/signup': 
+    'POST endpoint - register a user. Requires username and password in fetch body.',
   },
   'Endpoint 2': {
-    'https://ahabit-tracker.herokuapp.com/signin': 'POST endpoint- login by finding user in database based on username and password. Requires username and password in fetch body.',
+    'https://ahabit-tracker.herokuapp.com/signin': 
+    'POST endpoint- login by finding user in database based on username and password. Requires username and password in fetch body.',
   },
   'Endpoint 3': {
-    'https://ahabit-tracker.herokuapp.com/habits': 'GET endpoint - gives access to the users habits if access token is valid. Requires sending access token in the fetch headers to authenticate user.',
+    'https://ahabit-tracker.herokuapp.com/habits': 
+    'GET endpoint - gives access to the users habits if access token is valid. Requires sending access token in the fetch headers to authenticate user.',
   },
   'Endpoint 4': {
-    'https://ahabit-tracker.herokuapp.com/habits': 'POST endpoint - creates a habit for a particular user. Requires sending access token in the fetch headers to authenticate user and title (habits title/description) and duration (combination of totalDays and frequency) sent in the fetch body.',
+    'https://ahabit-tracker.herokuapp.com/habits': 
+    'POST endpoint - creates a habit for a particular user. Requires sending access token in the fetch headers to authenticate user and title (habits title/description) and duration (combination of totalDays and frequency) sent in the fetch body.',
   },
   'Endpoint 5': {
-    'https://ahabit-tracker.herokuapp.com/habits/:id': 'DELETE endpoint - deletes a specified habit for that user. Requires sending access token in the fetch headers to authenticate user and habit id in the path.',
+    'https://ahabit-tracker.herokuapp.com/habits/:id': 
+    'DELETE endpoint - deletes a specified habit for that user. Requires sending access token in the fetch headers to authenticate user and habit id in the path.',
   },
   'Endpoint 6': {
-    'https://ahabit-tracker.herokuapp.com/habits/:id': 'PATCH endpoint - updates a specified habit for that user. Requires sending access token in the fetch headers to authenticate user, habit id in the path and properties to be updated: title (habits title/description), duration (combination of totalDays and frequency), progress sent in the fetch body.'
+    'https://ahabit-tracker.herokuapp.com/habits/:id': 
+    'PATCH endpoint - updates a specified habit for that user. Requires sending access token in the fetch headers to authenticate user, habit id in the path and properties to be updated: title (habits title/description), duration (combination of totalDays and frequency), progress sent in the fetch body.'
   }
 }
 

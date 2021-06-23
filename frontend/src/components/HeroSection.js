@@ -107,7 +107,10 @@ const HeroSection = () => {
   return (
     <HeroContainer>
       <HeroBackground>
-        <HeroVideo autoPlay muted src={Video} type='video/mp4' />
+        <HeroVideo 
+          autoPlay muted src={Video} 
+          type='video/mp4' 
+        />
       </HeroBackground>
       <HeroContent>
         <HeroH1>Make your habits stick!</HeroH1>
