@@ -14,16 +14,18 @@ const Container = styled.div`
 `
 const EmptyStateMessage = styled.h2`
   font-size: 20px; 
-  margin: 20px; 
+  margin: 5px 20px 0 20px; 
   text-align: center; 
+  max-width: 300px; 
 
   @media (min-width: 668px) {
+    max-width: 400px; 
     font-size: 30px;
-    padding: 20px 70px; 
+    padding: 5px 70px 0 70px; 
   }
   @media (min-width: 1200px) {
+    max-width: 500px; 
     font-size: 35px;
-    padding: 20px 70px; 
   }
 
 ` 
@@ -39,7 +41,8 @@ const defaultOptions = {
 const EmptyState = () => {
   return (
     <Container>
-      <EmptyStateMessage>Nothing going on here, lets add yourself a new habit to stick to!</EmptyStateMessage>
+      <EmptyStateMessage>Nothing's going on here, </EmptyStateMessage>
+      <EmptyStateMessage>let's add a new habit to stick to!</EmptyStateMessage>
      <Lottie options={defaultOptions} width={300}/>
     </Container>
   )

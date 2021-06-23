@@ -8,7 +8,7 @@ import habit, { deleteHabit, fetchHabits } from '../reducers/habit'
 
 import Timeline from './HabitCalendar/Timeline'
 import ProgressBar from './ProgressBar'
-
+import EmptyState from '../components/EmptyState'
 
 const HabitContainer = styled.div`
   max-width: 350px;
@@ -122,15 +122,15 @@ const Description = styled.h1`
 const DateRangeFlexbox = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  align-items: left;
+  justify-content: left;
 `
 
 const DateRange = styled.p`
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
+  align-items: left;
+  justify-content: left;
 `
 
 const DateRangeSpace = styled.span`
@@ -163,7 +163,8 @@ const HabitList = () => {
 
   return (
     <>
-      {habitsItems.map(habit => (
+    {habitsItems.length ? (
+      habitsItems.map(habit => (
         <HabitContainer key={habit._id}>
           <Header>
             <Description>{habit.title}</Description>
@@ -193,7 +194,12 @@ const HabitList = () => {
             habitId={habit._id}
           />
         </HabitContainer>
-      ))}
+      ))
+      
+    )
+      : <EmptyState/>
+    }
+
     </>
   )
 }
