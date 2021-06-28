@@ -31,7 +31,7 @@ const EmptyStateMessage = styled.h2`
 ` 
 const defaultOptions = {
   loop: true,
-  autoplay: true, 
+  // autoplay: true, 
   animationData: animation.default,
   rendererSettings: {
     preserveAspectRatio: 'xMidYMid slice'
@@ -43,7 +43,7 @@ const EmptyState = () => {
     <Container>
       <EmptyStateMessage>Nothing's going on here, </EmptyStateMessage>
       <EmptyStateMessage>let's add a new habit to stick to!</EmptyStateMessage>
-     <Lottie options={defaultOptions} width={300}/>
+     <Lottie options={defaultOptions} width={300} waitBeforeShow={50000}/>
     </Container>
   )
 }

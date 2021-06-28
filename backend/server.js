@@ -297,9 +297,9 @@ app.patch('/habits/:id', async (req, res) => {
           startDate, 
           endDate  
         },
-        collaborators: { //something going on here 
+        collaborators: { //add another collaborator AFTER adding a habit
           $push: {
-            "user_id": collaborators._id
+            user_id: collaborators._id
           } 
         }
       }, 
