@@ -42,6 +42,7 @@ const ModalWrapper = styled.div`
   z-index: 10;
   border-radius: 10px;
   padding: 5px;
+  overflow-y: scroll;
 
   @media (min-width: 668px) {
     min-width: 700px;
