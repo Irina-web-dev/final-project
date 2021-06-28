@@ -102,6 +102,8 @@ const DatePicker = ({ startDate, endDate, setStartDate, setEndDate, totalDays, s
     setTotalDays(diffInDays)
   }
 
+  const orientation = window.matchMedia("(max-width: 668px)").matches ? 'vertical' : 'horizontal'
+
   return (
     <StyledDatePickerWrapper>
       <Question>Choose a time period: </Question>
@@ -113,6 +115,8 @@ const DatePicker = ({ startDate, endDate, setStartDate, setEndDate, totalDays, s
         onDatesChange={handleDatesChange}
         focusedInput={focusedInput}
         onFocusChange={focusedInput => setFocusedInput(focusedInput)}
+        orientation={orientation}
+        autoFocus
       />
       {startDate && endDate ? getTotalDays(startDate, endDate) : ''}
       <TotalDays>Total: <Underline>{totalDays}</Underline></TotalDays>
