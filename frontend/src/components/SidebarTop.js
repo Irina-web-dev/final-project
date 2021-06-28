@@ -90,13 +90,16 @@ const SidebarRoute = styled(Link)`
 const SidebarTop = ({ isOpen, toggle }) => {
   return (
     <div>
-      <SidebarContainer isOpen={isOpen} onClick={toggle}>
+      <SidebarContainer 
+        isOpen={isOpen} 
+        onClick={toggle}
+      >
         <Icon onClick={toggle}>
           <CloseIcon />
         </Icon>
         <SidebarWrapper>
           <SidebarMenu>
-            <SidebarLink to='#'>
+            <SidebarLink to='/'>
               Home
             </SidebarLink>
             <SidebarLink to='/about'>
