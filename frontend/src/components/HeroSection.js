@@ -43,7 +43,7 @@ const HeroContent = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  height: 85%;
+  height: 95%;
 
   @media (min-width: 668px) {
     justify-content: flex-start;

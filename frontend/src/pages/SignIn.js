@@ -133,7 +133,7 @@ const Button = styled.button`
 const SignupLink = styled(Link)`
   text-decoration: none;
   color: #fff;
-  margin-top: 15px;
+  margin: 15px 10px;
   max-width: 200px;
   text-align: center;
 
