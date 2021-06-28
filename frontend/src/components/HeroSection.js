@@ -55,7 +55,7 @@ const HeroH1 = styled.h1`
   color: #000;
   font-size: 28px;
   text-align: center;
-  margin: 14px 0 10px 0;
+  margin: 14px 0 15px 0;
 
   @media (min-width: 668px) {
     font-size: 48px;

@@ -11,8 +11,8 @@ import ProgressBar from './ProgressBar'
 import EmptyState from '../components/EmptyState'
 
 const HabitContainer = styled.div`
-  max-width: 350px;
-  height: 300px;
+  width: 280px;
+  height: 400px;
   padding: 0 15px;
   border: none;
   display: flex;
@@ -33,6 +33,7 @@ const HabitContainer = styled.div`
 
   @media (min-width: 668px) {
     min-width: 650px;
+    height: 300px; 
   }
 
   @media (min-width: 1024px) {
@@ -178,7 +179,7 @@ const HabitList = () => {
               <SummaryText>Let´s do it for {habit.duration.totalDays} days!</SummaryText>
               <DateRangeFlexbox>
                 <DateRange><DateRangeSpace>Start:</DateRangeSpace><span>{moment(habit.duration.startDate).format('DD/MM/YYYY')}</span></DateRange>
-                <DateRange><DateRangeSpace>Finish:</DateRangeSpace><span>{moment(habit.duration.endDate).format('DD/MM/YYYY')}</span></DateRange>
+                <DateRange><DateRangeSpace>End:</DateRangeSpace><span>{moment(habit.duration.endDate).format('DD/MM/YYYY')}</span></DateRange>
               </DateRangeFlexbox>
             </Summary>
             <ProgressBar 
