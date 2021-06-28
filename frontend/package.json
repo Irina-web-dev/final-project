@@ -14,6 +14,7 @@
     "moment": "^2.29.1",
     "react": "^16.12.0",
     "react-check-calendar": "^1.0.1",
+    "react-confetti": "^6.0.1",
     "react-dates": "^21.8.0",
     "react-dom": "^16.12.0",
     "react-icons": "^4.2.0",

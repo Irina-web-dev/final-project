@@ -136,7 +136,7 @@ export const deleteHabit = (id, accessToken) => {
   }
 }
 
-export const editHabit = (id, accessToken, { title, totalDays, startDate, endDate }) => {
+export const editHabit = (id, accessToken, { title, totalDays, startDate, endDate, collaborator }) => {
   return (dispatch, getStore) => {
     if (accessToken) {
       const options = {
@@ -145,7 +145,7 @@ export const editHabit = (id, accessToken, { title, totalDays, startDate, endDat
           Authorization: accessToken,
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ title, totalDays, startDate, endDate }),
+        body: JSON.stringify({ title, totalDays, startDate, endDate, collaborator }),
       }
     fetch(API_URL(`habits/${id}`), options)
       .then(res => res.json())

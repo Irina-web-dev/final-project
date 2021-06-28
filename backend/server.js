@@ -285,7 +285,7 @@ app.delete('/habits/:id', async (req, res) => {
 app.patch('/habits/:id', authenticateUser)
 app.patch('/habits/:id', async (req, res) => {
   const { id } = req.params
-  const { title, totalDays, startDate, endDate  } = req.body
+  const { title, totalDays, startDate, endDate, collaborator  } = req.body
   
   try {
     const updatedHabit = await Habit.findByIdAndUpdate(
@@ -296,6 +296,11 @@ app.patch('/habits/:id', async (req, res) => {
           totalDays, 
           startDate, 
           endDate  
+        },
+        collaborators: { //something going on here 
+          $push: {
+            "user_id": collaborators._id
+          } 
         }
       }, 
       {
