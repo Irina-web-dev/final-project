@@ -43,7 +43,7 @@ const HabitContainer = styled.div`
 
 const DeleteButton = styled(MdDelete)`
   cursor: pointer;
-  font-size: 24px;
+  font-size: 20px;
   padding: 10px;
   transition: all .2s ease-out;
 
@@ -51,17 +51,25 @@ const DeleteButton = styled(MdDelete)`
     background-color: #d9d9d9;
     border-radius: 50%;
   }
+
+  @media (min-width: 668px) {
+    font-size: 24px;
+  }
 `
 
 const EditButton = styled(MdModeEdit)`
   cursor: pointer;
-  font-size: 24px;
+  font-size: 20px;
   padding: 10px;
   transition: all .2s ease-out;
 
   &:hover {
     background-color: #d9d9d9;
     border-radius: 50%;
+  }
+
+  @media (min-width: 668px) {
+    font-size: 24px;
   }
 `
 
@@ -111,12 +119,14 @@ const SummaryText = styled.h3`
 
 const Description = styled.h1`
   font-weight: normal;
-  font-size: 28px;
+  font-size: 25px;
   margin: 0;
   align-self: center;
+  max-width: 190px;
 
   @media (min-width: 668px) {
     font-size: 34px;
+    max-width: 500px;
   }
 `
 
