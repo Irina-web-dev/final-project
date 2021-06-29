@@ -57,7 +57,7 @@ body {
 
 .timeline-body {
   display: flex;
-  height: 95%;
+  height: 100px;
 }
 
 ::-webkit-scrollbar {
