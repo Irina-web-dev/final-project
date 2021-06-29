@@ -94,7 +94,7 @@ app.use(cors())
 app.use(express.json())
 
 const documentation = {
-  'Welcome': '🌟 Welcome to Irina´s and Maria´s digital habits tracker 🌟',
+  'Welcome': '🌟 Welcome to Irina´s and Maria´s digital habits tracker **sticKtOiT** 🌟',
   'Endpoint 1': {
     'https://ahabit-tracker.herokuapp.com/signup': 
     'POST endpoint - register a user. Requires username and password in fetch body.',
