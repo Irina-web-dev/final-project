@@ -108,17 +108,33 @@ const documentation = {
     'GET endpoint - gives access to the users habits if access token is valid. Requires sending access token in the fetch headers to authenticate user.',
   },
   'Endpoint 4': {
-    'https://ahabit-tracker.herokuapp.com/habits': 
-    'POST endpoint - creates a habit for a particular user. Requires sending access token in the fetch headers to authenticate user and title (habits title/description) and duration (combination of totalDays and frequency) sent in the fetch body.',
+    'https://ahabit-tracker.herokuapp.com/habits/collaborators': 
+    'POST endpoint - creates a habit for a particular user, including collaborators. Requires sending access token in the fetch headers to authenticate user and title (habits title/description), duration (combination of totalDays and frequency) and collaborator sent in the fetch body.',
   },
   'Endpoint 5': {
-    'https://ahabit-tracker.herokuapp.com/habits/:id': 
-    'DELETE endpoint - deletes a specified habit for that user. Requires sending access token in the fetch headers to authenticate user and habit id in the path.',
+    'https://ahabit-tracker.herokuapp.com/habits': 
+    'POST endpoint - creates a habit for a particular user without collaborators. Requires sending access token in the fetch headers to authenticate user and title (habits title/description) and duration (combination of totalDays and frequency) sent in the fetch body.',
   },
   'Endpoint 6': {
     'https://ahabit-tracker.herokuapp.com/habits/:id': 
-    'PATCH endpoint - updates a specified habit for that user. Requires sending access token in the fetch headers to authenticate user, habit id in the path and properties to be updated: title (habits title/description), duration (combination of totalDays and frequency), progress sent in the fetch body.'
-  }
+    'DELETE endpoint - deletes a specified habit for that user. Requires sending access token in the fetch headers to authenticate user and habit id in the path.',
+  },
+  'Endpoint 7': {
+    'https://ahabit-tracker.herokuapp.com/habits/:id': 
+    'PATCH endpoint - updates a specified habit for that user. Requires sending access token in the fetch headers to authenticate user, habit id in the path and properties to be updated: title (habits title/description), duration (combination of totalDays and frequency), collaborator sent in the fetch body.'
+  },
+  'Endpoint 8': {
+    'https://ahabit-tracker.herokuapp.com/users': 
+    'GET endpoint - gives access to all the users. Requires sending access token in the fetch headers to authenticate user.',
+  },
+  'Endpoint 9': {
+    'https://ahabit-tracker.herokuapp.com/users/:username': 
+    'GET endpoint - finds user by username. Requires sending username in the path and access token in the fetch headers to authenticate user.',
+  },
+  'Endpoint 10': {
+    'https://ahabit-tracker.herokuapp.com/habits/:id/checkbox': 
+    'PATCH endpoint - updates checkedCheckbox array for a particular user. Requires sending access token in the fetch headers to authenticate user, habit id in the path, checkboxId in the fetch body. And query param either "increase" or "decrease" in order to add or delete checkbox id from the array.'
+  },
 }
 
 app.get('/', (req, res) => {
@@ -285,28 +301,46 @@ app.delete('/habits/:id', async (req, res) => {
 app.patch('/habits/:id', authenticateUser)
 app.patch('/habits/:id', async (req, res) => {
   const { id } = req.params
-  const { title, totalDays, startDate, endDate, collaborator  } = req.body
+  const { title, totalDays, startDate, endDate, collaborator } = req.body
   
   try {
-    const updatedHabit = await Habit.findByIdAndUpdate(
-      id,
-      { 
-        title,
-        duration: { 
-          totalDays, 
-          startDate, 
-          endDate  
-        },
-        collaborators: { //add another collaborator AFTER adding a habit
-          $push: {
-            user_id: collaborators._id
-          } 
+    let updatedHabit = {}
+    if(collaborator){
+      updatedHabit = await Habit.findByIdAndUpdate(
+        id,
+        { 
+          title,
+          duration: { 
+            totalDays, 
+            startDate, 
+            endDate  
+          },
+            $push: { 
+              collaborators: {
+                user_id: collaborator
+              }
+            }
+          },
+        {
+          new: true
         }
-      }, 
-      {
-        new: true
-      }
-    )
+      ) 
+    } else {
+      updatedHabit = await Habit.findByIdAndUpdate(
+        id,
+        { 
+          title,
+          duration: { 
+            totalDays, 
+            startDate, 
+            endDate  
+          }
+        },
+        {
+          new: true
+        }
+      ) 
+    }
     if(updatedHabit) {
       res.json({
         success: true,

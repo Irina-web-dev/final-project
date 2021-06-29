@@ -15,7 +15,7 @@ This is a full stack application.
 The Backend for this application consists of **RESTful API** built with **Express** and **Node.js**. 
 The data is being stored in **Mongo Database** structured with **mongoose**. And the server is deployed to **Heroku** and **MongoDB** is stored in **Atlas**. 
 
-Here you can find the deployed API: https://ahabit-tracker.herokuapp.com/
+Here you can find the deployed API and documentation: https://ahabit-tracker.herokuapp.com/
 
 **Frontend**
 

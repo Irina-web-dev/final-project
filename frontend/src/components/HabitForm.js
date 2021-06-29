@@ -173,7 +173,7 @@ const HabitForm = () => {
   const [startDate, setStartDate] = useState(editMode ? habitStartDate : null)
   const [endDate, setEndDate] = useState(editMode ? habitEndDate : null)
   const [totalDays, setTotalDays] = useState(null)
-  const [collaborator, setCollaborator] = useState('')
+  const [collaborator, setCollaborator] = useState(null)
 
   const dispatch = useDispatch()
 
