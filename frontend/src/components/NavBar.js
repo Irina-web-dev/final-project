@@ -163,7 +163,6 @@ const Links = styled.div`
   align-items: center;
   font-size: 18px;
 `
-
 const NavBar = ({ toggle }) => {
   const accessToken = useSelector(store => store.user.accessToken)
   const username = useSelector(store => store.user.username)

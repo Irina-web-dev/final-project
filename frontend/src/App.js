@@ -26,11 +26,26 @@ export const App = () => {
       <Provider store={store}>
         <Header />
         <Switch>
-          <Route exact path='/' component={Home}/>
-          <Route path='/about' component={About}/>
-          <Route path='/main' component={Main}/>
-          <Route path='/signin' component={SignIn}/>
-          <Route path='/signup' component={SignUp}/>
+          <Route 
+            exact path='/' 
+            component={Home}
+          />
+          <Route 
+            path='/about' 
+            component={About}
+          />
+          <Route 
+            path='/main' 
+            component={Main}
+          />
+          <Route 
+            path='/signin' 
+            component={SignIn}
+          />
+          <Route 
+            path='/signup' 
+            component={SignUp}
+          />
         </Switch>
       </Provider>
     </BrowserRouter>
