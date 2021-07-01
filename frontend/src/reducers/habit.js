@@ -49,14 +49,13 @@ const habit = createSlice({
 
 export const fetchHabits = (accessToken) => {
   return (dispatch, getStore) => {
-    dispatch(habit.actions.setIsLoading(true));
     if(accessToken) {
       const options = {
         method: 'GET',
         headers: {
             Authorization: accessToken
         }
-     }
+      }
       fetch(API_URL('habits'), options)
         .then(res => res.json())
         .then(data => {
@@ -70,7 +69,6 @@ export const fetchHabits = (accessToken) => {
             }
         })
         .catch()
-        .finally(() => dispatch(habit.actions.setIsLoading(false)));
     }
   }
 }

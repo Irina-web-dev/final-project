@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch, batch } from 'react-redux'
 import styled from 'styled-components/macro'
 import { MdDelete, MdModeEdit } from 'react-icons/md'
 import moment from 'moment'
 
-import habit, { deleteHabit, fetchHabits } from '../reducers/habit'
+import { API_URL } from 'reusable/urls'
+import habit, { deleteHabit } from '../reducers/habit'
 
 import Timeline from './HabitCalendar/Timeline'
 import ProgressBar from './ProgressBar'
@@ -168,7 +169,29 @@ const HabitList = () => {
   }
 
   useEffect(() => {
-    dispatch(fetchHabits(accessToken))
+    dispatch(habit.actions.setIsLoading(true));
+    if(accessToken) {
+      const options = {
+        method: 'GET',
+        headers: {
+            Authorization: accessToken
+        }
+      }
+      fetch(API_URL('habits'), options)
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+              batch(() => {
+                  dispatch(habit.actions.setHabitsArray(data.userHabits))
+                  dispatch(habit.actions.setErrors(null))
+              });
+            } else {
+              dispatch(habit.actions.setErrors(data))
+            }
+        })
+        .catch()
+        .finally(() => dispatch(habit.actions.setIsLoading(false)));
+    }
     // eslint-disable-next-line
   }, [accessToken])
 
