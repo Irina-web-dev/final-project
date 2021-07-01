@@ -43,7 +43,10 @@ const EmptyState = () => {
     <Container>
       <EmptyStateMessage>Nothing's going on here, </EmptyStateMessage>
       <EmptyStateMessage>let's add a new habit to stick to!</EmptyStateMessage>
-     <Lottie options={defaultOptions} width={300} waitBeforeShow={50000}/>
+     <Lottie 
+      options={defaultOptions} 
+      width={300}
+    />
     </Container>
   )
 }
