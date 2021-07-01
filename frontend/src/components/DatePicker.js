@@ -23,7 +23,7 @@ const StyledDatePickerWrapper = styled.div`
     max-width: 150px;
   }
   .DateInput_1 {
-    max-width: 110px;
+    max-width: 100px;
   }
   .DateRangePickerInput_arrow_svg {
     width: 80px;

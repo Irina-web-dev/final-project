@@ -42,7 +42,7 @@ const SearchFieldWrapper = styled.div`
 `
 
 const Input = styled.input`
-  min-width: 212px;
+  min-width: 200px;
   font-size: 14px;
   padding: 7px;
   border: 1px solid #c9c4c1;

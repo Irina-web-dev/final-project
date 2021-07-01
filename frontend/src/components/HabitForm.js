@@ -50,7 +50,7 @@ const ModalWrapper = styled.div`
 `
 
 const TextInput = styled.input`
-  width: 289px;
+  width: 270px;
   font-size: 14px;
   padding: 7px;
   border: 1px solid #c9c4c1;

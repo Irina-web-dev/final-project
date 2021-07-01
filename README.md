@@ -22,7 +22,7 @@ Here you can find the deployed API and documentation: https://ahabit-tracker.her
 On the frontend we have created a **multi-page React app** using **React Router** and **Redux with Toolkit**. 
 We decided not to use any **UI libraries** in order to practice **CSS** to the fullest. 
 Almost everything you see is created using **Styled Components** and **CSS**. 
-Some features we have added though, like a video in the header (video by <a href="https://www.pexels.com/@thirdman?utm_content=attributionCopyText&utm_medium=referral&utm_source=pexels">Thirdman</a> from <a href="https://www.pexels.com/video/make-today-great-over-a-colored-yellow-background-5981789/">Pexels</a>), we also have a **lottie animation** showing when empty state and notifications using **react-toastify**. 
+Some features we have added though, like a video in the header (video by <a href="https://www.pexels.com/@thirdman?utm_content=attributionCopyText&utm_medium=referral&utm_source=pexels">Thirdman</a> from <a href="https://www.pexels.com/video/make-today-great-over-a-colored-yellow-background-5981789/">Pexels</a>), we also have a **lottie animation** (animation by <a href="https://lottiefiles.com/vinoth">Vinoth Sebastian</a> from <a href="https://lottiefiles.com/62773-yoga-developer">LottieFiles</a>) showing when empty state and notifications using **react-toastify**. 
 
 - The application is **responsive** and we built it with **mobile first approach**. Home page has navigation bar and hamburger menu on the mobile view. Hamburger menu is created with **Styled Components** and controlled via a **local state** and **conditional rendering**. 
 - We have built sign up and sign in **components**.
