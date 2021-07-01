@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components/macro'
-import Video from '../assets/video.mp4'
+import Video from '../assets/hero-video.mp4'
 import { MdArrowForward } from 'react-icons/md'
 import { Link } from 'react-router-dom'
 

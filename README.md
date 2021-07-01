@@ -1,6 +1,6 @@
 # A digital habit tracking application sticKtOiT
 
-**sticKtOiT** is a student project developed by <a href="https://irina-jekabsone-portfolio.netlify.app/">Irina Jekabsone</a> and <a href="https://portfolio-mariasparre.netlify.app/">Maria Sparre</a>.
+**sticKtOiT** is a student project developed by <a href="https://irina-jekabsone-portfolio.netlify.app/">Irina Jekabsone</a> and Maria Sparre.
 
 For most people, the hardest part of forming a habit is to stick to it long enough for it to become as automatic as brushing your teeth. And we believe that the key factor to keep doing something is to get a buddy - someone who will go along with you and keep you motivated if you feel like quitting.
 
@@ -22,7 +22,7 @@ Here you can find the deployed API and documentation: https://ahabit-tracker.her
 On the frontend we have created a **multi-page React app** using **React Router** and **Redux with Toolkit**. 
 We decided not to use any **UI libraries** in order to practice **CSS** to the fullest. 
 Almost everything you see is created using **Styled Components** and **CSS**. 
-Some features we have added though, like a video in the header, we also have a **lottie animation** showing when empty state and notifications using **react-toastify**. 
+Some features we have added though, like a video in the header (video by <a href="https://www.pexels.com/@thirdman?utm_content=attributionCopyText&utm_medium=referral&utm_source=pexels">Thirdman</a> from <a href="https://www.pexels.com/video/make-today-great-over-a-colored-yellow-background-5981789/">Pexels</a>), we also have a **lottie animation** showing when empty state and notifications using **react-toastify**. 
 
 - The application is **responsive** and we built it with **mobile first approach**. Home page has navigation bar and hamburger menu on the mobile view. Hamburger menu is created with **Styled Components** and controlled via a **local state** and **conditional rendering**. 
 - We have built sign up and sign in **components**.
