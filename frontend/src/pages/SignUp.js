@@ -194,6 +194,7 @@ const SignUp = () => {
     if(errors) {
       dispatch(user.actions.setErrors(null))
     }
+    // eslint-disable-next-line
   }, [])
 
   const onFormSubmit = (e) => {
