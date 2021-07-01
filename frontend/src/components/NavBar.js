@@ -171,7 +171,7 @@ const NavBar = ({ toggle }) => {
     <>
       <Nav>
         <NavBarContainer>
-          <NavLogo to='/main'>
+          <NavLogo to='/'>
             sticKtOiT
           </NavLogo>
           <FlexContainer>
