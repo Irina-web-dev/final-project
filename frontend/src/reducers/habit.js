@@ -13,7 +13,8 @@ const habit = createSlice({
         habitId: null,
         habitDescription: '',
         startDate: null,
-        endDate: null
+        endDate: null,
+        isLoading: false
     },
     reducers: {
       setHabitsArray: (store, action) => {
@@ -39,12 +40,16 @@ const habit = createSlice({
       },
       setEndDate: (store, action) => {
         store.endDate = action.payload
+      },
+      setIsLoading: (store, action) => {
+        store.isLoading = action.payload
       }
     }
 })
 
 export const fetchHabits = (accessToken) => {
   return (dispatch, getStore) => {
+    dispatch(habit.actions.setIsLoading(true));
     if(accessToken) {
       const options = {
         method: 'GET',
@@ -64,6 +69,8 @@ export const fetchHabits = (accessToken) => {
               dispatch(habit.actions.setErrors(data))
             }
         })
+        .catch()
+        .finally(() => dispatch(habit.actions.setIsLoading(false)));
     }
   }
 }

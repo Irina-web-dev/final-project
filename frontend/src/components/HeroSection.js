@@ -28,10 +28,14 @@ const HeroBackground = styled.div`
 const HeroVideo = styled.video`
   width: 100%;
   height: 100%;
-  margin-top: 30px;
+  margin-top: 80px;
   background: #232a34;
   -0-object-fit: cover;
   object-fit: cover;
+
+  @media (min-width: 668px) {
+    margin-top: 60px;
+  }
 `
 
 const HeroContent = styled.div`
@@ -42,11 +46,10 @@ const HeroContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   height: 95%;
 
   @media (min-width: 668px) {
-    justify-content: flex-start;
     height: 100%;
   }
 `
@@ -83,9 +86,9 @@ const Button = styled(Link)`
   border-radius: 50px;
   background: #000;
   white-space: nowrap;
-  padding: 14px 48px;
+  padding: 10px 40px;
+  font-size: 16px;
   color: #fff;
-  font-size: 20px;
   font-weight: bold;
   outline: none;
   border: none;
@@ -100,6 +103,11 @@ const Button = styled(Link)`
     background: #191919;
     color: #fff;
     transition: all 0.2s ease-in-out;
+  }
+
+  @media (min-width: 668px) {
+    padding: 14px 48px;
+    font-size: 16px;
   }
 `
 

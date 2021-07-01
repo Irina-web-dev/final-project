@@ -177,8 +177,14 @@ const SignIn = () => {
   useEffect(() => {
     if(accessToken && loggedIn) {
       history.push('/main')
-    }
+    } 
   }, [accessToken, history, loggedIn])
+
+  useEffect(() => {
+    if(errors) {
+      dispatch(user.actions.setErrors(null))
+    }
+  }, [])
 
   const onFormSubmit = (e) => {
     e.preventDefault()

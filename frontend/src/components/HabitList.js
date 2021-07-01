@@ -151,6 +151,7 @@ const DateRangeSpace = styled.span`
 const HabitList = () => {
   const habitsItems = useSelector(store => store.habit.habitsArray)
   const accessToken = useSelector(store => store.user.accessToken)
+  const isLoading = useSelector(store => store.habit.isLoading)
   
   const dispatch = useDispatch()
 
@@ -174,43 +175,48 @@ const HabitList = () => {
 
   return (
     <>
-    {habitsItems.length ? (
-      habitsItems.map(habit => (
-        <HabitContainer key={habit._id}>
-          <Header>
-            <Description>{habit.title}</Description>
-            <div>
-              <EditButton onClick={() => onEditButtonClick(habit._id, habit.title, habit.duration.startDate, habit.duration.endDate)}></EditButton>
-              <DeleteButton onClick={() => onDeleteButtonClick(habit._id)}></DeleteButton>
-            </div>
-          </Header>
-          <FlexboxSummaryProgressbar>
-            <Summary>
-              <SummaryText>Let´s do it for {habit.duration.totalDays} days!</SummaryText>
-              <DateRangeFlexbox>
-                <DateRange><DateRangeSpace>Start:</DateRangeSpace><span>{moment(habit.duration.startDate).format('DD/MM/YYYY')}</span></DateRange>
-                <DateRange><DateRangeSpace>End:</DateRangeSpace><span>{moment(habit.duration.endDate).format('DD/MM/YYYY')}</span></DateRange>
-              </DateRangeFlexbox>
-            </Summary>
-            <ProgressBar 
-              collaborators={habit.collaborators}
-              totalDays={habit.duration.totalDays}
-            />
-          </FlexboxSummaryProgressbar>
-          <Timeline
-            startDate={habit.duration.startDate}
-            endDate={habit.duration.endDate}
-            totalDays={habit.duration.totalDays}
-            collaborators={habit.collaborators}
-            habitId={habit._id}
-          />
-        </HabitContainer>
-      ))
-      
-    )
-      : <EmptyState/>
-    }
-
+      {
+        isLoading 
+          ?
+            <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+          :
+            habitsItems.length 
+              ? 
+                (habitsItems.map(habit => (
+                  <HabitContainer key={habit._id}>
+                    <Header>
+                      <Description>{habit.title}</Description>
+                      <div>
+                        <EditButton onClick={() => onEditButtonClick(habit._id, habit.title, habit.duration.startDate, habit.duration.endDate)}></EditButton>
+                        <DeleteButton onClick={() => onDeleteButtonClick(habit._id)}></DeleteButton>
+                      </div>
+                    </Header>
+                    <FlexboxSummaryProgressbar>
+                      <Summary>
+                        <SummaryText>Let´s do it for {habit.duration.totalDays} days!</SummaryText>
+                        <DateRangeFlexbox>
+                          <DateRange><DateRangeSpace>Start:</DateRangeSpace><span>{moment(habit.duration.startDate).format('DD/MM/YYYY')}</span></DateRange>
+                          <DateRange><DateRangeSpace>End:</DateRangeSpace><span>{moment(habit.duration.endDate).format('DD/MM/YYYY')}</span></DateRange>
+                        </DateRangeFlexbox>
+                      </Summary>
+                      <ProgressBar 
+                        collaborators={habit.collaborators}
+                        totalDays={habit.duration.totalDays}
+                      />
+                    </FlexboxSummaryProgressbar>
+                    <Timeline
+                      startDate={habit.duration.startDate}
+                      endDate={habit.duration.endDate}
+                      totalDays={habit.duration.totalDays}
+                      collaborators={habit.collaborators}
+                      habitId={habit._id}
+                    />
+                  </HabitContainer>
+                  ))
+                )
+              : 
+                <EmptyState/>     
+      }
     </>
   )
 }

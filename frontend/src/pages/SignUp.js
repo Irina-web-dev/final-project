@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useDispatch, batch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components/macro'
@@ -57,7 +57,6 @@ const Form = styled.form`
 
 const TitleContainer = styled.div`
   display: flex; 
-  margin-bottom: 10px;
 `
 const TitleText = styled.h1`
   font-size: 28px; 
@@ -78,6 +77,7 @@ const InputArea = styled.input`
   min-width: 200px;
   font-size: 18px;
   padding: 16px;
+  margin: 10px 0;
 
   ::placeholder {
     color: #D21F3C;
@@ -190,6 +190,12 @@ const SignUp = () => {
   const errors = useSelector(store => store.user.errors)
   const dispatch = useDispatch()
 
+  useEffect(() => {
+    if(errors) {
+      dispatch(user.actions.setErrors(null))
+    }
+  }, [])
+
   const onFormSubmit = (e) => {
     e.preventDefault()
 
@@ -240,8 +246,7 @@ const SignUp = () => {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
             />
-           </label>
-          <ErrorMessage>{errors && errors.error.code === 11000? 'Sorry, that username is already in use': ''}</ErrorMessage>
+          </label>
           <label htmlFor='password'>
             <InputArea
               id='password'
@@ -253,7 +258,7 @@ const SignUp = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </label>
-        <ErrorMessage>{errors && errors.error.code !== 11000 ? errors.message : ''}</ErrorMessage>
+        <ErrorMessage>{errors && errors.message}</ErrorMessage>
         <SignInLink to='/signin'>Already have an account? <Underline>Click here!</Underline></SignInLink>
         <SubmitButton type='submit'>Sign up</SubmitButton>
       </Form>

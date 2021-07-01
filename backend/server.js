@@ -156,7 +156,10 @@ app.post('/signup', async (req, res) => {
       accessToken: newUser.accessToken
     })
   } catch (error) {
-    res.status(400).json({ success: false, message: 'Username or email already exist', error })
+    if(error.code === 11000) {
+      res.status(400).json({ success: false, message: 'Sorry, that username is already in use', error })
+    }
+    res.status(400).json({ success: false, message: 'Invalid request. Please try again', error })
   }
 })
 
